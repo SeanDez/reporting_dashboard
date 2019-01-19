@@ -68,6 +68,10 @@ const LoginButton = styled(Button)`
   borderRadius : 3;
 `;
 
+const InputFieldContainer = styled.div`
+  display: flex;
+`;
+
 const LoginBox = (props) => {
   const { classes } = props;
   return (
@@ -93,39 +97,42 @@ const LoginBox = (props) => {
         >
           { props => { // ton of destructured props below
             const {values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting} = props;
-            
+  
             return (
               <form onSubmit={ handleSubmit }>
                 <Paper elevation={ 2 } className={ classes.paper }>
                   <Typography variant='h5' component="h3">Test Paper</Typography>
-                  <TextField
-                    required
-                    label='Username'
-                    defaultValue='admin'
-                    name='username'
-                    // className={classes.textField}
-                    // value={this.state.name}
-                    margin="normal"
-                    helperText='default: "admin" for demo account'
-                    onChange={ handleChange }
-                    onBlur={ handleBlur }
-                    value={ values.usrname }
-                  />
-                  <TextField
-                    required
-                    label='Password'
-                    type='password'
-                    defaultValue='123456'
-                    name='password'
-                    margin='normal'
-                    helperText='default: "123456" for demo account'
-                    onChange={ handleChange }
-                    onBlur={ handleBlur }
-                    value={ values.password }
-                  />
-                  
+        
+                  <InputFieldContainer>
+                    <TextField
+                      required
+                      label='Username'
+                      defaultValue='admin'
+                      name='username'
+                      // className={classes.textField}
+                      // value={this.state.name}
+                      margin="normal"
+                      helperText='default: "admin" for demo account'
+                      onChange={ handleChange }
+                      onBlur={ handleBlur }
+                      value={ values.usrname }
+                    />
+                    <TextField
+                      required
+                      label='Password'
+                      type='password'
+                      defaultValue='123456'
+                      name='password'
+                      margin='normal'
+                      helperText='default: "123456" for demo account'
+                      onChange={ handleChange }
+                      onBlur={ handleBlur }
+                      value={ values.password }
+                    />
+                  </InputFieldContainer>
+        
                   {/*Test input*/ }
-                  
+        
                   {/*<input*/ }
                   {/*id="email"*/ }
                   {/*placeholder="Enter your email"*/ }
@@ -137,7 +144,7 @@ const LoginBox = (props) => {
                   {/*errors.email && touched.email ? 'text-input error' : 'text-input'*/ }
                   {/*}*/ }
                   {/*/>*/ }
-                  
+        
                   <StyledLink to='/dashboard'>
                     <LoginButton>Log In</LoginButton>
                   </StyledLink>
