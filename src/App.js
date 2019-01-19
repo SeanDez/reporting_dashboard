@@ -9,6 +9,7 @@ import LoginBox from "./components/LoginBox";
 import DataTable from "./components/DataTable";
 import DataControlForm from "./components/DataControlForm";
 import LineChart from "./components/LineChart";
+import Spacer from "./components/Spacer";
 
 const StyledLink = styled(Link)`
   && {
@@ -24,7 +25,7 @@ const StyledH1 = styled.h2`
 
 const BodyContainer = styled.div`
   && {
-  margin-top: 122px;
+  margin-top: 62px;
   }
 `;
 
@@ -68,7 +69,9 @@ class App extends Component {
             
               <Route path='/log-in' render={ props => (
                 <React.Fragment>
-                  <LoginBox />
+                  <Spacer paddingTop={`20vh`}>
+                    <LoginBox />
+                  </Spacer>
                 </React.Fragment>
               ) } />
             

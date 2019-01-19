@@ -54,11 +54,12 @@ const loginLocally = (props) => {
     })
 };
 
+
 const Container = styled.div`
   border : 1px dotted red;
   max-width: 450px;
   text-align: center;
-  margin: 0 auto;
+  margin: 0 auto 0 auto;
 `;
 
 const LoginButton = styled(Button)`
@@ -76,6 +77,7 @@ const LoginBox = (props) => {
   const { classes } = props;
   return (
     <React.Fragment>
+      
       <Container>
         <Formik
           initialValues={ {username : "admin", password : "123456"} }
@@ -97,12 +99,12 @@ const LoginBox = (props) => {
         >
           { props => { // ton of destructured props below
             const {values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting} = props;
-  
+            
             return (
               <form onSubmit={ handleSubmit }>
                 <Paper elevation={ 2 } className={ classes.paper }>
                   <Typography variant='h5' component="h3">Test Paper</Typography>
-        
+                  
                   <InputFieldContainer>
                     <TextField
                       required
@@ -115,7 +117,7 @@ const LoginBox = (props) => {
                       helperText='default: "admin" for demo account'
                       onChange={ handleChange }
                       onBlur={ handleBlur }
-                      value={ values.usrname }
+                      value={ values.username }
                     />
                     <TextField
                       required
@@ -130,9 +132,9 @@ const LoginBox = (props) => {
                       value={ values.password }
                     />
                   </InputFieldContainer>
-        
+                  
                   {/*Test input*/ }
-        
+                  
                   {/*<input*/ }
                   {/*id="email"*/ }
                   {/*placeholder="Enter your email"*/ }
@@ -144,7 +146,7 @@ const LoginBox = (props) => {
                   {/*errors.email && touched.email ? 'text-input error' : 'text-input'*/ }
                   {/*}*/ }
                   {/*/>*/ }
-        
+                  
                   <StyledLink to='/dashboard'>
                     <LoginButton>Log In</LoginButton>
                   </StyledLink>
@@ -154,6 +156,7 @@ const LoginBox = (props) => {
           } }
         </Formik>
       </Container>
+    
     </React.Fragment>
   );
 };
