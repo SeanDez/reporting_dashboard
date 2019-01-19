@@ -54,112 +54,99 @@ const loginLocally = (props) => {
     })
 };
 
+const Container = styled.div`
+  border : 1px dotted red;
+  max-width: 450px;
+  text-align: center;
+  margin: 0 auto;
+`;
+
+const LoginButton = styled(Button)`
+  display      : block;
+  margin       : 0 auto;
+  border       : 1px solid #000 !important;
+  borderRadius : 3;
+`;
 
 const LoginBox = (props) => {
   const { classes } = props;
   return (
     <React.Fragment>
-      
-      <Formik
-        initialValues={ {username : "admin", password : "123456"} }
-        validationSchema={yup.object().shape({
-          username : yup.string().required("Username is required"),
-          password : yup.string().required('Password is required')
-        })}
-        onSubmit={ (values, {setSubmitting}) => {
-          // the api call goes either here on onClick on the button
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        } }
-      >
-        { props => { // ton of destructured props below
-          const {values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting } = props;
-          
-          return (
-            <form onSubmit={ handleSubmit }>
-              <Paper elevation={ 2 } className={ classes.paper }>
-                <Typography variant='h5' component="h3">Test Paper</Typography>
-                <TextField
-                  required
-                  label='Username'
-                  defaultValue='admin'
-                  // className={classes.textField}
-                  // value={this.state.name}
-                  margin="normal"
-                  helperText='default: "admin" for demo account'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.usrname}
-                />
-                <TextField
-                  required
-                  label='Password'
-                  type='password'
-                  defaultValue='123456'
-                  margin='normal'
-                  helperText='default: "123456" for demo account'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                />
-  
-                <input
-                  id="email"
-                  placeholder="Enter your email"
-                  type="text"
-                  value={values.username}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.email && touched.email ? 'text-input error' : 'text-input'
-                  }
-                />
-                
-                <StyledLink to='/dashboard'>
-                  <Button style={ {
-                    display      : "block",
-                    margin       : "0 auto",
-                    border       : "1 px solid #000",
-                    borderRadius : "3%",
-                  } }>Log In</Button>
-                </StyledLink>
-              </Paper>
-            </form>
-          ) }}
-      </Formik>
-      
-      
-      {/*<form>*/}
-        {/*<Paper elevation={ 2 } className={ classes.paper }>*/}
-          {/*<Typography variant='h5' component="h3">Test Paper</Typography>*/}
-          {/*<TextField*/}
-            {/*required*/}
-            {/*label='Username'*/}
-            {/*defaultValue='admin'*/}
-            {/*// className={classes.textField}*/}
-            {/*// value={this.state.name}*/}
-            {/*margin="normal"*/}
-            {/*helperText='default: "admin" for demo account'*/}
-          {/*/>*/}
-          {/*<TextField*/}
-            {/*required*/}
-            {/*label='Password'*/}
-            {/*type='password'*/}
-            {/*defaultValue='123456'*/}
-            {/*margin='normal'*/}
-            {/*helperText='default: "123456" for demo account'*/}
-          {/*/>*/}
-          {/**/}
-          {/*<StyledLink to='/dashboard'>*/}
-            {/*<Button style={ {*/}
-              {/*display      : "block",*/}
-              {/*margin       : "0 auto",*/}
-              {/*border       : "1 px solid #000",*/}
-              {/*borderRadius : "3%",*/}
-            {/*} }>Log In</Button>*/}
-          {/*</StyledLink>*/}
-        {/*</Paper>*/}
-      {/*</form>*/}
+      <Container>
+        <Formik
+          initialValues={ {username : "admin", password : "123456"} }
+          validationSchema={ yup.object().shape({
+            username : yup.string().required("Username is required"),
+            password : yup.string().required("Password is required"),
+          }) }
+          onBlur={ (keyEvent) => {
+            console.log(keyEvent.target.value);
+          } }
+          handleBlur={ (keyEvent) => {
+            console.log(keyEvent.target.value);
+          } }
+          onSubmit={ (values, {setSubmitting}) => {
+            // the api call goes either here on onClick on the button
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+          } }
+        >
+          { props => { // ton of destructured props below
+            const {values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting} = props;
+            
+            return (
+              <form onSubmit={ handleSubmit }>
+                <Paper elevation={ 2 } className={ classes.paper }>
+                  <Typography variant='h5' component="h3">Test Paper</Typography>
+                  <TextField
+                    required
+                    label='Username'
+                    defaultValue='admin'
+                    name='username'
+                    // className={classes.textField}
+                    // value={this.state.name}
+                    margin="normal"
+                    helperText='default: "admin" for demo account'
+                    onChange={ handleChange }
+                    onBlur={ handleBlur }
+                    value={ values.usrname }
+                  />
+                  <TextField
+                    required
+                    label='Password'
+                    type='password'
+                    defaultValue='123456'
+                    name='password'
+                    margin='normal'
+                    helperText='default: "123456" for demo account'
+                    onChange={ handleChange }
+                    onBlur={ handleBlur }
+                    value={ values.password }
+                  />
+                  
+                  {/*Test input*/ }
+                  
+                  {/*<input*/ }
+                  {/*id="email"*/ }
+                  {/*placeholder="Enter your email"*/ }
+                  {/*type="text"*/ }
+                  {/*value={values.username}*/ }
+                  {/*onChange={handleChange}*/ }
+                  {/*onBlur={handleBlur}*/ }
+                  {/*className={*/ }
+                  {/*errors.email && touched.email ? 'text-input error' : 'text-input'*/ }
+                  {/*}*/ }
+                  {/*/>*/ }
+                  
+                  <StyledLink to='/dashboard'>
+                    <LoginButton>Log In</LoginButton>
+                  </StyledLink>
+                </Paper>
+              </form>
+            );
+          } }
+        </Formik>
+      </Container>
     </React.Fragment>
   );
 };
