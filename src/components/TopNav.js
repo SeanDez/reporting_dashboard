@@ -31,10 +31,7 @@ const NavItemContainer = styled.div`
 const NavButtonContainer = styled.div`
   display : flex;
   justify-content : flex-end;
-  //max-width: 300px;
   //border : 3px dotted deeppink;
-  //background-color: deeppink;
-  //z-index: 1000;
   flexBasis : 70px;
   margin-left : auto;
   margin-right : 1vw;
@@ -54,7 +51,7 @@ const TopNav = (props) => {
   
   return (
   <React.Fragment>
-    <AppBar position='fixed'>
+    <AppBar position='fixed' >
       <NavItemContainer>
         <StyledWordLogo>Report Dashboard</StyledWordLogo>
         <NavButtonContainer>
