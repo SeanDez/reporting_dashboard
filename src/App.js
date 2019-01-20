@@ -69,9 +69,7 @@ class App extends Component {
             
               <Route path='/log-in' render={ props => (
                 <React.Fragment>
-                  <Spacer paddingTop={`20vh`}>
-                    <LoginBox />
-                  </Spacer>
+                    <LoginBox outerContainerStyle={`padding-top : 20vh`} />
                 </React.Fragment>
               ) } />
             
