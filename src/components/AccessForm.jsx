@@ -15,15 +15,6 @@ import {Formik}   from "formik";
 const yup = require("yup");
 
 
-const Container = styled.div`
-  border : 1px dotted red;
-  max-width: 450px;
-  text-align: center;
-  margin: 0 auto 0 auto;
-  padding: 2vh 2vw;
-  background-color: #FFF;
-  border-radius: 3%;
-`;
 
 const injectedStyles = theme => ({
   container: {
@@ -55,12 +46,14 @@ const StyledLink = styled(Link)`
   font-style: italic;
 `;
 
-const CallToActionContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  max-width: 325px;
-  margin: 0 auto;
-`;
+const CallToActionContainer = styled.div(props => (
+  {
+  display: 'flex',
+  justifyContent: 'space-around',
+  maxWidth: '350px',
+  margin: '0 auto',
+  fontSize: '0.85em',
+}));
 
 const loginLocally = (props) => {
   axios.post(`${process.env.REACT_APP_BACKEND_DOMAIN}/log-in`, {
@@ -77,6 +70,7 @@ const loginLocally = (props) => {
 const SignupButton = styled(Button)`
   display      : block;
   margin       : 0 auto;
+  padding : 0 8vw !important;
   border       : 1px solid #000 !important;
   borderRadius : 3;
 `;
@@ -84,6 +78,9 @@ const SignupButton = styled(Button)`
 const InputFieldContainer = styled.div`
   display: flex;
   margin-bottom: 3vh;
+  &:not(:last-child) {
+    margin-right: 15vw !important;
+  }
 `;
 
 
@@ -96,21 +93,50 @@ class AccessForm extends React.Component {
   };
   
 
+ renderOtherOptionLink = () => {
+  if (this.props.formType === 'signUp') {
+    return (
+      <React.Fragment>
+        Have an account?<br />
+        Log in instead
+      </React.Fragment>
+    );
+  } else if (this.props.formType === 'logIn') {
+    return (
+      <React.Fragment>
+        Don't have an account?<br />
+        Create one now
+      </React.Fragment>
+    );
+  }};
+  
   
   render() {
     const OuterContainer = styled.div`
       ${this.props.outerContainerStyle}
     `;
-    const formTypeStateIsFalsePropIsTrue = (this.state.formType === '') &&
-                                          (this.props.formType);
+    const {formType} = this.props;
+  
+    const Container = styled.div(SCProps => {
+      console.log('==============SCProps=============');
+      console.log(SCProps);
+      console.log('==============this.props.formType=============');
+      console.log(this.props.formType);
+  
+      return {
+        border : "1px dotted red",
+        maxWidth: this.props.formType === 'signUp' ? "450px" : "350px",
+        textAlign: "center",
+        margin: "0 auto 0 auto",
+        padding: "2vh 2vw",
+        backgroundColor: "#FFF",
+        borderRadius: "3%",
+      }});
     
     return (
       <React.Fragment>
         <OuterContainer>
           <Container>
-            
-            <h1>{this.props.formType}</h1>
-            
             <Formik
               initialValues={ {username : "admin", password : "123456"} }
               validationSchema={ yup.object().shape({
@@ -138,7 +164,20 @@ class AccessForm extends React.Component {
                 return (
                   <form onSubmit={ handleSubmit }>
                     <Paper elevation={ 2 } className={ classes.paper }>
-                      <Typography variant='h5' component="h3">Sign Up to Access the Reporting Area</Typography>
+                      <Typography variant='h5' component="h3">
+                        {formType === 'signUp' ?
+                         "Sign Up" :
+                         "Log Into Your Account" }
+                      </Typography>
+                      
+                      {formType === 'signUp' && <p style={{
+                        textAlign : 'center',
+                        fontStyle : 'italic',
+                        color : '#666',
+                        fontSize : '0.8em'
+                      }}>
+                        Choose a username and password below to create a new account
+                      </p>}
         
                       <InputFieldContainer>
                         <TextField
@@ -149,8 +188,8 @@ class AccessForm extends React.Component {
                           // className={classes.textField}
                           // value={this.state.name}
                           margin="normal"
-                          style={ {marginRight : "2vw"} }
-                          helperText='default: "admin" for demo account'
+                          // style={ {marginRight : "2vw"} }
+                          helperText={formType === 'logIn' && "default: \"admin\" for demo account"}
                           onChange={ handleChange }
                           onBlur={ handleBlur }
                           value={ values.username }
@@ -162,11 +201,26 @@ class AccessForm extends React.Component {
                           // defaultValue='123456'
                           name='password'
                           margin='normal'
-                          helperText='default: "123456" for demo account'
+                          helperText={formType === 'logIn' && "default: \"123456\" for demo account"}
                           onChange={ handleChange }
                           onBlur={ handleBlur }
                           value={ values.password }
                         />
+                        
+                        {formType === 'signUp' && (
+                          <TextField
+                            required
+                            label='Confirm Password'
+                            type='password'
+                            // defaultValue='123456'
+                            name='password2'
+                            margin='normal'
+                            helperText={formType === 'logIn' && "default: \"123456\" for demo account"}
+                            onChange={ handleChange }
+                            onBlur={ handleBlur }
+                            value={ values.password }
+                          />
+                        )}
                       </InputFieldContainer>
         
                       {/*<StyledLink to='/dashboard'>*/ }
@@ -174,9 +228,13 @@ class AccessForm extends React.Component {
                       <CallToActionContainer>
                         <SignupButton
                           type="submit"
-                          // style={{ marginRight : '2vw' }}
-                        >Sign up</SignupButton>
-                        <StyledLink to='/log-in'>Have an account?<br />Log in instead</StyledLink>
+                          style={{ marginRight : '2vw' }}
+                        >{this.props.formType === 'signUp' ?
+                          "Sign Up" : "Log In"
+                        }</SignupButton>
+                        <StyledLink to={this.props.formType === 'signUp' ? '/log-in' : '/sign-up'}>
+                          {this.renderOtherOptionLink()}
+                        </StyledLink>
                       </CallToActionContainer>
       
                     </Paper>
