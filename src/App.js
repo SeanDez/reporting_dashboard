@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-// import logo                 from './logo.svg';
 import './App.css';
 import styled               from "styled-components";
-import {BrowserRouter, Route, Link}      from "react-router-dom";
+import {BrowserRouter, Route, Link, Switch}      from "react-router-dom";
 
-import TopNav from "./components/TopNav";
-import LoginBox from "./components/LoginBox";
-import DataTable from "./components/DataTable";
+import TopNav          from "./components/TopNav";
+import DataTable       from "./components/DataTable";
 import DataControlForm from "./components/DataControlForm";
-import LineChart from "./components/LineChart";
-import Spacer from "./components/Spacer";
+import LineChart       from "./components/LineChart";
+import AccessForm      from "./components/AccessForm";
+
+import {Formik}  from "formik";
+import TextField  from "@material-ui/core/TextField";
 
 const StyledLink = styled(Link)`
   && {
@@ -41,7 +42,44 @@ const HomeTextInstructions = styled.div`
 `;
 
 
-
+const BasicExample = () => (
+  <div>
+    <h1>My Form</h1>
+    <Formik
+      initialValues={{ name: 'jared', test: 'test5' }}
+      onSubmit={(values, actions) => {
+        // setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          actions.setSubmitting(false);
+        // }, 1000);
+      }}
+      render={props => (
+        <form onSubmit={props.handleSubmit}>
+          <input
+            type="text"
+            onChange={props.handleChange}
+            onBlur={props.handleBlur}
+            value={props.values.name}
+            name="name"
+          />
+          {props.errors.name && <div id="feedback">{props.errors.name}</div>}
+  
+          <TextField
+            required
+            label='test'
+            name='test'
+            margin="normal"
+            onChange={ props.handleChange }
+            onBlur={ props.handleBlur }
+            value={ props.values.test }
+          />
+          
+          <button type="submit">Submit</button>
+        </form>
+      )}
+    />
+  </div>
+);
 
 class App extends Component {
   render() {
@@ -51,36 +89,47 @@ class App extends Component {
           <div>
             <TopNav />
             <BodyContainer>
-              <Route path='/' exact render={ props => (
-                <HomeTextInstructions>
-                  <StyledH1>Reporting Dashboard</StyledH1>
-                  <p>Click the login button on the top right, to access the reporting area</p>
-                  <p>Use these details to log in:</p>
-                
-                  <p style={ {marginBottom : 0} }>User Name: <span style={ {color : "wheat"} }>admin</span></p>
-                  <p style={ {marginTop : 0} }>Password: <span style={ {color : "wheat"} }>123456</span></p>
+            
+              {/* Switches force RR to select first matching route. Anything else selects all matching */}
+              <Switch>
+                <Route path='/' exact render={ props => (
+                  <HomeTextInstructions>
+                    <StyledH1>Reporting Dashboard</StyledH1>
+                    <p>Click the login button on the top right, to access the reporting area</p>
+                    <p>Use these details to log in:</p>
+                  
+                    <p style={ {marginBottom : 0} }>User Name: <span style={ {color : "wheat"} }>admin</span></p>
+                    <p style={ {marginTop : 0} }>Password: <span style={ {color : "wheat"} }>123456</span></p>
+                    <BasicExample />
+                  </HomeTextInstructions>
+                ) } />
               
-                </HomeTextInstructions>
-              ) } />
-            
-              <Route path='/sign-up' render={ props => (
-                <h1>Signup Form to go here</h1>
-              ) } />
-            
-              <Route path='/log-in' render={ props => (
-                <React.Fragment>
-                    <LoginBox outerContainerStyle={`padding-top : 20vh`} />
-                </React.Fragment>
-              ) } />
-            
-              <Route path='/dashboard' render={ props => (
-                <React.Fragment>
-                  <LineChart />
-                  {/*<VisualGraph />*/ }
-                  <DataTable />
-                  <DataControlForm />
-                </React.Fragment>
-              ) } />
+                <Route path='/sign-up' render={ props => (
+                  <AccessForm
+                    outerContainerStyle={ `padding-top : 20vh` }
+                    formType='signUp'
+                  />
+                ) }
+                />
+              
+              
+                <Route path='/log-in' render={ props => (
+                  <React.Fragment>
+                    <AccessForm outerContainerStyle={ `padding-top : 20vh` }
+                                formType='logIn'
+                    />
+                  </React.Fragment>
+                ) } />
+              
+                <Route path='/dashboard' render={ props => (
+                  <React.Fragment>
+                    <LineChart />
+                    {/*<VisualGraph />*/ }
+                    <DataTable />
+                    <DataControlForm />
+                  </React.Fragment>
+                ) } />
+              </Switch>
             </BodyContainer>
           </div>
         </BrowserRouter>
