@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 import styled               from "styled-components";
-import {BrowserRouter, Route, Link, Switch}      from "react-router-dom";
+import actions from "./actions";
+import {connect} from "react-redux";
+import {BrowserRouter, Router, Route, Link, Switch, Redirect, withRouter}      from "react-router-dom";
+import {createBrowserHistory} from "history";
 
 import TopNav          from "./components/TopNav";
 import DataTable       from "./components/DataTable";
@@ -9,16 +12,16 @@ import DataControlForm from "./components/DataControlForm";
 import LineChart       from "./components/LineChart";
 import AccessForm      from "./components/AccessForm";
 
-import {Formik}  from "formik";
-import TextField  from "@material-ui/core/TextField";
+import {Formik}           from "formik";
+import TextField          from "@material-ui/core/TextField";
+
+
 
 const StyledLink = styled(Link)`
   && {
   text-decoration: none;
   }
 `;
-
-
 
 const StyledH1 = styled.h2`
   color: purple;
@@ -42,55 +45,44 @@ const HomeTextInstructions = styled.div`
 `;
 
 
-const BasicExample = () => (
-  <div>
-    <h1>My Form</h1>
-    <Formik
-      initialValues={{ name: 'jared', test: 'test5' }}
-      onSubmit={(values, actions) => {
-        // setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          actions.setSubmitting(false);
-        // }, 1000);
-      }}
-      render={props => (
-        <form onSubmit={props.handleSubmit}>
-          <input
-            type="text"
-            onChange={props.handleChange}
-            onBlur={props.handleBlur}
-            value={props.values.name}
-            name="name"
-          />
-          {props.errors.name && <div id="feedback">{props.errors.name}</div>}
-  
-          <TextField
-            required
-            label='test'
-            name='test'
-            margin="normal"
-            onChange={ props.handleChange }
-            onBlur={ props.handleBlur }
-            value={ props.values.test }
-          />
-          
-          <button type="submit">Submit</button>
-        </form>
-      )}
-    />
-  </div>
-);
+
 
 class App extends Component {
+  history = createBrowserHistory(this.props);
+  
   render() {
     return (
       <div className="App">
-        <BrowserRouter>
+        {/*<Router history={this.history}>*/}
           <div>
+            {console.log('==this.props.history from App.js==')}
+            {console.log(this.props.history)}
             <TopNav />
             <BodyContainer>
             
-              {/* Switches force RR to select first matching route. Anything else selects all matching */}
+            
+              {/* On Initial Render:
+               If there's a user cookie either validate/move userData to store/redirect, or err.
+               Else, run the switch to select a single matching route
+               */ }
+            
+              { () => {
+                // TODO add the cookie grabbing behavior
+                const jwToken = null;
+                
+                // pass it to dispatchLoadUserData(jwt)
+                if (jwToken) {
+                  actions.dispatchLoadUserData(jwToken)
+                }
+                // next if state is updated,
+                const {userId, userName, donorData} = this.props;
+                if (userId && userName) {
+                  return <Redirect to='/dashboard' />
+                }
+              }}
+            
+            
+              {/* This switch should always get hit. Above either fails and chooses the '/' route or succeeds and redirects to the '/dashboard' route */ }
               <Switch>
                 <Route path='/' exact render={ props => (
                   <HomeTextInstructions>
@@ -100,7 +92,7 @@ class App extends Component {
                   
                     <p style={ {marginBottom : 0} }>User Name: <span style={ {color : "wheat"} }>admin</span></p>
                     <p style={ {marginTop : 0} }>Password: <span style={ {color : "wheat"} }>123456</span></p>
-                    <BasicExample />
+                    
                   </HomeTextInstructions>
                 ) } />
               
@@ -108,35 +100,63 @@ class App extends Component {
                   <AccessForm
                     outerContainerStyle={ `padding-top : 20vh` }
                     formType='signUp'
+                    dispatchUpdateView={this.props.dispatchUpdateView}
                   />
                 ) }
                 />
-              
               
                 <Route path='/log-in' render={ props => (
                   <React.Fragment>
                     <AccessForm outerContainerStyle={ `padding-top : 20vh` }
                                 formType='logIn'
+                                dispatchUpdateView={this.props.dispatchUpdateView}
+
                     />
                   </React.Fragment>
                 ) } />
-              
-                <Route path='/dashboard' render={ props => (
-                  <React.Fragment>
-                    <LineChart />
-                    {/*<VisualGraph />*/ }
-                    <DataTable />
-                    <DataControlForm />
-                  </React.Fragment>
-                ) } />
               </Switch>
+              
+              <Switch>
+                <Route path='/dashboard' exact render={ props => {
+                  // const {userId, userName, donorData} = props;
+                  // const backEndData = {userId, userName, donorData};
+    
+                  return (
+                    <React.Fragment>
+                      <LineChart backEndData={'placeholder'} />
+                      <DataTable  backEndData={'placeholder'} />
+                      <DataControlForm  />
+                    </React.Fragment>
+                  ) }} />
+              </Switch>
+          
             </BodyContainer>
           </div>
-        </BrowserRouter>
+        {/*</Router>*/}
       </div>
     );
   }
 }
 
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    userId : state.userId,
+    userName : state.userName,
+    donationData : state.donationData,
+    view : state.view
+  }
+};
+
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    dispatchLoadUserData : sessionJWToken => dispatch(actions.loadUserData(sessionJWToken)),
+    dispatchUpdateView : newView => dispatch(actions.updateView(newView))
+  }
+};
+
+
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
+
+export default withRouter(ConnectedApp);

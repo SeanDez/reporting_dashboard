@@ -55,44 +55,57 @@ const CallToActionContainer = styled.div(props => (
   fontSize: '0.85em',
 }));
 
-const loginLocally = (props) => {
-  axios.post(`${process.env.REACT_APP_BACKEND_DOMAIN}/log-in`, {
-    username : this.state.username,
-    password : this.state.password
-  })
-   .then(response => {
-     if (response.data.userInfo) {
-       // needs to update the redux store
-     }
-   })
-};
 
-const SignupButton = styled(Button)`
+
+
+const ActionButton = styled(Button)`
   display      : block;
-  margin       : 0 auto;
+  //margin       : 0 auto;
   padding : 0 8vw !important;
   border       : 1px solid #000 !important;
-  borderRadius : 3;
+  border-radius : 3%;
 `;
 
 const InputFieldContainer = styled.div`
   display: flex;
   margin-bottom: 3vh;
-  &:not(:last-child) {
-    margin-right: 15vw !important;
-  }
+  //&&:not(:last-child) { // gives it to the last child and ignores the others
+  //  margin-right: 1vw !important;
+  //}
 `;
 
-
+const StyledTextField = styled(TextField)`
+  margin-right: 1vw !important;
+  &:last-of-type {
+    margin-right: 0 !important;
+  }
+`;
 
 // entire component/function is being given to the returned function withstyles()
 // I didn't know this syntax until recently. But now it is clear
 class AccessForm extends React.Component {
-  state = {
-    formType : ''
+  
+  
+  loginLocally = (formikValues) => {
+    console.log("====formikValues====");
+    console.log(formikValues);
+    // ${process.env.REACT_APP_BACKEND_DOMAIN}
+    return axios.post(`http://localhost:4000/log-in`, {
+      username : formikValues.username,
+      password : formikValues.password
+    })
+     .then(response => {
+       if (response.data.id) {
+         console.log("===inside .then, posting userInfo===");
+         console.log(response.data.id);
+         
+         // update ViewState
+         this.props.dispatchUpdateView('backEnd');
+         this.props.history.push('/dashboard')
+       }
+     })
   };
   
-
  renderOtherOptionLink = () => {
   if (this.props.formType === 'signUp') {
     return (
@@ -110,6 +123,10 @@ class AccessForm extends React.Component {
     );
   }};
   
+ componentDidMount() {
+   console.log("===this.props.history===");
+   console.log(this.props.history)
+ }
   
   render() {
     const OuterContainer = styled.div`
@@ -118,20 +135,18 @@ class AccessForm extends React.Component {
     const {formType} = this.props;
   
     const Container = styled.div(SCProps => {
-      console.log('==============SCProps=============');
-      console.log(SCProps);
-      console.log('==============this.props.formType=============');
-      console.log(this.props.formType);
-  
+      // has access to prop object in here
+      
       return {
         border : "1px dotted red",
-        maxWidth: this.props.formType === 'signUp' ? "450px" : "350px",
+        maxWidth: this.props.formType === 'signUp' ? "550px" : "450px",
         textAlign: "center",
         margin: "0 auto 0 auto",
         padding: "2vh 2vw",
         backgroundColor: "#FFF",
         borderRadius: "3%",
       }});
+    
     
     return (
       <React.Fragment>
@@ -150,10 +165,7 @@ class AccessForm extends React.Component {
               //   console.log(keyEvent.target.value);
               // } }
               onSubmit={ (values, actions) => {
-                console.log("ping");
-                alert(JSON.stringify(values, null, 2));
-                actions.setSubmitting(false);
-                
+                this.loginLocally(values);
               } }
             >
               { formikProps => {
@@ -176,11 +188,12 @@ class AccessForm extends React.Component {
                         color : '#666',
                         fontSize : '0.8em'
                       }}>
-                        Choose a username and password below to create a new account
+                        Choose a username and password below to create a new account.
+                        (Note: New accounts won't have any information to display. Use "admin" / "123456" to login with the demo account)
                       </p>}
         
                       <InputFieldContainer>
-                        <TextField
+                        <StyledTextField
                           required
                           label='Username'
                           // defaultValue='admin'
@@ -188,13 +201,13 @@ class AccessForm extends React.Component {
                           // className={classes.textField}
                           // value={this.state.name}
                           margin="normal"
-                          // style={ {marginRight : "2vw"} }
                           helperText={formType === 'logIn' && "default: \"admin\" for demo account"}
                           onChange={ handleChange }
                           onBlur={ handleBlur }
                           value={ values.username }
+                          // style={{     marginRight: '1vw' }}
                         />
-                        <TextField
+                        <StyledTextField
                           required
                           label='Password'
                           type='password'
@@ -205,10 +218,11 @@ class AccessForm extends React.Component {
                           onChange={ handleChange }
                           onBlur={ handleBlur }
                           value={ values.password }
+                          // style={{     marginRight: '1vw' }}
                         />
                         
                         {formType === 'signUp' && (
-                          <TextField
+                          <StyledTextField
                             required
                             label='Confirm Password'
                             type='password'
@@ -219,19 +233,18 @@ class AccessForm extends React.Component {
                             onChange={ handleChange }
                             onBlur={ handleBlur }
                             value={ values.password }
+                            // style={{     marginRight: '5vw' }}
                           />
                         )}
                       </InputFieldContainer>
-        
-                      {/*<StyledLink to='/dashboard'>*/ }
-        
+                      
                       <CallToActionContainer>
-                        <SignupButton
+                        <ActionButton
                           type="submit"
                           style={{ marginRight : '2vw' }}
                         >{this.props.formType === 'signUp' ?
                           "Sign Up" : "Log In"
-                        }</SignupButton>
+                        }</ActionButton>
                         <StyledLink to={this.props.formType === 'signUp' ? '/log-in' : '/sign-up'}>
                           {this.renderOtherOptionLink()}
                         </StyledLink>
