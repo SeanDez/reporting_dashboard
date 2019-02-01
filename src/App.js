@@ -4,7 +4,7 @@ import styled               from "styled-components";
 import actions from "./actions";
 import {connect} from "react-redux";
 import {BrowserRouter, Router, Route, Link, Switch, Redirect, withRouter}      from "react-router-dom";
-import {createBrowserHistory} from "history";
+// import {createBrowserHistory} from "history";
 
 import TopNav          from "./components/TopNav";
 import DataTable       from "./components/DataTable";
@@ -48,15 +48,14 @@ const HomeTextInstructions = styled.div`
 
 
 class App extends Component {
-  history = createBrowserHistory(this.props);
   
   render() {
     return (
       <div className="App">
         {/*<Router history={this.history}>*/}
           <div>
-            {console.log('==this.props.history from App.js==')}
-            {console.log(this.props.history)}
+            {/*{console.log('==this.props.history from App.js==')}*/}
+            {/*{console.log(this.props.history)}*/}
             <TopNav />
             <BodyContainer>
             
@@ -123,7 +122,10 @@ class App extends Component {
     
                   return (
                     <React.Fragment>
-                      <LineChart backEndData={'placeholder'} />
+                      <LineChart
+                        dispatchGetDonationData={this.props.dispatchGetDonationData}
+                        reportData={this.props.reportData}
+                      />
                       <DataTable  backEndData={'placeholder'} />
                       <DataControlForm  />
                     </React.Fragment>
@@ -144,7 +146,8 @@ const mapStateToProps = state => {
     userId : state.userId,
     userName : state.userName,
     donationData : state.donationData,
-    view : state.view
+    view : state.view,
+    reportData : state.reportData,
   }
 };
 
@@ -152,11 +155,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     dispatchLoadUserData : sessionJWToken => dispatch(actions.loadUserData(sessionJWToken)),
-    dispatchUpdateView : newView => dispatch(actions.updateView(newView))
+    dispatchUpdateView : newView => dispatch(actions.updateView(newView)),
+    dispatchGetDonationData : (reportType, recordCount) => dispatch(actions.getDonationData(reportType, recordCount))
   }
 };
 
 
-const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 export default withRouter(ConnectedApp);

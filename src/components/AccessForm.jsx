@@ -1,14 +1,15 @@
-import React from "react";
-import styled from "styled-components";
+import React        from "react";
+import styled       from "styled-components";
 import {withStyles} from "@material-ui/core/styles";
-import classNames from 'classnames';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography'
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import classNames   from 'classnames';
+import Paper        from '@material-ui/core/Paper';
+import Typography   from '@material-ui/core/Typography'
+import MenuItem     from "@material-ui/core/MenuItem";
+import TextField    from "@material-ui/core/TextField";
+import Button       from "@material-ui/core/Button";
+import axios        from "axios";
+import { Link }     from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 import {Formik}   from "formik";
 
@@ -260,6 +261,7 @@ class AccessForm extends React.Component {
       </React.Fragment>
     );
   };
-};
+}
 
-export default withStyles(injectedStyles)(AccessForm);
+const StyledAccessForm = withStyles(injectedStyles)(AccessForm);
+export default withRouter(StyledAccessForm);

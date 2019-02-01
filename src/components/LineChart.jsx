@@ -1,9 +1,8 @@
-import React                                        from "react";
-import '../App.css'
-import '../../node_modules/react-vis/dist/style.css'
-import { FlexibleXYPlot, LineSeries, XAxis, YAxis, HorizontalGridLines, VerticalGridLines } from "react-vis";
-import styled                                       from "styled-components";
-import AppBar                                       from "./TopNav";
+import React from "react";
+import "../App.css";
+import "../../node_modules/react-vis/dist/style.css";
+import {FlexibleXYPlot, LineSeries, XAxis, YAxis, HorizontalGridLines, VerticalGridLines} from "react-vis";
+import styled from "styled-components";
 
 const ChartContainer = styled.div`
   display: flex;
@@ -37,31 +36,83 @@ export default class LineChart extends React.Component {
     ]
   };
 
-  formatDollarTicks(dataValue, index, scale, tickTotal) {
+  formatDollarTicks = (dataValue, index, scale, tickTotal) => {
     return `$${dataValue}`
+  };
+  
+  abbreviateMonths = dateObject => {
+    if (dateObject.toString().slice(4, 7) === 'Jan') {
+      return `${dateObject.toString().slice(4, 7)}${<br />}${dateObject.toString().slice(11, 15)}`
+    } else {
+      const slicedMonthString = dateObject.toString().slice(4, 7);
+      return slicedMonthString;
+    }
+  };
+  
+  prepareData = () => {
+    const formattedData  = this.formatData(),
+          filteredData     = this.filterData(),
+          sortedData     = this.sortData(),
+          aggregatedData = this.aggregateData(sortedData);
+    
+    return aggregatedData;
+  };
+  
+  componentDidMount() {
+    this.props.dispatchGetDonationData(null, null)
+  }
+  
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.reportData !== this.props.reportData) {
+
+    }
+    // console.log(snapshot)
+    // console.log(prevProps)
   }
   
   render() {
     return (
       <React.Fragment>
         <ChartContainer>
-          <h2>{this.state.chartTitle}</h2>
+          <h2>{ this.state.chartTitle }</h2>
           <FlexibleXYPlot
             xType="time"
           >
-            <HorizontalGridLines strokeWidth={1} />
+            <HorizontalGridLines strokeWidth={ 1 } />
             <VerticalGridLines />
-            <LineSeries data={this.state.chartData}/>
-            <XAxis title={this.state.XAxisLabel} position='middle' tickSize={2} />
+            <LineSeries
+              data={ this.props.reportData }
+            />
+            <XAxis
+              title={ this.state.XAxisLabel }
+              position='middle'
+              tickSize={ 2 }
+              tickFormat={ this.abbreviateMonths }
+              style={ {
+                text  : {fill : "black"},
+                ticks : {fill : "#000"},
+                title : {fill : "black"},
+              } }
+            />
             <YAxis
-              title={this.state.YAxisLabel}
+              title={ this.state.YAxisLabel }
               position='middle'
               // tickValues={[]}
-              tickFormat={this.formatDollarTicks}
+              tickFormat={ this.formatDollarTicks }
+              style={ {
+                text  : {fill : "black"},
+                ticks : {fill : "#000"},
+                title : {fill : "black"},
+              } }
             />
           </FlexibleXYPlot>
         </ChartContainer>
       </React.Fragment>
-    )
+    );
+  }
+  
+  
+  sortData = (dataArray) => {
+    // [{x : dateObject, y : number }, ...]
   }
 }
