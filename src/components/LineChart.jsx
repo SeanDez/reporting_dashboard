@@ -49,11 +49,14 @@ export default class LineChart extends React.Component {
     }
   };
   
-  prepareData = () => {
-    const formattedData  = this.formatData(),
-          filteredData     = this.filterData(),
-          sortedData     = this.sortData(),
-          aggregatedData = this.aggregateData(sortedData);
+  prepareData = (rawData, numberOfPeriods, periodType) => {
+    const
+      formattedData  = this.formatData(rawData), // change into x/y. not needed yet. literally just returns right now
+      filteredData     = this.filterData(formattedData, 12, 'months'); // last twelve months
+      // sortedData     = this.sortData(filteredData);
+    
+    filteredData.sort(); // most recent last
+    const aggregatedData = this.aggregateData(sortedData);
     
     return aggregatedData;
   };
@@ -111,8 +114,26 @@ export default class LineChart extends React.Component {
     );
   }
   
+  formatData(rawData) {
+    return rawData
+  }
+  
+  filterData(dataArray, periods, periodType) {
+      // first char. Single char m OR M. stop after 1 global match
+    if ( periodType.match(/^[mM]/g)) {
+      // access the key with the date objects
+      // [{x : date, y : number}]
+      const filteredArray = dataArray.filter((record, index) => {
+        const testDate = moment(record.x);
+        const dateBoundary = moment().subtract(periods, periodType);
+        return testDate > dateBoundary ? record : null;
+      });
+      return filteredArray;
+    }
+  }
   
   sortData = (dataArray) => {
     // [{x : dateObject, y : number }, ...]
+    
   }
 }
