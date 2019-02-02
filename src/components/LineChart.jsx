@@ -3,6 +3,7 @@ import "../App.css";
 import "../../node_modules/react-vis/dist/style.css";
 import {FlexibleXYPlot, LineSeries, XAxis, YAxis, HorizontalGridLines, VerticalGridLines} from "react-vis";
 import styled from "styled-components";
+import moment from "moment";
 
 const ChartContainer = styled.div`
   display: flex;
@@ -50,13 +51,13 @@ export default class LineChart extends React.Component {
   };
   
   prepareData = (rawData, numberOfPeriods, periodType) => {
-    const
-      formattedData  = this.formatData(rawData), // change into x/y. not needed yet. literally just returns right now
-      filteredData     = this.filterData(formattedData, 12, 'months'); // last twelve months
+    const formattedData  = this.formatData(rawData); // change into x/y. not needed yet. literally just returns right now
+    
+    const filteredData     = this.filterData(formattedData, 12, 'months'); // last twelve months
       // sortedData     = this.sortData(filteredData);
     
-    filteredData.sort(); // most recent last
-    const aggregatedData = this.aggregateData(sortedData);
+    // sort and aggregate
+    const aggregatedData = this.aggregateData(filteredData.sort());
     
     return aggregatedData;
   };
@@ -118,22 +119,49 @@ export default class LineChart extends React.Component {
     return rawData
   }
   
-  filterData(dataArray, periods, periodType) {
+  filterData(dataArray, periodsBack, periodType) {
       // first char. Single char m OR M. stop after 1 global match
     if ( periodType.match(/^[mM]/g)) {
       // access the key with the date objects
       // [{x : date, y : number}]
       const filteredArray = dataArray.filter((record, index) => {
         const testDate = moment(record.x);
-        const dateBoundary = moment().subtract(periods, periodType);
+        const dateBoundary = moment().subtract(periodsBack, periodType);
+        // console.log(`dateBoundary ${index}: ${dateBoundary}`);
         return testDate > dateBoundary ? record : null;
       });
       return filteredArray;
     }
   }
   
-  sortData = (dataArray) => {
-    // [{x : dateObject, y : number }, ...]
+  aggregateData = (dataArray, periods) => {
+    const aggregatedTotals = {};
+    // detect month/year. Say 0218. Put in an 0218 object, keyed with x and y.
+    //
+    
+    const x = dataArray.map(xyRecord => {
+      const yearMonthString = new moment(xyRecord.x).format('YYYYMM');
+      console.log('yearMonthString');
+      console.log(yearMonthString);
+      if (! aggregatedTotals [yearMonthString]) {
+        aggregatedTotals [yearMonthString] = 0;
+      }
+      aggregatedTotals [yearMonthString] += xyRecord.y
+    });
+
+    const yearMonthArray = Object.keys(aggregatedTotals );
+    const aggregatedXY  = yearMonthArray.map(keyName => {
+      // at this point the keys are YYYYMM and values are the totals
+      const hyphenatedYearMonth = moment(keyName).format('YYYY-MM')
+      return {
+        x : hyphenatedYearMonth,
+        y : aggregatedTotals[keyName]
+      }
+      return aggregatedXY;
+    })
     
   }
+  
+  // push into a final array ${period} times
+  
 }
