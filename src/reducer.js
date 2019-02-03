@@ -25,9 +25,10 @@ const reducer = (previousState = startingState, action) => {
       };
     case 'reportData':
       const rawReportData = action.payload;
-      const formattedArray = rawReportData.filter((record, index) => {
-        return index < 5;
-      })
+      const formattedArray = rawReportData
+      //   .filter((record, index) => {
+      //   return index < 500;
+      // })
         .map((currentRecord, index) => {
         // give a format for moment to parse
         // console.log('currentRecord.donationDate');
