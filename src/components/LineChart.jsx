@@ -53,11 +53,11 @@ export default class LineChart extends React.Component {
   prepareData = (rawData, numberOfPeriods, periodType) => {
     const formattedData  = this.formatData(rawData); // change into x/y. not needed yet. literally just returns right now
     
-    const filteredData     = this.filterData(formattedData, 12, 'months'); // last twelve months
+    const filteredData     = this.filterData(formattedData, numberOfPeriods, periodType); // last twelve months
       // sortedData     = this.sortData(filteredData);
     
     // sort and aggregate
-    const aggregatedData = this.aggregateData(filteredData.sort());
+    const aggregatedData = this.aggregateData();
     
     return aggregatedData;
   };
@@ -85,7 +85,14 @@ export default class LineChart extends React.Component {
             <HorizontalGridLines strokeWidth={ 1 } />
             <VerticalGridLines />
             <LineSeries
-              data={ this.props.reportData }
+              data={this.props.reportData ? this.prepareData([
+                // will fail when the parent array has different order (good)
+                {x : "09/01/2018", y : 8},
+                {x : "10/01/2018", y : 12},
+                {x : "11/01/2018", y : 10},
+                {x : "12/01/2018", y : 20},
+                {x : "01/01/2019", y : 5},
+              ], 12, 'months') : null }
             />
             <XAxis
               title={ this.state.XAxisLabel }
@@ -134,34 +141,35 @@ export default class LineChart extends React.Component {
     }
   }
   
+  sortData(dataArray) {
+    // { x : stringDate, y : number }
+    const sortedArray = dataArray.sort((a, b) => {
+      return a.x - b.x;
+    });
+    console.log("sortedArray");
+    console.log(sortedArray);
+    return sortedArray;
+  }
+  
   aggregateData = (dataArray, periods) => {
     const aggregatedTotals = {};
-    // detect month/year. Say 0218. Put in an 0218 object, keyed with x and y.
-    //
     
-    const x = dataArray.map(xyRecord => {
-      const yearMonthString = new moment(xyRecord.x).format('YYYYMM');
-      console.log('yearMonthString');
-      console.log(yearMonthString);
+    dataArray.map(xyRecord => {
+      const yearMonthString = new moment(xyRecord.x).format('YYYY-MM');
       if (! aggregatedTotals [yearMonthString]) {
         aggregatedTotals [yearMonthString] = 0;
       }
-      aggregatedTotals [yearMonthString] += xyRecord.y
+      aggregatedTotals[yearMonthString] += xyRecord.y;
     });
 
-    const yearMonthArray = Object.keys(aggregatedTotals );
+    const yearMonthArray = Object.keys(aggregatedTotals);
+
     const aggregatedXY  = yearMonthArray.map(keyName => {
-      // at this point the keys are YYYYMM and values are the totals
-      const hyphenatedYearMonth = moment(keyName).format('YYYY-MM')
       return {
-        x : hyphenatedYearMonth,
+        x : keyName,
         y : aggregatedTotals[keyName]
       }
-      return aggregatedXY;
-    })
-    
+    });
+    return aggregatedXY;
   }
-  
-  // push into a final array ${period} times
-  
 }
