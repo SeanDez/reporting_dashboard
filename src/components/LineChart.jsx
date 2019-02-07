@@ -55,7 +55,7 @@ export default class LineChart extends React.Component {
     return (
       <React.Fragment>
         {
-          this.props.reportData && // everything waits on this
+          this.props.chartData && // everything waits on this
           <ChartContainer>
             <h2>{ this.state.chartTitle }</h2>
             <FlexibleXYPlot

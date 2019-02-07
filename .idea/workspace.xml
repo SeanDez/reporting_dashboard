@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f94c7076-04a5-4fc1-8723-02042c5db784" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/__mocks__/axios.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/__tests__/DataTable.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/__tests__/LineChart.test.jsDisabled" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/__tests__/actions.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/DataSection.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/terminal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/terminal.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/__tests__/LineChart.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/__tests__/DataSection.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DataTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DataTable.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/LineChart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LineChart.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducer.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -111,8 +98,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/components/LineChart.jsx">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="284">
-                  <caret line="66" column="43" selection-start-line="66" selection-start-column="34" selection-end-line="66" selection-end-column="43" />
+                <state relative-caret-position="131">
+                  <caret line="57" column="30" selection-start-line="57" selection-start-column="30" selection-end-line="57" selection-end-column="30" />
                   <folding>
                     <element signature="e#0#26#0" expanded="true" />
                   </folding>
@@ -152,8 +139,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/components/DataSection.jsx">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="253">
-                  <caret line="130" column="8" selection-start-line="130" selection-start-column="8" selection-end-line="130" selection-end-column="8" />
+                <state relative-caret-position="111">
+                  <caret line="120" column="39" selection-start-line="120" selection-start-column="39" selection-end-line="120" selection-end-column="39" />
                   <folding>
                     <element signature="e#0#26#0" expanded="true" />
                   </folding>
@@ -251,8 +238,8 @@
         <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/__tests__/DataSection.test.js" />
         <option value="$PROJECT_DIR$/src/__tests__/LineChart.test.js" />
-        <option value="$PROJECT_DIR$/src/components/LineChart.jsx" />
         <option value="$PROJECT_DIR$/src/components/DataSection.jsx" />
+        <option value="$PROJECT_DIR$/src/components/LineChart.jsx" />
       </list>
     </option>
   </component>
@@ -348,12 +335,12 @@
       <workItem from="1545776104424" duration="84992000" />
       <workItem from="1546433266689" duration="1417000" />
       <workItem from="1547560300550" duration="27793000" />
-      <workItem from="1549303485741" duration="39623000" />
+      <workItem from="1549303485741" duration="40598000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="202998000" />
+    <option name="totallyTimeSpent" value="203973000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="222" y="24" width="1378" height="811" extended-state="0" />
@@ -512,8 +499,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/DataTable.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="80" column="36" selection-start-line="80" selection-start-column="36" selection-end-line="80" selection-end-column="36" />
+        <state relative-caret-position="105">
+          <caret line="56" column="6" selection-start-line="56" selection-start-column="6" selection-end-line="56" selection-end-column="6" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -565,20 +552,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/LineChart.jsx">
+    <entry file="file://$PROJECT_DIR$/src/components/DataSection.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="66" column="43" selection-start-line="66" selection-start-column="34" selection-end-line="66" selection-end-column="43" />
+        <state relative-caret-position="111">
+          <caret line="120" column="39" selection-start-line="120" selection-start-column="39" selection-end-line="120" selection-end-column="39" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/DataSection.jsx">
+    <entry file="file://$PROJECT_DIR$/src/components/LineChart.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="130" column="8" selection-start-line="130" selection-start-column="8" selection-end-line="130" selection-end-column="8" />
+        <state relative-caret-position="131">
+          <caret line="57" column="30" selection-start-line="57" selection-start-column="30" selection-end-line="57" selection-end-column="30" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
