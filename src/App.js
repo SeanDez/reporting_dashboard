@@ -11,6 +11,7 @@ import DataTable       from "./components/DataTable";
 import DataControlForm from "./components/DataControlForm";
 import LineChart       from "./components/LineChart";
 import AccessForm      from "./components/AccessForm";
+import DataSection from "./components/DataSection";
 
 import {Formik}           from "formik";
 import TextField          from "@material-ui/core/TextField";
@@ -48,6 +49,46 @@ const HomeTextInstructions = styled.div`
 
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      reportData2 : [1]
+    };
+    
+  }
+
+
+  genData = () => {
+    this.setState({
+      reportData2 : [
+        {x: new Date('01/01/2018'), y: 8},
+        {x: new Date('02/01/2018'), y: 5},
+        {x: new Date('03/01/2018'), y: 4},
+        {x: new Date('04/01/2018'), y: 9},
+        {x: new Date('05/01/2018'), y: 1},
+        {x: new Date('06/01/2018'), y: 7},
+        {x: new Date('07/01/2018'), y: 6},
+        {x: new Date('08/01/2018'), y: 3},
+        {x: new Date('09/01/2018'), y: 2},
+        {x: new Date('10/01/2018'), y: 0}
+      ]
+    })
+  }
+  
+  componentDidMount() {
+    this.genData()
+    console.log(this.props.reportData2)
+  }
+  
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps !== this.props && this.props.reportData) {
+      console.log(this.props.reportData)
+    }
+    if (prevState.reportData2 !== this.state.reportData2) {
+      console.log('this.state.reportData2')
+      console.log(this.state.reportData2)
+    }
+  }
   
   render() {
     return (
@@ -117,17 +158,15 @@ class App extends Component {
               
               <Switch>
                 <Route path='/dashboard' exact render={ props => {
-                  // const {userId, userName, donorData} = props;
-                  // const backEndData = {userId, userName, donorData};
-    
+                  const {userId, userName, donorData} = props;
+                  const backEndData = {userId, userName, donorData};
+
                   return (
                     <React.Fragment>
-                      <LineChart
+                      <DataSection
                         dispatchGetDonationData={this.props.dispatchGetDonationData}
-                        reportData={this.props.reportData}
+                        reportData={ this.props.reportData }
                       />
-                      <DataTable  backEndData={'placeholder'} />
-                      <DataControlForm  />
                     </React.Fragment>
                   ) }} />
               </Switch>

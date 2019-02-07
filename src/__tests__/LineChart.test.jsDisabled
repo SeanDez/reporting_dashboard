@@ -1,0 +1,65 @@
+const moment = require("moment");
+
+const LineChart = require("../components/LineChart").default;
+const lineChart = new LineChart();
+
+
+function mockXYObjects(numberOfRuns) {
+  // create an array of objects
+  const xYObjectArray = [];
+  for (let i = 1; i <= numberOfRuns; i ++) {
+    xYObjectArray.push(
+      {x : "01/01/2018", y : 7},
+      {x : "02/01/2018", y : 4},
+      {x : "03/01/2018", y : 3},
+      {x : "04/01/2018", y : 11},
+      {x : "05/01/2018", y : 13},
+      {x : "06/01/2018", y : 8},
+      {x : "07/01/2018", y : 2},
+      {x : "08/01/2018", y : 9},
+      {x : "09/01/2018", y : 1},
+      {x : "10/01/2018", y : 12}, // 3
+      {x : "11/01/2018", y : 10}, // 2
+      {x : "12/01/2018", y : 20}, // 1
+      {x : "01/01/2019", y : 5}, // 0 periods away
+    );
+  }
+  return xYObjectArray;
+}
+
+beforeEach(() => {
+  // initialize database
+});
+
+afterEach(() => { // beforeAll does it only once per file
+  // clear database
+  
+});
+
+test.skip(() => {
+  // setup
+  
+  // work
+  
+  // tests
+  expect(
+    F
+  )
+});
+
+///////// BASIC TEST STRUCTURE ///////////
+
+// test('testing primitives', () => {
+//   expect (1+2).toStrictEqual(4)
+// });
+
+
+
+
+
+
+
+
+
+
+

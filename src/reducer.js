@@ -5,7 +5,7 @@ import moment from "moment";
 
 const startingState = {
   view : 'frontEnd',
-  dashboardIsLoading : false,
+  dashboardIsLoading : false
 };
 
 const reducer = (previousState = startingState, action) => {
@@ -24,30 +24,29 @@ const reducer = (previousState = startingState, action) => {
         view
       };
     case 'reportData':
-      const rawReportData = action.payload;
-      const formattedArray = rawReportData
-      //   .filter((record, index) => {
-      //   return index < 500;
-      // })
-        .map((currentRecord, index) => {
-        // give a format for moment to parse
-        // console.log('currentRecord.donationDate');
-        // console.log(currentRecord.donationDate);
-        const transformedDate = moment(currentRecord.donationDate)
-          // .format('MM/DD/YYYY');
-          .toDate();
-        
-        return {
-          x : transformedDate, // currentRecord.donationDate
-          y : parseInt(currentRecord.amountDonated)
-        }
-      });
-      
+      // const rawReportData = action.payload;
+      // const formattedArray = rawReportData
+      // //   .filter((record, index) => {
+      // //   return index < 500;
+      // // })
+      //   .map((currentRecord, index) => {
+      //   // give a format for moment to parse
+      //   // console.log('currentRecord.donationDate');
+      //   // console.log(currentRecord.donationDate);
+      //   const transformedDate = moment(currentRecord.donationDate)
+      //     // .format('MM/DD/YYYY');
+      //     .toDate();
+      //
+      //   return {
+      //     x : transformedDate, // currentRecord.donationDate
+      //     y : parseInt(currentRecord.amountDonated)
+      //   }
+      // });
+      //
       
       return {
         ...previousState,
-        reportData : formattedArray,
-        test : 'test'
+        reportData : action.payload
       };
     default:
       return previousState;

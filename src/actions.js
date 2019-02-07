@@ -31,11 +31,13 @@ export default {
     }
   },
   getDonationData : (reportType, recordCount) => (dispatch => {
-    return Axios.post(`http://localhost:4000/reports/`, {
+    return Axios.post(`http://localhost:4000/reports/`,
+      {
       reportType, recordCount
-    })
-      .then(ApiResponse => {
-        const returnedArray = ApiResponse.data;
+    }
+    )
+      .then(apiResponse => {
+        const returnedArray = apiResponse.data;
         dispatch({
           type : 'reportData',
           payload : returnedArray

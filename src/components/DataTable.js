@@ -49,7 +49,13 @@ const donationData = [
 const localArrayHeaderData = ['Dessert (100g serving)', 'Calories', 'Fat (g)',
                               'Carbs (g)', 'Protein (g)'];
 
-const renderTableHeaders = () => {
+const renderTableHeaders = (apiData) => {
+  // if period totals
+  // I need to start sending this back
+  // if (apiData.reportType === 'periodTotals') {
+    // const
+  // }
+  
   return localArrayHeaderData.map((headerValue, indexValue) => {
     if (indexValue === 0) {
       return <TableCell key={indexValue}>{headerValue}</TableCell>
