@@ -41,14 +41,11 @@ export default class LineChart extends React.Component {
   
   
   componentDidMount() {
-
+  
   }
   
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.reportData !== this.props.reportData) {
-      console.log(this.props.reportData)
-    }
-    console.log(prevProps)
+  
   }
   
   render() {

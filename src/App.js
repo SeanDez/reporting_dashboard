@@ -76,18 +76,11 @@ class App extends Component {
   }
   
   componentDidMount() {
-    this.genData()
-    console.log(this.props.reportData2)
+  
   }
   
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps !== this.props && this.props.reportData) {
-      console.log(this.props.reportData)
-    }
-    if (prevState.reportData2 !== this.state.reportData2) {
-      console.log('this.state.reportData2')
-      console.log(this.state.reportData2)
-    }
+  
   }
   
   render() {

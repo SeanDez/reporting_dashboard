@@ -22,11 +22,42 @@ export default class DataSection extends React.Component {
     ]
   };
   
-  formatData(rawData) {
-    return rawData
+  formatInputData(rawData) {
+    console.log("rawData 0");
+    console.log(rawData[0]);
+  
+  
+    // remap objects into x/y pairs
+    const xYFormattedObjects = rawData.map(record => {
+      return {
+        x : record.donationDate,
+        y : record.amountDonated
+      }
+    });
+    console.log("xYFormattedObjects[0]");
+    console.log(xYFormattedObjects[0]);
+    
+    // transform x's date objects into date strings
+    const formattedXDates = xYFormattedObjects.map(record => {
+      if (record.x instanceof Date) {
+        record.x = moment(record.x)
+          .subtract(7, 'hours')
+          .format('YYYY-MM-DDTHH:00:00.000')
+          .concat('Z')
+        return record;
+      } else if (typeof record.x === "string") {
+        return record
+      }
+    });
+    console.log("formattedXDates");
+    console.log(formattedXDates);
+    return formattedXDates
   }
   
+  
   filterData(dataArray, periodsBack, periodType) {
+    console.log("filterData dataArray[0]")
+    console.log(dataArray[0])
     
     // first char. Single char m OR M. stop after 1 global match
     if ( periodType.match(/^[mM]/g)) {
@@ -36,16 +67,15 @@ export default class DataSection extends React.Component {
       const dateBoundary = moment().subtract(periodsBack, periodType);
       
       const filteredArray = dataArray.filter((record, index) => {
-        // console.log(`record.x: ${record.x}`);
         const testDate = moment(record.x);
-        // console.log(`testDate: ${testDate}`);
         return testDate > dateBoundary ? record : null;
       });
-      // console.log('filteredArray end')
-      // console.log(filteredArray)
+      // console.log('filteredArray[0]');
+      // console.log(filteredArray[0]);
       return filteredArray;
     }
   }
+  
   
   sortData(dataArray) {
     // { x : stringDate, y : number }
@@ -54,20 +84,22 @@ export default class DataSection extends React.Component {
       const dateObjectB = new Date(b.x);
       return dateObjectA - dateObjectB;
     });
-    // console.log('sortedArray');
-    // console.log(sortedArray);
+    console.log('sortedArray[0]');
+    console.log(sortedArray[0]);
     return sortedArray;
   }
   
+  
   aggregateData = (dataArray, periods) => {
+    console.log("aggregateData dataArray[0]");
+    console.log(dataArray[0]);
+    
     const aggregatedTotals = {};
     
     dataArray.map(xyRecord => {
-      const yearMonthString = new moment(xyRecord.x, 'MM/DD/YYYY').format('YYYY-MM');
-      // console.log('yearMonthString')
-      // console.log(yearMonthString)
-      if (! aggregatedTotals [yearMonthString]) {
-        aggregatedTotals [yearMonthString] = 0;
+      const yearMonthString = new moment(xyRecord.x).format('YYYY-MM');
+      if (! aggregatedTotals[yearMonthString]) {
+        aggregatedTotals[yearMonthString] = 0;
       }
       aggregatedTotals[yearMonthString] += xyRecord.y;
     });
@@ -80,6 +112,8 @@ export default class DataSection extends React.Component {
         y : aggregatedTotals[keyName]
       }
     });
+    console.log('aggregatedXY');
+    console.log(aggregatedXY);
     return aggregatedXY;
   };
   
@@ -93,13 +127,14 @@ export default class DataSection extends React.Component {
         y : record.y
       }
     });
-    // console.log('convertedDatesArray')
-    // console.log(convertedDatesArray)
+    console.log('convertedDatesArray[0]');
+    console.log(convertedDatesArray[0]);
     return convertedDatesArray
   }
   
+  
   prepareData = (rawData, periodsBack, periodType) => {
-    const formattedData  = this.formatData(rawData); // change into x/y. not needed yet. literally just returns right now
+    const formattedData  = this.formatInputData(rawData); // change into x/y. not needed yet. literally just returns right now
     
     const filteredData     = this.filterData(formattedData, periodsBack, periodType); // last twelve months
     // console.log('filteredData pp');
@@ -119,15 +154,21 @@ export default class DataSection extends React.Component {
   componentDidMount() {
     // this.props.genData()
     this.props.dispatchGetDonationData("monthlyTotals", null)
+  }
   
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.reportData !== this.props.reportData) {
+      console.log('this.props.reportData')
+      console.log(this.props.reportData)
+      console.log('this.props.prepareData')
+      console.log(this.prepareData(this.props.reportData, 12, 'month'))
+    }
   }
   
   render() {
     return (
     <React.Fragment>
       <LineChart
-        dispatchGetDonationData={ this.props.dispatchGetDonationData }
-        genData={ this.props.genData }
         chartData={ this.state.chartData }
       />
   
