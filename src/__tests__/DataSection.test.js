@@ -5,37 +5,64 @@ const dataSection = new DataSection();
 
 const dataMultiplier = 20;
 
-function mockXYObjects(numberOfRuns) {
+function mockXYObjects(numberOfRuns, keys) {
   // create an array of objects
   const xYObjectArray = [];
   for (let i = 1; i <= numberOfRuns; i ++) {
     xYObjectArray.push(
-      {donationDate : "2018/01/01T17:00:00.000Z", amountDonated : 7},
-      {donationDate : "2018/02/01T17:00:00.000Z", amountDonated : 4},
-      {donationDate : "2018/03/01T17:00:00.000Z", amountDonated : 3},
-      {donationDate : "2018/04/01T17:00:00.000Z", amountDonated : 11},
-      {donationDate : "2018/05/01T17:00:00.000Z", amountDonated : 13},
-      {donationDate : "2018/06/01T17:00:00.000Z", amountDonated : 8},
-      {donationDate : "2018/07/01T17:00:00.000Z", amountDonated : 2},
-      {donationDate : "2018/08/01T17:00:00.000Z", amountDonated : 9},
-      {donationDate : "2018/09/01T17:00:00.000Z", amountDonated : 1},
-      {donationDate : "2018/10/01T17:00:00.000Z", amountDonated : 12}, // 3
-      {donationDate : "2018/11/01T17:00:00.000Z", amountDonated : 10}, // 2
-      {donationDate : "2018/12/01T17:00:00.000Z", amountDonated : 20}, // 1
-      {donationDate : "2019/01/01T17:00:00.000Z", amountDonated : 5}, // 0 periods away
+      {[keys.date] : "2018-01-01T17:00:00.000Z", [keys.value] : 7},
+      {[keys.date] : "2018-02-01T17:00:00.000Z", [keys.value] : 4},
+      {[keys.date] : "2018-03-01T17:00:00.000Z", [keys.value] : 3},
+      {[keys.date] : "2018-04-01T17:00:00.000Z", [keys.value] : 11},
+      {[keys.date] : "2018-05-01T17:00:00.000Z", [keys.value] : 13},
+      {[keys.date] : "2018-06-01T17:00:00.000Z", [keys.value] : 8},
+      {[keys.date] : "2018-07-01T17:00:00.000Z", [keys.value] : 2},
+      {[keys.date] : "2018-08-01T17:00:00.000Z", [keys.value] : 9},
+      {[keys.date] : "2018-09-01T17:00:00.000Z", [keys.value] : 1},
+      {[keys.date] : "2018-10-01T17:00:00.000Z", [keys.value] : 12}, // 3
+      {[keys.date] : "2018-11-01T17:00:00.000Z", [keys.value] : 10}, // 2
+      {[keys.date] : "2018-12-01T17:00:00.000Z", [keys.value] : 20}, // 1
+      {[keys.date] : "2019-01-01T17:00:00.000Z", [keys.value] : 5}, // 0 periods away
     );
   }
   return xYObjectArray;
 }
 
-beforeEach(() => {
-  // initialize database
-});
 
-afterEach(() => { // beforeAll does it only once per file
-  // clear database
+const realDateTime = Date.now.bind(global.Date);
+
+beforeAll(() => {
+  // initialize database
+  
+  // capture the real dateTime
+  const realDateNow = Date.now.bind(global.Date);
+  
+  // attach fake date to the .now property
+  const fakeDateFeb152019 = jest.fn(() => new Date('2019-02-15'));
+  global.Date.now = fakeDateFeb152019;
   
 });
+
+afterAll(() => { // beforeAll does it only once per file
+  // clear database
+  
+  // reset time back to actual
+  global.Date.now = realDateNow;
+});
+
+
+const literallyJustDateNow = () => Date.now();
+
+// test('It should call and return Date.now()', () => {
+//   const realDateNow = Date.now.bind(global.Date);
+//   const dateNowStub = jest.fn(() => 1530518207007);
+//   global.Date.now = dateNowStub;
+//
+//   expect(literallyJustDateNow()).toBe(1530518207007);
+//   expect(dateNowStub).toHaveBeenCalled();
+//
+//   global.Date.now = realDateNow;
+// });
 
 ///////// BASIC TEST STRUCTURE ///////////
 
@@ -126,7 +153,7 @@ test('sorts data by x key (sortData)', () => {
 test("aggregate data into YYYY-MM buckets (aggregateData)", () => {
   
   expect(
-    dataSection.aggregateData(mockXYObjects(dataMultiplier)),
+    dataSection.aggregateData(mockXYObjects(dataMultiplier, {date: 'x', value: 'y'})),
   ).toEqual([
     {x : "2018-01", y : 7 * dataMultiplier},
     {x : "2018-02", y : 4 * dataMultiplier},
@@ -169,20 +196,20 @@ test('convert to date objects (convertToDateObjects', () => {
 
 
 
-test.skip('raw data is properly totaled (prepareData)', () => {
-  expect(dataSection.prepareData(mockXYObjects(dataMultiplier), 12, "month"))
+test('raw data is properly totaled (prepareData)', () => {
+  expect(dataSection.prepareData(mockXYObjects(dataMultiplier, {date: 'donationDate', value: 'amountDonated'}), 12, "month"))
     .toStrictEqual([
-      {x : moment("2018-03-01T00:00:000Z").toDate(), y : 3 * dataMultiplier},
-      {x : moment("2018-04-01T00:00:000Z").toDate(), y : 11 * dataMultiplier},
-      {x : moment("2018-05-01T00:00:000Z").toDate(), y : 13 * dataMultiplier},
-      {x : moment("2018-06-01T00:00:000Z").toDate(), y : 8 * dataMultiplier},
-      {x : moment("2018-07-01T00:00:000Z").toDate(), y : 2 * dataMultiplier},
-      {x : moment("2018-08-01T00:00:000Z").toDate(), y : 9 * dataMultiplier},
-      {x : moment("2018-09-01T00:00:000Z").toDate(), y : 1 * dataMultiplier},
-      {x : moment("2018-10-01T00:00:000Z").toDate(), y : 12 * dataMultiplier},
-      {x : moment("2018-11-01T00:00:000Z").toDate(), y : 10 * dataMultiplier},
-      {x : moment("2018-12-01T00:00:000Z").toDate(), y : 20 * dataMultiplier},
-      {x : moment("2019-01-01T00:00:000Z").toDate(), y : 5 * dataMultiplier},
+      {x : moment("2018-03").toDate(), y : 3 * dataMultiplier},
+      {x : moment("2018-04").toDate(), y : 11 * dataMultiplier},
+      {x : moment("2018-05").toDate(), y : 13 * dataMultiplier},
+      {x : moment("2018-06").toDate(), y : 8 * dataMultiplier},
+      {x : moment("2018-07").toDate(), y : 2 * dataMultiplier},
+      {x : moment("2018-08").toDate(), y : 9 * dataMultiplier},
+      {x : moment("2018-09").toDate(), y : 1 * dataMultiplier},
+      {x : moment("2018-10").toDate(), y : 12 * dataMultiplier},
+      {x : moment("2018-11").toDate(), y : 10 * dataMultiplier},
+      {x : moment("2018-12").toDate(), y : 20 * dataMultiplier},
+      {x : moment("2019-01").toDate(), y : 5 * dataMultiplier},
     ])
 });
 

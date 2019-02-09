@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import _ from "lodash";
 
 import LineChart from './LineChart';
 import DataTable from "./DataTable";
@@ -23,8 +24,7 @@ export default class DataSection extends React.Component {
   };
   
   formatInputData(rawData) {
-    console.log("rawData 0");
-    console.log(rawData[0]);
+    console.log("formatInputData rawData 0", rawData[0]);
   
   
     // remap objects into x/y pairs
@@ -34,8 +34,8 @@ export default class DataSection extends React.Component {
         y : record.amountDonated
       }
     });
-    console.log("xYFormattedObjects[0]");
-    console.log(xYFormattedObjects[0]);
+    // console.log("xYFormattedObjects[0]");
+    // console.log(xYFormattedObjects[0]);
     
     // transform x's date objects into date strings
     const formattedXDates = xYFormattedObjects.map(record => {
@@ -49,15 +49,14 @@ export default class DataSection extends React.Component {
         return record
       }
     });
-    console.log("formattedXDates");
-    console.log(formattedXDates);
+    // console.log("formattedXDates");
+    // console.log(formattedXDates);
     return formattedXDates
   }
   
   
   filterData(dataArray, periodsBack, periodType) {
-    console.log("filterData dataArray[0]")
-    console.log(dataArray[0])
+    console.log("filterData dataArray[0]", dataArray[0]);
     
     // first char. Single char m OR M. stop after 1 global match
     if ( periodType.match(/^[mM]/g)) {
@@ -84,37 +83,45 @@ export default class DataSection extends React.Component {
       const dateObjectB = new Date(b.x);
       return dateObjectA - dateObjectB;
     });
-    console.log('sortedArray[0]');
-    console.log(sortedArray[0]);
+    // console.log('sortedArray[0]');
+    // console.log(sortedArray[0]);
     return sortedArray;
   }
   
   
-  aggregateData = (dataArray, periods) => {
-    console.log("aggregateData dataArray[0]");
-    console.log(dataArray[0]);
+  aggregateData = (dataArray) => {
+    // console.log("aggregateData dataArray[0]");
+    // console.log(dataArray[0]);
     
-    const aggregatedTotals = {};
-    
-    dataArray.map(xyRecord => {
-      const yearMonthString = new moment(xyRecord.x).format('YYYY-MM');
-      if (! aggregatedTotals[yearMonthString]) {
-        aggregatedTotals[yearMonthString] = 0;
-      }
-      aggregatedTotals[yearMonthString] += xyRecord.y;
-    });
-    
-    const yearMonthArray = Object.keys(aggregatedTotals);
-    
-    const aggregatedXY  = yearMonthArray.map(keyName => {
-      return {
-        x : keyName,
-        y : aggregatedTotals[keyName]
+    // create an array with all the month/year keys
+    const yearMonthKeys = [];
+    dataArray.map(record => {
+      const recordYearMonthKey = new moment(record.x)
+        .format('YYYY-MM');
+      if ((yearMonthKeys.indexOf(recordYearMonthKey)) < 0) {
+        yearMonthKeys.push(recordYearMonthKey)
       }
     });
-    console.log('aggregatedXY');
-    console.log(aggregatedXY);
-    return aggregatedXY;
+    // console.log("yearMonthKeys", yearMonthKeys);
+  
+    // create a totalled array with all the y values summed
+    const totalledYAmounts = yearMonthKeys
+      .map(yMKey => {
+        return {
+          x : yMKey,
+          y : _.sumBy(dataArray, record => {
+            // create a matcher
+            const recordYearMonthKey = moment(record.x)
+              .format("YYYY-MM");
+            if (recordYearMonthKey === yMKey) {
+              return record.y;
+            }
+          }),
+        };
+      });
+    // console.log("totalledYAmounts");
+    // console.log(totalledYAmounts);
+    return totalledYAmounts;
   };
   
   
@@ -127,13 +134,14 @@ export default class DataSection extends React.Component {
         y : record.y
       }
     });
-    console.log('convertedDatesArray[0]');
-    console.log(convertedDatesArray[0]);
+    // console.log('convertedDatesArray[0]');
+    // console.log(convertedDatesArray[0]);
     return convertedDatesArray
   }
   
   
   prepareData = (rawData, periodsBack, periodType) => {
+    console.log("======PREPAREDATA START======");
     const formattedData  = this.formatInputData(rawData); // change into x/y. not needed yet. literally just returns right now
     
     const filteredData     = this.filterData(formattedData, periodsBack, periodType); // last twelve months
