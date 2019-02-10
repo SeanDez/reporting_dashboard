@@ -3,26 +3,28 @@ import './App.css';
 import styled               from "styled-components";
 import actions from "./actions";
 import {connect} from "react-redux";
-import {BrowserRouter, Router, Route, Link, Switch, Redirect, withRouter}      from "react-router-dom";
+
+// BrowserRouter, Router, Link,
+import { Route, Switch, Redirect, withRouter}      from "react-router-dom";
 // import {createBrowserHistory} from "history";
 
 import TopNav          from "./components/TopNav";
-import DataTable       from "./components/DataTable";
-import DataControlForm from "./components/DataControlForm";
-import LineChart       from "./components/LineChart";
+// import DataTable       from "./components/DataTable";
+// import DataControlForm from "./components/DataControlForm";
+// import LineChart       from "./components/LineChart";
 import AccessForm      from "./components/AccessForm";
 import DataSection from "./components/DataSection";
 
-import {Formik}           from "formik";
-import TextField          from "@material-ui/core/TextField";
+// import {Formik}           from "formik";
+// import TextField          from "@material-ui/core/TextField";
 
 
 
-const StyledLink = styled(Link)`
-  && {
-  text-decoration: none;
-  }
-`;
+// const StyledLink = styled(Link)`
+//   && {
+//   text-decoration: none;
+//   }
+// `;
 
 const StyledH1 = styled.h2`
   color: purple;
@@ -108,7 +110,8 @@ class App extends Component {
                   actions.dispatchLoadUserData(jwToken)
                 }
                 // next if state is updated,
-                const {userId, userName, donorData} = this.props;
+                // donorData
+                const {userId, userName} = this.props;
                 if (userId && userName) {
                   return <Redirect to='/dashboard' />
                 }
@@ -151,14 +154,16 @@ class App extends Component {
               
               <Switch>
                 <Route path='/dashboard' exact render={ props => {
-                  const {userId, userName, donorData} = props;
-                  const backEndData = {userId, userName, donorData};
+                  // const {userId, userName, donorData} = props;
+                  // const backEndData = {userId, userName, donorData};
 
                   return (
                     <React.Fragment>
                       <DataSection
                         dispatchGetDonationData={this.props.dispatchGetDonationData}
                         reportData={ this.props.reportData }
+                        preparedReportData={this.props.preparedReportData}
+                        dispatchUpdatePreparedReportData={this.props.dispatchUpdatePreparedReportData}
                       />
                     </React.Fragment>
                   ) }} />
@@ -180,6 +185,7 @@ const mapStateToProps = state => {
     donationData : state.donationData,
     view : state.view,
     reportData : state.reportData,
+    preparedReportData : state.preparedReportData
   }
 };
 
@@ -188,7 +194,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     dispatchLoadUserData : sessionJWToken => dispatch(actions.loadUserData(sessionJWToken)),
     dispatchUpdateView : newView => dispatch(actions.updateView(newView)),
-    dispatchGetDonationData : (reportType, recordCount) => dispatch(actions.getDonationData(reportType, recordCount))
+    dispatchGetDonationData : (reportType, recordCount) => dispatch(actions.getDonationData(reportType, recordCount)),
+    dispatchUpdatePreparedReportData : updatedData => {
+      dispatch(actions.updatePreparedReportData(updatedData))
+    }
   }
 };
 

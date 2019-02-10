@@ -24,9 +24,6 @@ export default class DataSection extends React.Component {
   };
   
   formatInputData(rawData) {
-    console.log("formatInputData rawData 0", rawData[0]);
-  
-  
     // remap objects into x/y pairs
     const xYFormattedObjects = rawData.map(record => {
       return {
@@ -34,8 +31,6 @@ export default class DataSection extends React.Component {
         y : record.amountDonated
       }
     });
-    // console.log("xYFormattedObjects[0]");
-    // console.log(xYFormattedObjects[0]);
     
     // transform x's date objects into date strings
     const formattedXDates = xYFormattedObjects.map(record => {
@@ -49,19 +44,13 @@ export default class DataSection extends React.Component {
         return record
       }
     });
-    // console.log("formattedXDates");
-    // console.log(formattedXDates);
     return formattedXDates
   }
   
   
   filterData(dataArray, periodsBack, periodType) {
-    console.log("filterData dataArray[0]", dataArray[0]);
-    
     // first char. Single char m OR M. stop after 1 global match
     if ( periodType.match(/^[mM]/g)) {
-      // access the key with the date objects
-      // [{x : date, y : number}]
       
       const dateBoundary = moment().subtract(periodsBack, periodType);
       
@@ -69,30 +58,24 @@ export default class DataSection extends React.Component {
         const testDate = moment(record.x);
         return testDate > dateBoundary ? record : null;
       });
-      // console.log('filteredArray[0]');
-      // console.log(filteredArray[0]);
       return filteredArray;
     }
   }
   
   
   sortData(dataArray) {
-    // { x : stringDate, y : number }
+    // expects [{ x : stringDate, y : number } ...]
     const sortedArray = dataArray.sort((a, b) => {
       const dateObjectA = new Date(a.x);
       const dateObjectB = new Date(b.x);
       return dateObjectA - dateObjectB;
     });
-    // console.log('sortedArray[0]');
-    // console.log(sortedArray[0]);
     return sortedArray;
   }
   
   
   aggregateData = (dataArray) => {
-    // console.log("aggregateData dataArray[0]");
-    // console.log(dataArray[0]);
-    
+    console.log(`=====dataArray in aggregateData=====`, dataArray);
     // create an array with all the month/year keys
     const yearMonthKeys = [];
     dataArray.map(record => {
@@ -102,25 +85,35 @@ export default class DataSection extends React.Component {
         yearMonthKeys.push(recordYearMonthKey)
       }
     });
-    // console.log("yearMonthKeys", yearMonthKeys);
   
+    
+    
     // create a totalled array with all the y values summed
+
     const totalledYAmounts = yearMonthKeys
       .map(yMKey => {
+        
+        const totalMatchingYAmounts = _.sumBy(dataArray, record => {
+          // create a matcher
+          const recordYearMonthKey = moment(record.x)
+            .format("YYYY-MM");
+          // add all matching k/v values
+          if (recordYearMonthKey === yMKey) {
+            // console.log(`=====record.y=====`, record.y);
+            return record.y;
+          }
+        });
+        // console.log(`=====totalMatchingYAmounts=====`, totalMatchingYAmounts);
+        
         return {
           x : yMKey,
-          y : _.sumBy(dataArray, record => {
-            // create a matcher
-            const recordYearMonthKey = moment(record.x)
-              .format("YYYY-MM");
-            if (recordYearMonthKey === yMKey) {
-              return record.y;
-            }
-          }),
+          y : totalMatchingYAmounts,
         };
       });
-    // console.log("totalledYAmounts");
-    // console.log(totalledYAmounts);
+    // console.log(`=====totalledYAmounts=====`, totalledYAmounts);
+
+
+
     return totalledYAmounts;
   };
   
@@ -134,19 +127,15 @@ export default class DataSection extends React.Component {
         y : record.y
       }
     });
-    // console.log('convertedDatesArray[0]');
-    // console.log(convertedDatesArray[0]);
     return convertedDatesArray
   }
   
   
   prepareData = (rawData, periodsBack, periodType) => {
-    console.log("======PREPAREDATA START======");
-    const formattedData  = this.formatInputData(rawData); // change into x/y. not needed yet. literally just returns right now
+    
+    const formattedData  = this.formatInputData(rawData);
     
     const filteredData     = this.filterData(formattedData, periodsBack, periodType); // last twelve months
-    // console.log('filteredData pp');
-    // console.log(filteredData pp);
     
     const sortedData     = this.sortData(filteredData);
     
@@ -155,7 +144,7 @@ export default class DataSection extends React.Component {
     
     const convertedToDateObjects = this.convertToDateObjects(aggregatedData);
     
-    return convertedToDateObjects;
+    return convertedToDateObjects
   };
   
   
@@ -166,25 +155,34 @@ export default class DataSection extends React.Component {
   
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.reportData !== this.props.reportData) {
-      console.log('this.props.reportData')
-      console.log(this.props.reportData)
-      console.log('this.props.prepareData')
-      console.log(this.prepareData(this.props.reportData, 12, 'month'))
+      const preparedDataArray = this.prepareData(this.props.reportData, 12, 'month');
+      this.props.dispatchUpdatePreparedReportData(preparedDataArray);
+    }
+    if (prevProps.preparedReportData !== this.props.preparedReportData) {
+      console.log("this.props.preparedReportData checking for preparedReportData prop", this.props.preparedReportData)
     }
   }
   
   render() {
     return (
-    <React.Fragment>
-      <LineChart
-        chartData={ this.state.chartData }
-      />
+      <React.Fragment>
+        {
+          // todo: ternary with false: loader
+          this.props.preparedReportData &&
+          <div>
+            <LineChart
+              preparedReportData={ this.props.preparedReportData }
+              chartData={ this.state.chartData }
+            />
+          
+            < DataTable
+              backEndData={ "placeholder" }
+            />
+            <DataControlForm />
+          </div>
+        }
+      </React.Fragment>
+    );
+  }
   
-      <DataTable
-        backEndData={'placeholder'}
-      />
-      {/*reportData={this.props.reportData.x}*/}
-      <DataControlForm  />
-    </React.Fragment>
-    )}
 }

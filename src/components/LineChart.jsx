@@ -3,7 +3,7 @@ import "../App.css";
 import "../../node_modules/react-vis/dist/style.css";
 import {FlexibleXYPlot, LineSeries, XAxis, YAxis, HorizontalGridLines, VerticalGridLines} from "react-vis";
 import styled from "styled-components";
-import moment from "moment";
+// import moment from "moment";
 
 const ChartContainer = styled.div`
   display: flex;
@@ -41,11 +41,13 @@ export default class LineChart extends React.Component {
   
   
   componentDidMount() {
-  
+    console.log("this.props.preparedReportData from LineChart cdm", this.props.preparedReportData);
   }
   
   componentDidUpdate(prevProps, prevState, snapshot) {
-  
+    if (prevProps.preparedReportData !== this.props.preparedReportData) {
+      console.log("this.props.preparedReportData from LineChart", this.props.preparedReportData)
+    }
   }
   
   render() {
@@ -61,7 +63,7 @@ export default class LineChart extends React.Component {
               <HorizontalGridLines strokeWidth={ 1 } />
               <VerticalGridLines />
               <LineSeries
-                data={ this.props.chartData }
+                data={ this.props.preparedReportData }
               />
     
               {/* below disabled until reportData call is fixed */}

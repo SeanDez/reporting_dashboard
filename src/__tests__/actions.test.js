@@ -1,5 +1,5 @@
 import mockAxios from "axios";
-
+import actions from "../actions";
 
 
 
@@ -47,6 +47,28 @@ test.skip('getDonationData dispatcher', () => {
     payload : [{ x : "02/06/2018", y : 143 }]
   })
 });
+
+test("update state.preparedReportData", () => {
+  // setup
+  
+  // work
+  
+  // matchers
+  expect(actions.updatePreparedReportData(
+    [{ x : new Date("2019-02-15") }]
+    ),
+  )
+    .toEqual(
+      {
+        type    : "preparedReportData",
+        payload : [{x : new Date("2019-02-15")}],
+      },
+    );
+});
+
+
+
+
 
 
 test.skip('async test', async () => {

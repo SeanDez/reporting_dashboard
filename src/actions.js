@@ -3,7 +3,7 @@ import Axios from "axios";
 // won't have to manually import each one now
 export default {
   loadUserData    : cookieData => (dispatch => {
-    const {sessionJWToken} = cookieData;
+    // const {sessionJWToken} = cookieData;
     
     return Axios.post(
   'http://localhost:4000/auth-status') // cookies sent automatically
@@ -43,7 +43,14 @@ export default {
           payload : returnedArray
         })
       })
-  })
+  }),
+  updatePreparedReportData : updatedData => {
+    
+    return {
+      type : "preparedReportData",
+      payload : updatedData
+    }
+  }
 }
 
 

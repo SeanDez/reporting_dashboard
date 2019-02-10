@@ -1,10 +1,10 @@
 import React        from "react";
 import styled       from "styled-components";
 import {withStyles} from "@material-ui/core/styles";
-import classNames   from 'classnames';
+// import classNames   from 'classnames';
 import Paper        from '@material-ui/core/Paper';
 import Typography   from '@material-ui/core/Typography'
-import MenuItem     from "@material-ui/core/MenuItem";
+// import MenuItem     from "@material-ui/core/MenuItem";
 import TextField    from "@material-ui/core/TextField";
 import Button       from "@material-ui/core/Button";
 import axios        from "axios";
@@ -171,7 +171,8 @@ class AccessForm extends React.Component {
             >
               { formikProps => {
                 // ton of destructured props below
-                const {values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting} = formikProps;
+                // errors, touched, isSubmitting
+                const {values, handleChange, handleBlur, handleSubmit} = formikProps;
                 const { classes } = this.props; // The component prop object
   
                 return (

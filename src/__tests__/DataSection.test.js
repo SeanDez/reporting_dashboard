@@ -28,14 +28,12 @@ function mockXYObjects(numberOfRuns, keys) {
   return xYObjectArray;
 }
 
-
+// capture the real dateTime
 const realDateTime = Date.now.bind(global.Date);
 
 beforeAll(() => {
   // initialize database
   
-  // capture the real dateTime
-  const realDateNow = Date.now.bind(global.Date);
   
   // attach fake date to the .now property
   const fakeDateFeb152019 = jest.fn(() => new Date('2019-02-15'));
@@ -47,7 +45,7 @@ afterAll(() => { // beforeAll does it only once per file
   // clear database
   
   // reset time back to actual
-  global.Date.now = realDateNow;
+  global.Date.now = realDateTime;
 });
 
 
@@ -154,20 +152,20 @@ test("aggregate data into YYYY-MM buckets (aggregateData)", () => {
   
   expect(
     dataSection.aggregateData(mockXYObjects(dataMultiplier, {date: 'x', value: 'y'})),
-  ).toEqual([
-    {x : "2018-01", y : 7 * dataMultiplier},
-    {x : "2018-02", y : 4 * dataMultiplier},
-    {x : "2018-03", y : 3 * dataMultiplier},
-    {x : "2018-04", y : 11 * dataMultiplier},
-    {x : "2018-05", y : 13 * dataMultiplier},
-    {x : "2018-06", y : 8 * dataMultiplier},
-    {x : "2018-07", y : 2 * dataMultiplier},
-    {x : "2018-08", y : 9 * dataMultiplier},
-    {x : "2018-09", y : 1 * dataMultiplier},
-    {x : "2018-10", y : 12 * dataMultiplier},
-    {x : "2018-11", y : 10 * dataMultiplier},
-    {x : "2018-12", y : 20 * dataMultiplier},
-    {x : "2019-01", y : 5 * dataMultiplier},
+  ).toStrictEqual([
+    {x : "2018-01", y : 7.00 * dataMultiplier},
+    {x : "2018-02", y : 4.00 * dataMultiplier},
+    {x : "2018-03", y : 3.00 * dataMultiplier},
+    {x : "2018-04", y : 11.00 * dataMultiplier},
+    {x : "2018-05", y : 13.00 * dataMultiplier},
+    {x : "2018-06", y : 8.00 * dataMultiplier},
+    {x : "2018-07", y : 2.00 * dataMultiplier},
+    {x : "2018-08", y : 9.00 * dataMultiplier},
+    {x : "2018-09", y : 1.00 * dataMultiplier},
+    {x : "2018-10", y : 12.00 * dataMultiplier},
+    {x : "2018-11", y : 10.00 * dataMultiplier},
+    {x : "2018-12", y : 20.00 * dataMultiplier},
+    {x : "2019-01", y : 5.00 * dataMultiplier},
   ]);
   },
 );

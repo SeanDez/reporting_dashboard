@@ -1,14 +1,13 @@
-import React from "react";
 import {createStore, applyMiddleware} from "redux";
 import ReduxThunk from "redux-thunk";
-import moment from "moment";
+
 
 const startingState = {
   view : 'frontEnd',
   dashboardIsLoading : false
 };
 
-const reducer = (previousState = startingState, action) => {
+export const reducer = (previousState = startingState, action) => {
   switch (action.type) {
     case 'loadUserData':
       const {userId, userName, donationData} = action.payload;
@@ -43,10 +42,18 @@ const reducer = (previousState = startingState, action) => {
       //   }
       // });
       //
-      
+      action.payload.forEach((value) => {
+        value.amountDonated = parseInt(value.amountDonated)
+      });
+
       return {
         ...previousState,
         reportData : action.payload
+      };
+    case "preparedReportData":
+      return {
+        ...previousState,
+        preparedReportData : action.payload
       };
     default:
       return previousState;

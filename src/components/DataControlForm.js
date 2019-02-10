@@ -1,6 +1,6 @@
 import React        from "react";
 import styled from "styled-components";
-import {withStyles} from "@material-ui/core";
+// import {withStyles} from "@material-ui/core";
 
 const StyledLink = styled.a`
   margin-left: 2vw;
