@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f94c7076-04a5-4fc1-8723-02042c5db784" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DataTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DataTable.js" afterDir="false" />
-    </list>
+    <list default="true" id="f94c7076-04a5-4fc1-8723-02042c5db784" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,8 +118,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/components/DataTable.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="419">
-                  <caret line="141" column="82" selection-start-line="141" selection-start-column="82" selection-end-line="141" selection-end-column="82" />
+                <state relative-caret-position="430">
+                  <caret line="151" column="20" lean-forward="true" selection-start-line="151" selection-start-column="20" selection-end-line="151" selection-end-column="20" />
                   <folding>
                     <element signature="e#0#26#0" expanded="true" />
                   </folding>
@@ -149,7 +146,7 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/components/DataSection.jsx">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="312">
+                <state relative-caret-position="244">
                   <caret line="150" column="6" selection-start-line="150" selection-start-column="6" selection-end-line="150" selection-end-column="6" />
                   <folding>
                     <element signature="e#0#26#0" expanded="true" />
@@ -241,10 +238,9 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="630" />
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="y" value="7" />
-    <option name="width" value="970" />
+    <option name="width" value="1600" />
     <option name="height" value="883" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -330,12 +326,12 @@
       <workItem from="1547560300550" duration="27793000" />
       <workItem from="1549303485741" duration="77002000" />
       <workItem from="1549712793470" duration="16353000" />
-      <workItem from="1549782036724" duration="37713000" />
+      <workItem from="1549782036724" duration="37915000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="294443000" />
+    <option name="totallyTimeSpent" value="294645000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -347,10 +343,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="630" y="7" width="970" height="883" extended-state="1" />
-    <editor active="true" />
+    <frame x="0" y="7" width="1600" height="883" extended-state="1" />
     <layout>
-      <window_info active="true" x="-1" y="153" width="568" height="700" id="Terminal" order="0" visible="true" weight="0.26723224" />
+      <window_info active="true" x="-1" y="153" width="568" height="700" id="Terminal" order="0" visible="true" weight="0.24094088" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3298351" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -571,7 +566,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/DataSection.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
+        <state relative-caret-position="244">
           <caret line="150" column="6" selection-start-line="150" selection-start-column="6" selection-end-line="150" selection-end-column="6" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
@@ -581,8 +576,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/DataTable.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="141" column="82" selection-start-line="141" selection-start-column="82" selection-end-line="141" selection-end-column="82" />
+        <state relative-caret-position="430">
+          <caret line="151" column="20" lean-forward="true" selection-start-line="151" selection-start-column="20" selection-end-line="151" selection-end-column="20" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
