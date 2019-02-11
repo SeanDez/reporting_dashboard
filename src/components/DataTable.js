@@ -138,16 +138,13 @@ const DataTable = (props) => {
                     .format('MMMM YYYY')
                   }
                 </TableCell>
+                <TableCell align='right'>
+                  {`$${record.y.toLocaleString(undefined, {maximumFractionDigits:2})}`}
+                </TableCell>
               </TableRow>
             )
           })
         }
-        <TableRow key={1}>
-          <TableCell component='th'>
-            2019-02
-          </TableCell>
-          <TableCell align='right'>$5000</TableCell>
-        </TableRow>
       </TableBody>
     </StyledTableWrapper>
   );};
