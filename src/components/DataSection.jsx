@@ -75,7 +75,6 @@ export default class DataSection extends React.Component {
   
   
   aggregateData = (dataArray) => {
-    console.log(`=====dataArray in aggregateData=====`, dataArray);
     // create an array with all the month/year keys
     const yearMonthKeys = [];
     dataArray.map(record => {
@@ -148,6 +147,11 @@ export default class DataSection extends React.Component {
   };
   
   
+  flipOrder(data) {
+    //
+  }
+  
+  
   componentDidMount() {
     // this.props.genData()
     this.props.dispatchGetDonationData("monthlyTotals", null)
@@ -159,24 +163,23 @@ export default class DataSection extends React.Component {
       this.props.dispatchUpdatePreparedReportData(preparedDataArray);
     }
     if (prevProps.preparedReportData !== this.props.preparedReportData) {
-      console.log("this.props.preparedReportData checking for preparedReportData prop", this.props.preparedReportData)
     }
   }
   
   render() {
     return (
       <React.Fragment>
-        {
+        { this.props.preparedReportData &&
           // todo: ternary with false: loader
-          this.props.preparedReportData &&
           <div>
             <LineChart
               preparedReportData={ this.props.preparedReportData }
-              chartData={ this.state.chartData }
+              // for testing
+              // chartData={ this.state.chartData }
             />
           
             < DataTable
-              backEndData={ "placeholder" }
+              preparedReportData={ this.props.preparedReportData }
             />
             <DataControlForm />
           </div>

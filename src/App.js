@@ -3,6 +3,7 @@ import './App.css';
 import styled               from "styled-components";
 import actions from "./actions";
 import {connect} from "react-redux";
+import PropTypes from "prop-types";
 
 // BrowserRouter, Router, Link,
 import { Route, Switch, Redirect, withRouter}      from "react-router-dom";
@@ -187,6 +188,21 @@ const mapStateToProps = state => {
     reportData : state.reportData,
     preparedReportData : state.preparedReportData
   }
+};
+
+// type checking saves a lot of time
+App.propTypes = {
+  userId : PropTypes.number,
+  userName : PropTypes.string,
+  view : PropTypes.string,
+  reportData : PropTypes.arrayOf(PropTypes.shape({
+    donationDate: PropTypes.string,
+    amountDonated: PropTypes.number.isRequired
+  })),
+  preparedReportData : PropTypes.arrayOf(PropTypes.shape({
+    donationDate: PropTypes.string,
+    amountDonated: PropTypes.number.isRequired
+  }))
 };
 
 

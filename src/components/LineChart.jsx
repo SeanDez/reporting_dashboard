@@ -41,12 +41,10 @@ export default class LineChart extends React.Component {
   
   
   componentDidMount() {
-    console.log("this.props.preparedReportData from LineChart cdm", this.props.preparedReportData);
   }
   
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.preparedReportData !== this.props.preparedReportData) {
-      console.log("this.props.preparedReportData from LineChart", this.props.preparedReportData)
     }
   }
   
@@ -54,7 +52,7 @@ export default class LineChart extends React.Component {
     return (
       <React.Fragment>
         {
-          this.props.chartData && // everything waits on this
+          this.props.preparedReportData && // everything waits on this
           <ChartContainer>
             <h2>{ this.state.chartTitle }</h2>
             <FlexibleXYPlot
