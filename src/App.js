@@ -10,9 +10,6 @@ import { Route, Switch, Redirect, withRouter}      from "react-router-dom";
 // import {createBrowserHistory} from "history";
 
 import TopNav          from "./components/TopNav";
-// import DataTable       from "./components/DataTable";
-// import DataControlForm from "./components/DataControlForm";
-// import LineChart       from "./components/LineChart";
 import AccessForm      from "./components/AccessForm";
 import DataSection from "./components/DataSection";
 
@@ -53,30 +50,11 @@ const HomeTextInstructions = styled.div`
 
 class App extends Component {
   constructor(props) {
-    super(props)
-    this.state = {
-      reportData2 : [1]
-    };
+    super(props);
     
   }
 
-
-  genData = () => {
-    this.setState({
-      reportData2 : [
-        {x: new Date('01/01/2018'), y: 8},
-        {x: new Date('02/01/2018'), y: 5},
-        {x: new Date('03/01/2018'), y: 4},
-        {x: new Date('04/01/2018'), y: 9},
-        {x: new Date('05/01/2018'), y: 1},
-        {x: new Date('06/01/2018'), y: 7},
-        {x: new Date('07/01/2018'), y: 6},
-        {x: new Date('08/01/2018'), y: 3},
-        {x: new Date('09/01/2018'), y: 2},
-        {x: new Date('10/01/2018'), y: 0}
-      ]
-    })
-  }
+  
   
   componentDidMount() {
   
@@ -89,10 +67,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {/*<Router history={this.history}>*/}
           <div>
-            {/*{console.log('==this.props.history from App.js==')}*/}
-            {/*{console.log(this.props.history)}*/}
             <TopNav />
             <BodyContainer>
             
@@ -141,6 +116,7 @@ class App extends Component {
                   />
                 ) }
                 />
+                
               
                 <Route path='/log-in' render={ props => (
                   <React.Fragment>
@@ -162,7 +138,7 @@ class App extends Component {
                     <React.Fragment>
                       <DataSection
                         dispatchGetDonationData={this.props.dispatchGetDonationData}
-                        reportData={ this.props.reportData }
+                        rawReportData={ this.props.rawReportData }
                         preparedReportData={this.props.preparedReportData}
                         dispatchUpdatePreparedReportData={this.props.dispatchUpdatePreparedReportData}
                       />
@@ -181,21 +157,21 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    userId : state.userId,
-    userName : state.userName,
-    donationData : state.donationData,
-    view : state.view,
-    reportData : state.reportData,
+    userId             : state.userId,
+    userName           : state.userName,
+    donationData       : state.donationData,
+    view               : state.view,
+    rawReportData      : state.rawReportData,
     preparedReportData : state.preparedReportData
   }
 };
 
 // type checking saves a lot of time
 App.propTypes = {
-  userId : PropTypes.number,
-  userName : PropTypes.string,
-  view : PropTypes.string,
-  reportData : PropTypes.arrayOf(PropTypes.shape({
+  userId             : PropTypes.number,
+  userName           : PropTypes.string,
+  view               : PropTypes.string,
+  rawReportData      : PropTypes.arrayOf(PropTypes.shape({
     donationDate: PropTypes.string,
     amountDonated: PropTypes.number.isRequired
   })),

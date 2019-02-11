@@ -43,7 +43,7 @@ test.skip('getDonationData dispatcher', () => {
   axios.post.mockResolvedValue(responseObject);
   
   expect().toStrictEqual({
-    type : 'reportData',
+    type : 'rawReportData',
     payload : [{ x : "02/06/2018", y : 143 }]
   })
 });

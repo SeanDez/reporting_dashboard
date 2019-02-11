@@ -39,7 +39,7 @@ export default {
       .then(apiResponse => {
         const returnedArray = apiResponse.data;
         dispatch({
-          type : 'reportData',
+          type : 'rawReportData',
           payload : returnedArray
         })
       })

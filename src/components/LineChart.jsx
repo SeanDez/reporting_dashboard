@@ -18,15 +18,28 @@ const ChartContainer = styled.div`
 `;
 
 export default class LineChart extends React.Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      CHART_OPTION : 'totals',
+      chartTitle : 'Total Donations',
+      XAxisLabel : '',
+      YAxisLabel : '',
+    };
+    
+    this.HEADINGS = {
+      totals : ['Period', 'Total Donations'],
+      topDonors : ['First Name', 'Last Name', 'Email Address', 'Phone', 'Total Donation'],
+      noneForPeriod : ['First Name', 'Last Name', 'Email Address', 'Phone', 'Last Donation']
+    }
+  }
+
   
-  state = {
-    chartTitle : 'Total Donations',
-    XAxisLabel : '',
-    YAxisLabel : '',
-  };
 
   formatDollarTicks = (dataValue, index, scale, tickTotal) => {
-    return `$${dataValue}`
+    return `$${ dataValue.toLocaleString() }`;
+    
   };
   
   abbreviateMonths = dateObject => {
@@ -51,8 +64,7 @@ export default class LineChart extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {
-          this.props.preparedReportData && // everything waits on this
+        { this.props.preparedReportData && // everything waits on this
           <ChartContainer>
             <h2>{ this.state.chartTitle }</h2>
             <FlexibleXYPlot
@@ -63,9 +75,6 @@ export default class LineChart extends React.Component {
               <LineSeries
                 data={ this.props.preparedReportData }
               />
-    
-              {/* below disabled until reportData call is fixed */}
-              {/* this.props.reportData ? this.prepareData(this.props.reportData, 12, 'months') : null */}
     
               <XAxis
                 title={ this.state.XAxisLabel }
@@ -91,7 +100,6 @@ export default class LineChart extends React.Component {
             </FlexibleXYPlot>
           </ChartContainer>
         }
-
       </React.Fragment>
     );
   }

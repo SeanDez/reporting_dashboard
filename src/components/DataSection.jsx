@@ -2,26 +2,18 @@ import React from "react";
 import moment from "moment";
 import _ from "lodash";
 
-import LineChart from './LineChart';
-import DataTable from "./DataTable";
+import LineChartUnwrapped from './LineChart';
+import DataTableUnwrapped from "./DataTable";
 import DataControlForm from "./DataControlForm";
+import loaderSwitch from "./shared/loaderSwitch";
+
+// add wrappers
+const LineChart = loaderSwitch(LineChartUnwrapped);
+const DataTable = loaderSwitch(DataTableUnwrapped);
+
+
 
 export default class DataSection extends React.Component {
-  
-  state = {
-    chartData : [
-      {x: new Date('01/01/2018'), y: 8},
-      {x: new Date('02/01/2018'), y: 5},
-      {x: new Date('03/01/2018'), y: 4},
-      {x: new Date('04/01/2018'), y: 9},
-      {x: new Date('05/01/2018'), y: 1},
-      {x: new Date('06/01/2018'), y: 7},
-      {x: new Date('07/01/2018'), y: 6},
-      {x: new Date('08/01/2018'), y: 3},
-      {x: new Date('09/01/2018'), y: 2},
-      {x: new Date('10/01/2018'), y: 0}
-    ]
-  };
   
   formatInputData(rawData) {
     // remap objects into x/y pairs
@@ -102,16 +94,12 @@ export default class DataSection extends React.Component {
             return record.y;
           }
         });
-        // console.log(`=====totalMatchingYAmounts=====`, totalMatchingYAmounts);
         
         return {
           x : yMKey,
           y : totalMatchingYAmounts,
         };
       });
-    // console.log(`=====totalledYAmounts=====`, totalledYAmounts);
-
-
 
     return totalledYAmounts;
   };
@@ -131,35 +119,25 @@ export default class DataSection extends React.Component {
   
   
   prepareData = (rawData, periodsBack, periodType) => {
-    
     const formattedData  = this.formatInputData(rawData);
-    
     const filteredData     = this.filterData(formattedData, periodsBack, periodType); // last twelve months
-    
     const sortedData     = this.sortData(filteredData);
-    
     // sort and aggregate
     const aggregatedData = this.aggregateData(sortedData);
-    
     const convertedToDateObjects = this.convertToDateObjects(aggregatedData);
-    
     return convertedToDateObjects
   };
   
   
-  flipOrder(data) {
-    //
-  }
-  
   
   componentDidMount() {
-    // this.props.genData()
     this.props.dispatchGetDonationData("monthlyTotals", null)
   }
   
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.reportData !== this.props.reportData) {
-      const preparedDataArray = this.prepareData(this.props.reportData, 12, 'month');
+    if (prevProps.rawReportData !== this.props.rawReportData) {
+      console.log(`=====rawReportData=====`, this.props.rawReportData);
+      const preparedDataArray = this.prepareData(this.props.rawReportData, 12, 'month');
       this.props.dispatchUpdatePreparedReportData(preparedDataArray);
     }
     if (prevProps.preparedReportData !== this.props.preparedReportData) {
@@ -174,11 +152,10 @@ export default class DataSection extends React.Component {
           <div>
             <LineChart
               preparedReportData={ this.props.preparedReportData }
-              // for testing
-              // chartData={ this.state.chartData }
+              isLoading={true}
             />
           
-            < DataTable
+            <DataTable
               preparedReportData={ this.props.preparedReportData }
             />
             <DataControlForm />
