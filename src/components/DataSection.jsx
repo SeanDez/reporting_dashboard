@@ -2,14 +2,25 @@ import React from "react";
 import moment from "moment";
 import _ from "lodash";
 
-import LineChartUnwrapped from './LineChart';
-import DataTableUnwrapped from "./DataTable";
+import LineChart from './LineChart';
+import DataTable from "./DataTable";
 import DataControlForm from "./DataControlForm";
-import loaderSwitch from "./shared/loaderSwitch";
+// import loaderSwitch from "./shared/loaderSwitch";
+import CircularProgressUnwrapped from "@material-ui/core/CircularProgress";
 
-// add wrappers
-const LineChart = loaderSwitch(LineChartUnwrapped);
-const DataTable = loaderSwitch(DataTableUnwrapped);
+
+
+
+const CircularProgress = (props) => (
+  <div style={{
+    display : 'flex',
+    justifyContent : 'center',
+    alignItems : 'center',
+    minHeight : '30vh'
+  }}>
+    <CircularProgressUnwrapped />
+  </div>
+);
 
 
 
@@ -141,18 +152,20 @@ export default class DataSection extends React.Component {
       this.props.dispatchUpdatePreparedReportData(preparedDataArray);
     }
     if (prevProps.preparedReportData !== this.props.preparedReportData) {
+      console.log(`=====preparedReportData=====`, this.props.preparedReportData);
+      // this.forceUpdate();
     }
   }
   
   render() {
     return (
       <React.Fragment>
-        { this.props.preparedReportData &&
-          // todo: ternary with false: loader
+        { this.props.preparedReportData
+          ?
           <div>
             <LineChart
               preparedReportData={ this.props.preparedReportData }
-              isLoading={true}
+              // isLoading={this.props.preparedReportData}
             />
           
             <DataTable
@@ -160,6 +173,8 @@ export default class DataSection extends React.Component {
             />
             <DataControlForm />
           </div>
+          :
+          <CircularProgress />
         }
       </React.Fragment>
     );

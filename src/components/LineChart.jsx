@@ -24,8 +24,12 @@ export default class LineChart extends React.Component {
     this.state = {
       CHART_OPTION : 'totals',
       chartTitle : 'Total Donations',
-      XAxisLabel : '',
-      YAxisLabel : '',
+    };
+    
+    this.CHART_TITLES = {
+      totals : 'Total Donations',
+      topDonors : 'Highest Paying Donors',
+      noneForPeriod : 'No Recent Donations'
     };
     
     this.HEADINGS = {
@@ -66,7 +70,7 @@ export default class LineChart extends React.Component {
       <React.Fragment>
         { this.props.preparedReportData && // everything waits on this
           <ChartContainer>
-            <h2>{ this.state.chartTitle }</h2>
+            <h2>{ this.CHART_TITLES[this.state.CHART_OPTION] }</h2>
             <FlexibleXYPlot
               xType="time"
             >
