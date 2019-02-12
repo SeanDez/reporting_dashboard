@@ -17,38 +17,26 @@ const ChartContainer = styled.div`
   //border: 2px dotted lightgreen;
 `;
 
-export default class LineChart extends React.Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      CHART_OPTION : 'totals',
-      chartTitle : 'Total Donations',
-    };
-    
-    this.CHART_TITLES = {
-      totals : 'Total Donations',
-      topDonors : 'Highest Paying Donors',
-      noneForPeriod : 'No Recent Donations'
-    };
-    
-    this.HEADINGS = {
-      totals : ['Period', 'Total Donations'],
-      topDonors : ['First Name', 'Last Name', 'Email Address', 'Phone', 'Total Donation'],
-      noneForPeriod : ['First Name', 'Last Name', 'Email Address', 'Phone', 'Last Donation']
-    }
-  }
 
+
+export default (props) => {
   
-
-  formatDollarTicks = (dataValue, index, scale, tickTotal) => {
+  const CHART_TITLES = {
+    totals        : "Total Donations",
+    topDonors     : "Highest Paying Donors",
+    noneForPeriod : "No Recent Donations",
+  };
+  
+  
+  
+  const formatDollarTicks = (dataValue, index, scale, tickTotal) => {
     return `$${ dataValue.toLocaleString() }`;
     
   };
   
-  abbreviateMonths = dateObject => {
-    if (dateObject.toString().slice(4, 7) === 'Jan') {
-      return `${dateObject.toString().slice(11, 15)}`
+  const abbreviateMonths = dateObject => {
+    if (dateObject.toString().slice(4, 7) === "Jan") {
+      return `${ dateObject.toString().slice(11, 15) }`;
     } else {
       const slicedMonthString = dateObject.toString().slice(4, 7);
       return slicedMonthString;
@@ -57,57 +45,46 @@ export default class LineChart extends React.Component {
   
   
   
-  componentDidMount() {
-  }
   
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.preparedReportData !== this.props.preparedReportData) {
-    }
-  }
-  
-  render() {
-    return (
-      <React.Fragment>
-        { this.props.preparedReportData && // everything waits on this
-          <ChartContainer>
-            <h2>{ this.CHART_TITLES[this.state.CHART_OPTION] }</h2>
-            <FlexibleXYPlot
-              xType="time"
-            >
-              <HorizontalGridLines strokeWidth={ 1 } />
-              <VerticalGridLines />
-              <LineSeries
-                data={ this.props.preparedReportData }
-              />
-    
-              <XAxis
-                title={ this.state.XAxisLabel }
-                position='middle'
-                tickSize={ 2 }
-                tickFormat={ this.abbreviateMonths }
-                style={ {
-                  text  : {fill : "black"},
-                  ticks : {fill : "#000"},
-                  title : {fill : "black"},
-                }}
-              />
-              <YAxis
-                title={ this.state.YAxisLabel }
-                position='middle'
-                tickFormat={ this.formatDollarTicks }
-                style={ {
-                  text  : {fill : "black"},
-                  ticks : {fill : "#000"},
-                  title : {fill : "black"},
-                }}
-              />
-            </FlexibleXYPlot>
-          </ChartContainer>
-        }
-      </React.Fragment>
-    );
-  }
-  
-  
-}
+  return (
+    <React.Fragment>
+      { props.preparedReportData && // everything waits on this
+        <ChartContainer>
+          <h2>{ CHART_TITLES[props.REPORT_OPTION] }</h2>
+          <FlexibleXYPlot
+            xType="time"
+          >
+            <HorizontalGridLines strokeWidth={ 1 } />
+            <VerticalGridLines />
+            <LineSeries
+              data={ props.preparedReportData }
+            />
+          
+            <XAxis
+              // title={ props.XAxisLabel }
+              position='middle'
+              tickSize={ 2 }
+              tickFormat={ abbreviateMonths }
+              style={ {
+                text  : {fill : "black"},
+                ticks : {fill : "#000"},
+                title : {fill : "black"},
+              } }
+            />
+            <YAxis
+              // title={ props.YAxisLabel }
+              position='middle'
+              tickFormat={ formatDollarTicks }
+              style={ {
+                text  : {fill : "black"},
+                ticks : {fill : "#000"},
+                title : {fill : "black"},
+              } }
+            />
+          </FlexibleXYPlot>
+        </ChartContainer>
+      }
+    </React.Fragment>
+  );
+};
 

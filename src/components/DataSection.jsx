@@ -25,6 +25,13 @@ const CircularProgress = (props) => (
 
 
 export default class DataSection extends React.Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      REPORT_OPTION : 'totals',
+    };
+  }
   
   formatInputData(rawData) {
     // remap objects into x/y pairs
@@ -165,10 +172,12 @@ export default class DataSection extends React.Component {
           <div>
             <LineChart
               preparedReportData={ this.props.preparedReportData }
+              REPORT_OPTION={this.state.REPORT_OPTION}
               // isLoading={this.props.preparedReportData}
             />
           
             <DataTable
+              REPORT_OPTION={this.state.REPORT_OPTION}
               preparedReportData={ this.props.preparedReportData }
             />
             <DataControlForm />

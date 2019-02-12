@@ -35,14 +35,28 @@ const StyledTableWrapper = styled(Table)`
 const DataTable = (props) => {
   const { classes } = props;
   
+  const HEADINGS = {
+    totals        : ['Period', 'Total Donations'],
+    topDonors     : ['First Name', 'Last Name', 'Email Address', 'Phone', 'Total Donation'],
+    noneForPeriod : ['First Name', 'Last Name', 'Email Address', 'Phone', 'Last Donation']
+  };
   
+  const tableHeading = (index, heading) => {
+    if (index === 0) {
+      return <TableCell key={heading}>{heading}</TableCell>
+    }
+    return <TableCell align='right' key={heading}>{heading}</TableCell>
+  };
   
   return (
     <StyledTableWrapper className={ classes.table } style={ {marginTop : "62px"} }>
       <TableHead>
         <TableRow>
-          <TableCell>By Month</TableCell>
-          <TableCell align='right'>Subtotal</TableCell>
+          {/* Select a local Enum based on parent state */}
+          {HEADINGS[props.REPORT_OPTION].map((heading, index) => {
+            // conditional rendered heading
+              return tableHeading(index, heading)
+            })}
         </TableRow>
       </TableHead>
       <TableBody>
