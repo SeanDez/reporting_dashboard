@@ -92,15 +92,16 @@ const literallyJustDateNow = () => Date.now();
 test('updates viewMarker correctly', () => {
   // setup
 
-  console.log(shallowDataSection.state.initialFetch, `=====shallowDataSection.state.initialFetch=====`);
-  console.log(shallowDataSection.state.viewMarker, `=====shallowDataSection.state.viewMarker=====`);
+  console.log(shallowDataSection.state(), `=====shallowDataSection.state()=====`);
   
   // work
   
   // expects
-  expect(shallowDataSection.contains(
+  // expect(mount(<Foo />).find('.foo').length).toBe(1)
+  expect(shallowDataSection.state().viewMarker).toEqual(0)
+  // expect(shallowDataSection.contains(
     // <div className='test'>Test</div>
-  )).toBe(true);
+  // )).toBe(true);
 });
 
 

@@ -43,9 +43,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "jest": {
-    "setupTestFrameworkScriptFile": "jest-enzyme",
-    "testEnvironment": "enzyme"
-  }
+  ]
 }
