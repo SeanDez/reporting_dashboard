@@ -29,9 +29,41 @@ export default class DataSection extends React.Component {
     super(props);
     
     this.state = {
+      initialFetch : true,
       REPORT_OPTION : 'totals',
+      viewMarker : 0,
     };
   }
+  
+  updateLocalState = (stateKey, stateValue) => {
+    this.setState({
+      [stateKey] : stateValue,
+    })
+  };
+  
+  updateViewMarker = (incrementSize, plusMinusOption) => {
+    let {viewMarker} = this.state;
+    const {preparedReportData} = this.props;
+    
+    // safe string to math translation
+    if (plusMinusOption === '-') {
+      viewMarker = viewMarker - incrementSize;
+    } else if (plusMinusOption === '+') {
+      viewMarker = viewMarker + incrementSize;
+    }
+    
+    // resets on both ends
+    if (viewMarker < 0) {
+      viewMarker = 0;
+    } else if (viewMarker > preparedReportData.length) {
+      viewMarker = preparedReportData.length - incrementSize
+    }
+  };
+  
+  filterViewableData = () => {
+  
+  };
+  
   
   formatInputData(rawData) {
     // remap objects into x/y pairs
@@ -146,22 +178,66 @@ export default class DataSection extends React.Component {
     return convertedToDateObjects
   };
   
+  retrieveTopDonors (rawData) {
+    // total by id
+      // first group by id
+    const groupedObjectWithIdKeys = _.groupBy(rawData, 'id');
+    // undefined. The array itself doesn't have an id property
+    
+      // map over each id key and sum it
+    const totalledList = _.map(groupedObjectWithIdKeys, idArray => {
+      // clone one of the objects and then replace its donation amount by the sum of all of them. assign x/y values
+      const clonedFirstObject = Object.assign({}, idArray[0]);
+      const totalDonationAmount = _.sumBy(idArray, record => record.amountDonated);
+      clonedFirstObject.amountDonated = totalDonationAmount;
+      clonedFirstObject.x = `${clonedFirstObject.firstName} ${clonedFirstObject.lastName}`;
+      clonedFirstObject.y = totalDonationAmount;
+      return clonedFirstObject;
+      // at this point totalledList is consolidated to one object per id. Every recorded donation is summed
+    });
+    
+    // sort descending
+    const sortedList = totalledList.sort((a, b) => {
+      // if it's positive b first. If negative a first
+      return b.amountDonated - a.amountDonated
+    });
+    
+    // return the sorted list
+    return sortedList;
+  };
+  
   
   
   componentDidMount() {
+    // get the raw data for compiling
     this.props.dispatchGetDonationData("monthlyTotals", null)
   }
   
   componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(this.props.preparedReportData, `=====this.props.preparedReportData=====`);
+    
+    // if the raw data has been returned
     if (prevProps.rawReportData !== this.props.rawReportData) {
       console.log(`=====rawReportData=====`, this.props.rawReportData);
-      const preparedDataArray = this.prepareData(this.props.rawReportData, 12, 'month');
-      this.props.dispatchUpdatePreparedReportData(preparedDataArray);
+      
+      if (this.state.initialFetch === true) {
+        const preparedDataArray = this.prepareData(this.props.rawReportData, 12, 'month');
+        this.props.dispatchUpdatePreparedReportData(preparedDataArray);
+        this.setState({ initialFetch : false })
+        
+      }
+      
+      // else if (!this.state.initialFetch && this.state.REPORT_OPTION === 'topDonors') {
+      //   const topDonorData = this.retrieveTopDonors(this.props.rawReportData);
+      //   this.props.dispatchUpdatePreparedReportData(topDonorData);
+      //   this.setState({ REPORT_OPTION : 'topDonors' })
+      //
+      // } else if (!this.state.REPORT_OPTION && this.state.REPORT_OPTION === 'noneForPeriod') {
+      //   // todo build the noneForPeriod dispatcher
+      //
+      // }
     }
-    if (prevProps.preparedReportData !== this.props.preparedReportData) {
-      console.log(`=====preparedReportData=====`, this.props.preparedReportData);
-      // this.forceUpdate();
-    }
+    
   }
   
   render() {
@@ -180,7 +256,12 @@ export default class DataSection extends React.Component {
               REPORT_OPTION={this.state.REPORT_OPTION}
               preparedReportData={ this.props.preparedReportData }
             />
-            <DataControlForm />
+            <DataControlForm
+              dispatchUpdatePreparedReportData={this.props.dispatchUpdatePreparedReportData}
+              rawReportData={this.props.rawReportData}
+              retrieveTopDonors={this.retrieveTopDonors}
+              updateLocalState={this.updateLocalState}
+            />
           </div>
           :
           <CircularProgress />

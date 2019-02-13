@@ -21,11 +21,11 @@ const ChartContainer = styled.div`
 
 export default (props) => {
   
-  const CHART_TITLES = {
+  const CHART_TITLES = Object.freeze({
     totals        : "Total Donations",
     topDonors     : "Highest Paying Donors",
     noneForPeriod : "No Recent Donations",
-  };
+  });
   
   
   

@@ -45,7 +45,6 @@ export default {
       })
   }),
   updatePreparedReportData : updatedData => {
-    
     return {
       type : "preparedReportData",
       payload : updatedData

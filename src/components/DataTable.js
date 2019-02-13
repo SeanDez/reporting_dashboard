@@ -35,11 +35,11 @@ const StyledTableWrapper = styled(Table)`
 const DataTable = (props) => {
   const { classes } = props;
   
-  const HEADINGS = {
+  const HEADINGS = Object.freeze({
     totals        : ['Period', 'Total Donations'],
-    topDonors     : ['First Name', 'Last Name', 'Email Address', 'Phone', 'Total Donation'],
-    noneForPeriod : ['First Name', 'Last Name', 'Email Address', 'Phone', 'Last Donation']
-  };
+    topDonors     : ['Donor ID', 'First Name', 'Last Name', 'Total Donation'],
+    noneForPeriod : ['First Name', 'Last Name', 'Last Donation']
+  });
   
   const tableHeading = (index, heading) => {
     if (index === 0) {
