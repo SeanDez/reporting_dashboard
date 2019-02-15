@@ -9,8 +9,11 @@ const dataSection = new DataSection();
 const enzyme = require("enzyme");
 const Adapter = require("enzyme-adapter-react-16");
 
-const filterViewableData = require('../components/DataSection').filterViewableData,
-      updateViewMarker = require('../components/DataSection').updateViewMarker
+const filterViewableData = require('../components/DataSection')
+        .filterViewableData,
+      updateViewMarker = require('../components/DataSection').updateViewMarker,
+      prepareData = require('../components/DataSection').prepareData,
+      retrieveTopDonors = require('../components/DataSection').retrieveTopDonors
 
 
 enzyme.configure({ adapter : new Adapter() });
@@ -23,7 +26,6 @@ let setState = (newState) => {
   Object.keys(state).forEach(key => {
     state[key] = newState[key]
   })
-  console.log(state.viewMarker, `=====state.viewMarker=====`);
 };
 
 test('setState function runs correctly', () => {
@@ -36,30 +38,7 @@ test('setState function runs correctly', () => {
 
 
 
-const dataMultiplier = 20;
 
-function mockXYObjects(numberOfRuns, keys) {
-  // create an array of objects
-  const xYObjectArray = [];
-  for (let i = 1; i <= numberOfRuns; i ++) {
-    xYObjectArray.push(
-      {[keys.date] : "2018-01-01T17:00:00.000Z", [keys.value] : 7},
-      {[keys.date] : "2018-02-01T17:00:00.000Z", [keys.value] : 4},
-      {[keys.date] : "2018-03-01T17:00:00.000Z", [keys.value] : 3},
-      {[keys.date] : "2018-04-01T17:00:00.000Z", [keys.value] : 11},
-      {[keys.date] : "2018-05-01T17:00:00.000Z", [keys.value] : 13},
-      {[keys.date] : "2018-06-01T17:00:00.000Z", [keys.value] : 8},
-      {[keys.date] : "2018-07-01T17:00:00.000Z", [keys.value] : 2},
-      {[keys.date] : "2018-08-01T17:00:00.000Z", [keys.value] : 9},
-      {[keys.date] : "2018-09-01T17:00:00.000Z", [keys.value] : 1},
-      {[keys.date] : "2018-10-01T17:00:00.000Z", [keys.value] : 12}, // 3
-      {[keys.date] : "2018-11-01T17:00:00.000Z", [keys.value] : 10}, // 2
-      {[keys.date] : "2018-12-01T17:00:00.000Z", [keys.value] : 20}, // 1
-      {[keys.date] : "2019-01-01T17:00:00.000Z", [keys.value] : 5}, // 0 periods away
-    );
-  }
-  return xYObjectArray;
-}
 
 // capture the real dateTime
 const realDateTime = Date.now.bind(global.Date);
@@ -169,7 +148,6 @@ describe('updates viewMarker', () => {
     
     // add 5. result should be 5
     updateViewMarker(5, "+", props, state, setState);
-    console.log(state.viewMarker, `=====state.viewMarker inside test=====`);
     
     // setTimeout(() => {
       expect(state.viewMarker).toEqual(5);
@@ -208,132 +186,33 @@ describe('filterViewableData() pure version', () => {
 
 
 
-test('formats data.x into datetime strings', () => {
-  
-  expect(dataSection.formatInputData([{
-    donationDate : new Date('2018-03-11T17:00:00.000Z'),
-    amountDonated : 30
-  }]))
-    .toEqual([{
-      x : '2018-03-11T17:00:00.000Z',
-      y : 30
-    }]);
-  
-  // also leaves inputted string dates alone
-  expect(dataSection.formatInputData([
-    {donationDate : '2018-03-11T17:00:00.000Z', amountDonated : 145},
-    {donationDate : '2018-11-29T17:00:00.000Z', amountDonated : 83},
-    ]))
-    .toEqual([
-      {x : '2018-03-11T17:00:00.000Z', y : 145},
-      {x : '2018-11-29T17:00:00.000Z', y : 83}
-  ])
-});
+const dataMultiplier = 20;
 
-
-
-test('filters records outside the cutoff (filterData)', () => {
-  expect(
-    dataSection.filterData([
-      {x : "2018-05-01T17:00:00.000Z", y : 9},
-      {x : "2018-07-01T17:00:00.000Z", y : 9},
-      {x : "2018-08-01T17:00:00.000Z", y : 9},
-      {x : "2018-09-01T17:00:00.000Z", y : 7},
-      {x : "2018-10-01T17:00:00.000Z", y : 2},
-      {x : "2018-11-01T17:00:00.000Z", y : 12},
-      {x : "2018-12-01T17:00:00.000Z", y : 10},
-      {x : "2019-01-01T17:00:00.000Z", y : 20},
-      {x : "2019-02-01T17:00:00.000Z", y : 5},
-      ],
-      6, "month")
-  ).toEqual([
-    {x : "2018-09-01T17:00:00.000Z", y : 7},
-    {x : "2018-10-01T17:00:00.000Z", y : 2},
-    {x : "2018-11-01T17:00:00.000Z", y : 12},
-    {x : "2018-12-01T17:00:00.000Z", y : 10},
-    {x : "2019-01-01T17:00:00.000Z", y : 20},
-    {x : "2019-02-01T17:00:00.000Z", y : 5},
-  ]);
-});
-
-
-
-test('sorts data by x key (sortData)', () => {
-  
-  expect(dataSection.sortData([
-    {x : "2018-10-01T17:00:00.000Z", y : 2},
-    {x : "2018-05-01T17:00:00.000Z", y : 9},
-    {x : "2018-07-01T17:00:00.000Z", y : 9},
-    {x : "2018-09-01T17:00:00.000Z", y : 7},
-    {x : "2018-12-01T17:00:00.000Z", y : 10},
-    {x : "2018-08-01T17:00:00.000Z", y : 9},
-    {x : "2019-02-01T17:00:00.000Z", y : 5},
-    {x : "2018-11-01T17:00:00.000Z", y : 12},
-    {x : "2019-01-01T17:00:00.000Z", y : 20},
-  ]))
-    .toStrictEqual([
-      {x : "2018-05-01T17:00:00.000Z", y : 9},
-      {x : "2018-07-01T17:00:00.000Z", y : 9},
-      {x : "2018-08-01T17:00:00.000Z", y : 9},
-      {x : "2018-09-01T17:00:00.000Z", y : 7},
-      {x : "2018-10-01T17:00:00.000Z", y : 2},
-      {x : "2018-11-01T17:00:00.000Z", y : 12},
-      {x : "2018-12-01T17:00:00.000Z", y : 10},
-      {x : "2019-01-01T17:00:00.000Z", y : 20},
-      {x : "2019-02-01T17:00:00.000Z", y : 5},
-    ]);
-});
-
-
-// the input date objects are not the right format
-test("aggregate data into YYYY-MM buckets (aggregateData)", () => {
-  
-  expect(
-    dataSection.aggregateData(mockXYObjects(dataMultiplier, {date: 'x', value: 'y'})),
-  ).toStrictEqual([
-    {x : "2018-01", y : 7.00 * dataMultiplier},
-    {x : "2018-02", y : 4.00 * dataMultiplier},
-    {x : "2018-03", y : 3.00 * dataMultiplier},
-    {x : "2018-04", y : 11.00 * dataMultiplier},
-    {x : "2018-05", y : 13.00 * dataMultiplier},
-    {x : "2018-06", y : 8.00 * dataMultiplier},
-    {x : "2018-07", y : 2.00 * dataMultiplier},
-    {x : "2018-08", y : 9.00 * dataMultiplier},
-    {x : "2018-09", y : 1.00 * dataMultiplier},
-    {x : "2018-10", y : 12.00 * dataMultiplier},
-    {x : "2018-11", y : 10.00 * dataMultiplier},
-    {x : "2018-12", y : 20.00 * dataMultiplier},
-    {x : "2019-01", y : 5.00 * dataMultiplier},
-  ]);
-  },
-);
-
-/*
-TypeError: Cannot read property 'toStrictEqual' of undefined
-
- 75 | test("aggregate data into YYYY-MM buckets", () => {
- 76 |     expect(
->77 |       lineChart.aggregateData(aggTestArray)
-|           ^
-
-Pointing at the class instance is what threw me off
-It's saying the METHOD aggregateData() returns undefined
- 
- */
-
-
-
-test('convert to date objects (convertToDateObjects', () => {
-  
-  expect(dataSection.convertToDateObjects([{x : "2018-09", y : 8}])).toEqual([
-    {x : moment("2018-09-01").toDate(), y : 8 }
-  ])
-});
-
-
+function mockXYObjects(numberOfRuns, keys) {
+  // create an array of objects
+  const xYObjectArray = [];
+  for (let i = 1; i <= numberOfRuns; i ++) {
+    xYObjectArray.push(
+      {[keys.date] : "2018-01-01T17:00:00.000Z", [keys.value] : 7},
+      {[keys.date] : "2018-02-01T17:00:00.000Z", [keys.value] : 4},
+      {[keys.date] : "2018-03-01T17:00:00.000Z", [keys.value] : 3},
+      {[keys.date] : "2018-04-01T17:00:00.000Z", [keys.value] : 11},
+      {[keys.date] : "2018-05-01T17:00:00.000Z", [keys.value] : 13},
+      {[keys.date] : "2018-06-01T17:00:00.000Z", [keys.value] : 8},
+      {[keys.date] : "2018-07-01T17:00:00.000Z", [keys.value] : 2},
+      {[keys.date] : "2018-08-01T17:00:00.000Z", [keys.value] : 9},
+      {[keys.date] : "2018-09-01T17:00:00.000Z", [keys.value] : 1},
+      {[keys.date] : "2018-10-01T17:00:00.000Z", [keys.value] : 12}, // 3
+      {[keys.date] : "2018-11-01T17:00:00.000Z", [keys.value] : 10}, // 2
+      {[keys.date] : "2018-12-01T17:00:00.000Z", [keys.value] : 20}, // 1
+      {[keys.date] : "2019-01-01T17:00:00.000Z", [keys.value] : 5}, // 0 periods away
+    );
+  }
+  return xYObjectArray;
+}
 
 test('raw data is properly totaled (prepareData)', () => {
-  expect(dataSection.prepareData(mockXYObjects(dataMultiplier, {date: 'donationDate', value: 'amountDonated'}), 12, "month"))
+  expect(prepareData(mockXYObjects(dataMultiplier, {date: 'donationDate', value: 'amountDonated'}), 12, "month"))
     .toStrictEqual([
       {x : moment("2018-03").toDate(), y : 3 * dataMultiplier},
       {x : moment("2018-04").toDate(), y : 11 * dataMultiplier},
@@ -350,11 +229,14 @@ test('raw data is properly totaled (prepareData)', () => {
 });
 
 
+
+
+
 describe('retrieveTopDonors from raw data', () => {
   test('groups by id', () => {
   
   
-    expect(dataSection.retrieveTopDonors([
+    expect(retrieveTopDonors([
       {
         amountDonated : 72,
         createdAt     : "2019-01-30T21:36:13.055Z",
