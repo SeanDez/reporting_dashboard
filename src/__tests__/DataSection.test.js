@@ -7,7 +7,8 @@ const App = require("../App");
 const DataSection = require("../components/DataSection").default;
 const dataSection = new DataSection();
 
-const filterViewableData = require('../components/DataSection').filterViewableData;
+const filterViewableData = require('../components/DataSection').filterViewableData,
+      updateViewMarker = require('../components/DataSection').updateViewMarker
 
 const enzyme = require("enzyme");
 const Adapter = require("enzyme-adapter-react-16");
@@ -17,6 +18,24 @@ enzyme.configure({ adapter : new Adapter() });
 
 
 ///////// OUTER SCOPE SETUP //////////////
+
+
+let setState = (newState) => {
+  Object.keys(state).forEach(key => {
+    state[key] = newState[key]
+  })
+  console.log(state.viewMarker, `=====state.viewMarker=====`);
+};
+
+test('setState function runs correctly', () => {
+  setState({ viewMarker : 2 });
+  expect(state.viewMarker).toStrictEqual(2);
+  
+  setState({viewMarker : state.viewMarker + 3 });
+  expect(state.viewMarker).toStrictEqual(5);
+});
+
+
 
 const dataMultiplier = 20;
 
@@ -81,16 +100,31 @@ afterAll(() => { // beforeAll does it only once per file
   global.Date.now = realDateTime;
 });
 
-beforeEach(() => {
-  shallowDataSection.setProps({
-    preparedReportData : [1,1,1,1,1,1,1,1,1,1,1,1,1,1] // 14
-  });
-});
+
+let state = {
+  viewMarker : 0
+};
+
+let props = {
+  preparedReportData : [1,1,1,1,1,1,1,1,1,1,1,1,1,1] // 14
+};
+
+// beforeEach(() => {
+//   shallowDataSection.setProps({
+//     preparedReportData : [1,1,1,1,1,1,1,1,1,1,1,1,1,1] // 14
+//   });
+//
+//   let state = {
+//     viewMarker : 0
+//   };
+//
+//
+// });
 
 
-afterEach(() => {
-  shallowDataSection.setState({ viewMarker : 0 })
-});
+// afterEach(() => {
+
+// });
 
 //////////////////////////////////
 
@@ -115,43 +149,39 @@ const literallyJustDateNow = () => Date.now();
 // });
 
 
-test('updates viewMarker correctly', () => {
+describe('updates viewMarker', () => {
+  // For some reason not yet understood, the below caused a test failure
+  // let state = { viewMarker : 0 };
+  // let props = {
+  //   preparedReportData : [1,1,1,1,1,1,1,1,1,1,1,1,1,1] // 14
+  // };
   
-  // subtract 20 from 0. Result should be 0
-  shallowDataSection.instance().updateViewMarker(20, '-');
-  expect(shallowDataSection.state().viewMarker).toStrictEqual(0);
-  
-  // add 20. result should be 0
-  shallowDataSection.instance().updateViewMarker(20, '+');
-  expect(shallowDataSection.state().viewMarker).toStrictEqual(0);
-  
-  // add 5. result should be 5
-  shallowDataSection.instance().updateViewMarker(5, "+");
-  expect(shallowDataSection.state().viewMarker).toStrictEqual(5);
-  
-  // add 10. result should be 4
-  shallowDataSection.instance().updateViewMarker(10, '+');
-  expect(shallowDataSection.state().viewMarker).toStrictEqual(4);
-  
+  test('updates viewMarker correctly', () => {
+    
+    // subtract 20 from 0. Result should be 0
+    updateViewMarker(20, '-', props, state, setState);
+    expect(state.viewMarker).toStrictEqual(0);
+    
+    // add 20. result should be 0
+    updateViewMarker(20, '+', props, state, setState);
+    expect(state.viewMarker).toStrictEqual(0);
+    
+    // add 5. result should be 5
+    updateViewMarker(5, "+", props, state, setState);
+    console.log(state.viewMarker, `=====state.viewMarker inside test=====`);
+    
+    // setTimeout(() => {
+      expect(state.viewMarker).toEqual(5);
+    // }, 500)
+    
+    // add 10. result should be 4
+    updateViewMarker(10, '+', props, state, setState);
+    expect(state.viewMarker).toStrictEqual(4);
+    
+  });
 });
 
-// describe('filterViewableData()', () => {
-//   test('returns 5 records', () => {
-//     let returnedRecords = shallowDataSection.instance().filterViewableData(5);
-//     expect(returnedRecords).toStrictEqual([1,1,1,1,1]);
-//   });
-//
-//   test('over-request 15 more records(20). expect only 14', () => {
-//   const returnedRecords = shallowDataSection.instance().filterViewableData(20);
-//     expect(returnedRecords.length).toStrictEqual(14);
-//
-//   });
-//
-//   test('request nothing. Receive nothing', () => {
-//     const returnedRecords = shallowDataSection.instance().filterViewableData(0);
-//     expect(returnedRecords.length).toStrictEqual(0);
-//   })
-// });
+
 
 
 describe('filterViewableData() pure version', () => {
