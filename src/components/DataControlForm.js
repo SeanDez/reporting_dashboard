@@ -22,20 +22,32 @@ export default (props) => {
   const linkArray = [
     {
       label : 'Top Donors',
-      relativeUrl : '/top-donors'
+      relativeUrl : "#", // '/dashboard/top-donors'
+      clickHandler : () => {
+        const recompiledData = props.retrieveTopDonors(props.rawReportData);
+        props.dispatchUpdatePreparedReportData(recompiledData);
+        props.updateLocalState('REPORT_OPTION', "topDonors");
+        }
     },
     {
-      label : 'No Donations: Last 3 Months',
-      relativeUrl : '/no-donations-3-months'
+      label : 'No Recent Donations',
+      relativeUrl : '/dashboard/no-recent-donations',
+      clickHandler : () => console.log(`=====Test=====`)
     }
   ];
   
   return (
     <React.Fragment>
       <Container>
-      {linkArray.map((linkItem, index) => {
+      {linkArray.map((linkItem) => {
         return (
-          <StyledLink key={index} href={linkItem.relativeUrl}>{linkItem.label}</StyledLink>
+          <StyledLink
+            key={linkItem.label}
+            href={linkItem.relativeUrl}
+            onClick={linkItem.clickHandler}
+          >
+            {linkItem.label}
+          </StyledLink>
         )})}
       </Container>
     </React.Fragment>

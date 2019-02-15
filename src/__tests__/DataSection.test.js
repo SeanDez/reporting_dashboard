@@ -1,7 +1,22 @@
+import LineChart from "../components/DataSection";
+
+const React = require("react");
 const moment = require("moment");
 
+const App = require("../App");
 const DataSection = require("../components/DataSection").default;
 const dataSection = new DataSection();
+
+const filterViewableData = require('../components/DataSection').filterViewableData;
+
+const enzyme = require("enzyme");
+const Adapter = require("enzyme-adapter-react-16");
+
+
+enzyme.configure({ adapter : new Adapter() });
+
+
+///////// OUTER SCOPE SETUP //////////////
 
 const dataMultiplier = 20;
 
@@ -31,9 +46,27 @@ function mockXYObjects(numberOfRuns, keys) {
 // capture the real dateTime
 const realDateTime = Date.now.bind(global.Date);
 
+
+// component render with dud props
+const mockProp = jest.fn();
+const shallowDataSection = enzyme.shallow(<DataSection
+  dispatchGetDonationData={ mockProp }
+  rawReportData={ mockProp }
+  preparedReportData={ [1,1,1,1,1] } // starts at 5
+  dispatchUpdatePreparedReportData={ mockProp }
+/>);
+
+// const mountedDataSection = enzyme.mount(
+//   <DataSection
+//     dispatchGetDonationData={ mockProp }
+//     rawReportData={ mockProp }
+//     preparedReportData={ mockProp }
+//     dispatchUpdatePreparedReportData={ mockProp }
+//   />
+// );
+
 beforeAll(() => {
   // initialize database
-  
   
   // attach fake date to the .now property
   const fakeDateFeb152019 = jest.fn(() => new Date('2019-02-15'));
@@ -47,6 +80,19 @@ afterAll(() => { // beforeAll does it only once per file
   // reset time back to actual
   global.Date.now = realDateTime;
 });
+
+beforeEach(() => {
+  shallowDataSection.setProps({
+    preparedReportData : [1,1,1,1,1,1,1,1,1,1,1,1,1,1] // 14
+  });
+});
+
+
+afterEach(() => {
+  shallowDataSection.setState({ viewMarker : 0 })
+});
+
+//////////////////////////////////
 
 
 const literallyJustDateNow = () => Date.now();
@@ -68,6 +114,66 @@ const literallyJustDateNow = () => Date.now();
 //   expect (1+2).toStrictEqual(4)
 // });
 
+
+test('updates viewMarker correctly', () => {
+  
+  // subtract 20 from 0. Result should be 0
+  shallowDataSection.instance().updateViewMarker(20, '-');
+  expect(shallowDataSection.state().viewMarker).toStrictEqual(0);
+  
+  // add 20. result should be 0
+  shallowDataSection.instance().updateViewMarker(20, '+');
+  expect(shallowDataSection.state().viewMarker).toStrictEqual(0);
+  
+  // add 5. result should be 5
+  shallowDataSection.instance().updateViewMarker(5, "+");
+  expect(shallowDataSection.state().viewMarker).toStrictEqual(5);
+  
+  // add 10. result should be 4
+  shallowDataSection.instance().updateViewMarker(10, '+');
+  expect(shallowDataSection.state().viewMarker).toStrictEqual(4);
+  
+});
+
+// describe('filterViewableData()', () => {
+//   test('returns 5 records', () => {
+//     let returnedRecords = shallowDataSection.instance().filterViewableData(5);
+//     expect(returnedRecords).toStrictEqual([1,1,1,1,1]);
+//   });
+//
+//   test('over-request 15 more records(20). expect only 14', () => {
+//   const returnedRecords = shallowDataSection.instance().filterViewableData(20);
+//     expect(returnedRecords.length).toStrictEqual(14);
+//
+//   });
+//
+//   test('request nothing. Receive nothing', () => {
+//     const returnedRecords = shallowDataSection.instance().filterViewableData(0);
+//     expect(returnedRecords.length).toStrictEqual(0);
+//   })
+// });
+
+
+describe('filterViewableData() pure version', () => {
+  const state = { viewMarker : 0 };
+  const props = { preparedReportData : [1,1,1,1,1,1,1,1,1,1,1,1,1,1] }; // 14
+  
+  test('returns 5 records', () => {
+    let returnedRecords = filterViewableData(5, props, state);
+    expect(returnedRecords).toStrictEqual([1,1,1,1,1]);
+  });
+  
+  test('over-request 15 more records(20). expect only 14', () => {
+  const returnedRecords = filterViewableData(20, props, state);
+    expect(returnedRecords.length).toStrictEqual(14);
+  
+  });
+  
+  test('request nothing. Receive nothing', () => {
+    const returnedRecords = filterViewableData(0, props, state);
+    expect(returnedRecords.length).toStrictEqual(0);
+  })
+});
 
 
 test('formats data.x into datetime strings', () => {
@@ -212,7 +318,155 @@ test('raw data is properly totaled (prepareData)', () => {
 });
 
 
-
+describe('retrieveTopDonors from raw data', () => {
+  test('groups by id', () => {
+  
+  
+    expect(dataSection.retrieveTopDonors([
+      {
+        amountDonated : 72,
+        createdAt     : "2019-01-30T21:36:13.055Z",
+        donationDate  : "2018-12-01T17:00:00.000Z",
+        firstName     : "Ivory",
+        id            : 201,
+        isRecurring   : true,
+        lastName      : "Wooten",
+        notes         : "Lorem ipsum dolor sit",
+        paymentType   : "echeck",
+        updatedAt     : "2019-01-30T21:36:13.055Z",
+      },
+      {
+        amountDonated : 72,
+        createdAt     : "2019-06-30T21:36:13.055Z",
+        donationDate  : "2018-10-01T17:00:00.000Z",
+        firstName     : "Ivory",
+        id            : 201,
+        isRecurring   : false,
+        lastName      : "Wooten",
+        notes         : "Lorem ipsum dolor sit",
+        paymentType   : "echeck",
+        updatedAt     : "2019-01-30T21:36:13.055Z",
+      },
+      {
+        amountDonated : 72,
+        createdAt     : "2019-01-30T21:36:13.055Z",
+        donationDate  : "2018-12-01T17:00:00.000Z",
+        firstName     : "Ivory",
+        id            : 201,
+        isRecurring   : false,
+        lastName      : "Wooten",
+        notes         : "Lorem ipsum dolor sit",
+        paymentType   : "echeck",
+        updatedAt     : "2019-01-30T21:36:13.055Z",
+      },
+  
+      {
+        amountDonated : 72,
+        createdAt     : "2019-01-30T21:36:13.055Z",
+        donationDate  : "2018-01-01T17:00:00.000Z",
+        firstName     : "Ivory",
+        id            : 201,
+        isRecurring   : false,
+        lastName      : "Wooten",
+        notes         : "Lorem ipsum dolor sit",
+        paymentType   : "echeck",
+        updatedAt     : "2019-01-30T21:36:13.055Z",
+      },
+      {
+        amountDonated : 72,
+        createdAt     : "2019-01-30T21:36:13.055Z",
+        donationDate  : "2018-06-01T17:00:00.000Z",
+        firstName     : "Ivory",
+        id            : 201,
+        isRecurring   : false,
+        lastName      : "Wooten",
+        notes         : "Lorem ipsum dolor sit",
+        paymentType   : "echeck",
+        updatedAt     : "2019-01-30T21:36:13.055Z",
+      },
+  
+      {
+        amountDonated : 60,
+        createdAt     : "2019-01-30T21:36:13.055Z",
+        donationDate  : "2018-02-01T17:00:00.000Z",
+        firstName     : "Carlos",
+        id            : 9,
+        isRecurring   : false,
+        lastName      : "Slim",
+        notes         : "Lorem ipsum dolor sit",
+        paymentType   : "echeck",
+        updatedAt     : "2019-01-30T21:36:13.055Z",
+      },
+      {
+        amountDonated : 60,
+        createdAt     : "2019-01-30T21:36:13.055Z",
+        donationDate  : "2018-08-01T17:00:00.000Z",
+        firstName     : "Carlos",
+        id            : 9,
+        isRecurring   : false,
+        lastName      : "Slim",
+        notes         : "Lorem ipsum dolor sit",
+        paymentType   : "echeck",
+        updatedAt     : "2019-01-30T21:36:13.055Z",
+      },
+      {
+        amountDonated : 60,
+        createdAt     : "2019-01-30T21:36:13.055Z",
+        donationDate  : "2018-04-01T17:00:00.000Z",
+        firstName     : "Carlos",
+        id            : 9,
+        isRecurring   : false,
+        lastName      : "Slim",
+        notes         : "Lorem ipsum dolor sit",
+        paymentType   : "echeck",
+        updatedAt     : "2019-01-30T21:36:13.055Z",
+      },
+      {
+        amountDonated : 60,
+        createdAt     : "2019-01-30T21:36:13.055Z",
+        donationDate  : "2018-06-01T17:00:00.000Z",
+        firstName     : "Carlos",
+        id            : 9,
+        isRecurring   : false,
+        lastName      : "Slim",
+        notes         : "Lorem ipsum dolor sit",
+        paymentType   : "echeck",
+        updatedAt     : "2019-01-30T21:36:13.055Z",
+      },
+    ]))
+      .toMatchObject([
+          {
+            amountDonated : 360,
+            // createdAt     : "2019-01-30T21:36:13.055Z",
+            // donationDate  : "2018-12-01T17:00:00.000Z",
+            firstName     : "Ivory",
+            id            : 201,
+            isRecurring   : true,
+            lastName      : "Wooten",
+            notes         : "Lorem ipsum dolor sit",
+            // paymentType   : "echeck",
+            // updatedAt     : "2019-01-30T21:36:13.055Z",
+            x             : "Ivory Wooten",
+            y             : 360,
+          },
+          {
+            amountDonated : 240,
+            // createdAt     : "2019-01-30T21:36:13.055Z",
+            // donationDate  : "2018-02-01T17:00:00.000Z",
+            firstName     : "Carlos",
+            id            : 9,
+            // isRecurring   : false,
+            lastName      : "Slim",
+            notes         : "Lorem ipsum dolor sit",
+            // paymentType   : "echeck",
+            // updatedAt     : "2019-01-30T21:36:13.055Z",
+            x             : "Carlos Slim",
+            y             : 240,
+          },
+        ],
+      );
+  })
+});
 
 
 
