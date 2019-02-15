@@ -6,12 +6,11 @@ const moment = require("moment");
 const App = require("../App");
 const DataSection = require("../components/DataSection").default;
 const dataSection = new DataSection();
+const enzyme = require("enzyme");
+const Adapter = require("enzyme-adapter-react-16");
 
 const filterViewableData = require('../components/DataSection').filterViewableData,
       updateViewMarker = require('../components/DataSection').updateViewMarker
-
-const enzyme = require("enzyme");
-const Adapter = require("enzyme-adapter-react-16");
 
 
 enzyme.configure({ adapter : new Adapter() });
@@ -84,6 +83,7 @@ const shallowDataSection = enzyme.shallow(<DataSection
 //   />
 // );
 
+
 beforeAll(() => {
   // initialize database
   
@@ -149,6 +149,7 @@ const literallyJustDateNow = () => Date.now();
 // });
 
 
+
 describe('updates viewMarker', () => {
   // For some reason not yet understood, the below caused a test failure
   // let state = { viewMarker : 0 };
@@ -204,6 +205,7 @@ describe('filterViewableData() pure version', () => {
     expect(returnedRecords.length).toStrictEqual(0);
   })
 });
+
 
 
 test('formats data.x into datetime strings', () => {

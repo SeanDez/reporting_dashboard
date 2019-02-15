@@ -79,7 +79,6 @@ export default class DataSection extends React.Component {
   };
   
   
-  
   formatInputData(rawData) {
     // remap objects into x/y pairs
     const xYFormattedObjects = rawData.map(record => {
@@ -229,7 +228,6 @@ export default class DataSection extends React.Component {
   }
   
   componentDidUpdate(prevProps, prevState, snapshot) {
-    // console.log(this.props.preparedReportData, `=====this.props.preparedReportData=====`);
     
     // if the raw data has been returned
     if (prevProps.rawReportData !== this.props.rawReportData) {

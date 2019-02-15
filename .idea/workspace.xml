@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f94c7076-04a5-4fc1-8723-02042c5db784" name="Default Changelist" comment="">
+
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/__tests__/DataSection.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/__tests__/DataSection.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DataSection.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DataSection.jsx" afterDir="false" />
+
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -79,8 +81,9 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/App.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="209">
-                  <caret line="169" selection-start-line="169" selection-end-line="181" selection-end-column="2" />
+
+                <state relative-caret-position="391">
+                  <caret line="141" column="64" selection-start-line="141" selection-start-column="64" selection-end-line="141" selection-end-column="64" />
                   <folding>
                     <element signature="e#381#431#0" expanded="true" />
                   </folding>
@@ -115,8 +118,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/components/DataSection.jsx">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="55">
-                  <caret line="33" selection-start-line="33" selection-end-line="58" selection-end-column="2" />
+                <state relative-caret-position="353">
+                  <caret line="33" column="16" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="16" />
                   <folding>
                     <element signature="e#0#26#0" expanded="true" />
                   </folding>
@@ -125,40 +128,10 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/__tests__/TestArea.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="477">
-                  <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/package.json">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="422">
-                  <caret line="46" column="3" selection-start-line="46" selection-start-column="3" selection-end-line="46" selection-end-column="3" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/index.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="221">
-                  <caret line="13" selection-start-line="13" selection-end-line="14" selection-end-column="32" />
-                  <folding>
-                    <element signature="e#0#53#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/__tests__/DataSection.test.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="423">
-                  <caret line="353" selection-start-line="353" selection-end-line="353" />
+                <state relative-caret-position="3689">
+                  <caret line="253" selection-start-line="253" selection-end-line="253" />
                 </state>
               </provider>
             </entry>
@@ -182,38 +155,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/__tests__/DataSection.test.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="262">
-                  <caret line="107" column="9" selection-start-line="107" selection-start-column="9" selection-end-line="107" selection-end-column="9" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/__tests__/LineChart.test.jsDisabled">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="517">
-                  <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/__tests__/TestArea.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="477">
-                  <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/index.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="221">
-                  <caret line="13" selection-start-line="13" selection-end-line="14" selection-end-column="32" />
-                  <folding>
-                    <element signature="e#0#53#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="205">
+                  <caret line="99" column="48" lean-forward="true" selection-start-line="99" selection-start-column="48" selection-end-line="99" selection-end-column="48" />
                 </state>
               </provider>
             </entry>
@@ -221,8 +164,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/package.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="405">
-                  <caret line="46" column="3" selection-start-line="46" selection-start-column="3" selection-end-line="46" selection-end-column="3" />
+                <state relative-caret-position="399">
+                  <caret line="45" column="3" selection-start-line="45" selection-start-column="3" selection-end-line="45" selection-end-column="3" />
                 </state>
               </provider>
             </entry>
@@ -230,8 +173,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/DataSection.jsx">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-3">
-                  <caret line="197" column="26" selection-start-line="197" selection-start-column="26" selection-end-line="197" selection-end-column="26" />
+                <state relative-caret-position="99">
+                  <caret line="182" column="26" selection-start-line="182" selection-start-column="26" selection-end-line="182" selection-end-column="26" />
                   <folding>
                     <element signature="e#0#26#0" expanded="true" />
                   </folding>
@@ -293,18 +236,15 @@
         <option value="$PROJECT_DIR$/src/components/AccessForm.jsx" />
         <option value="$PROJECT_DIR$/src/__tests__/actions.test.js" />
         <option value="$PROJECT_DIR$/src/__tests__/reducer.test.js" />
+        <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/components/shared/loaderSwitch.jsx" />
         <option value="$PROJECT_DIR$/src/components/LineChart.jsx" />
         <option value="$PROJECT_DIR$/src/components/DataTable.js" />
         <option value="$PROJECT_DIR$/src/components/DataControlForm.js" />
         <option value="$PROJECT_DIR$/src/actions.js" />
         <option value="$PROJECT_DIR$/src/reducer.js" />
-        <option value="$PROJECT_DIR$/src/__tests__/jsdomSetup.js" />
-        <option value="$PROJECT_DIR$/src/App.js" />
-        <option value="$PROJECT_DIR$/package-lock.json" />
-        <option value="$PROJECT_DIR$/src/__tests__/TestArea.js" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/components/DataSection.jsx" />
+        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/__tests__/DataSection.test.js" />
       </list>
     </option>
@@ -316,7 +256,7 @@
     <auto-save>true</auto-save>
   </component>
   <component name="ProjectFrameBounds" extendedState="1">
-    <option name="y" value="8" />
+    <option name="y" value="4" />
     <option name="width" value="1600" />
     <option name="height" value="881" />
   </component>
@@ -404,12 +344,12 @@
       <workItem from="1549303485741" duration="77002000" />
       <workItem from="1549712793470" duration="16353000" />
       <workItem from="1549782036724" duration="74209000" />
-      <workItem from="1550031697660" duration="73118000" />
+      <workItem from="1550031697660" duration="26714000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="404057000" />
+    <option name="totallyTimeSpent" value="357653000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -421,10 +361,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="8" width="1600" height="881" extended-state="1" />
+    <frame x="0" y="4" width="1600" height="881" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" x="-1" y="153" width="568" height="700" id="Terminal" order="0" visible="true" weight="0.24856961" />
+      <window_info active="true" x="-1" y="153" width="568" height="700" id="Terminal" order="0" visible="true" weight="0.24984106" />
       <window_info content_ui="combo" x="268" y="120" width="250" height="667" id="Project" order="1" weight="0.24284807" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3298351" />
@@ -510,15 +450,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/__mocks__/axios.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="1" column="95" selection-start-line="1" selection-start-column="95" selection-end-line="1" selection-end-column="95" />
+        <state relative-caret-position="594">
+          <caret line="72" column="5" lean-forward="true" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/TopNav.js">
+    <entry file="file://$PROJECT_DIR$/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="72" column="5" lean-forward="true" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
+        <state relative-caret-position="160">
+          <caret line="161" column="45" selection-start-line="161" selection-start-column="45" selection-end-line="161" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+            <element signature="e#175#226#0" expanded="true" />
+            <element signature="e#341#396#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/shared/loaderSwitch.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -568,17 +523,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/actions.js">
+    <entry file="file://$PROJECT_DIR$/src/components/LineChart.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-430">
+          <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/LineChart.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="309">
           <caret line="47" selection-start-line="47" selection-end-line="47" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/reducer.js">
+    <entry file="file://$PROJECT_DIR$/src/__tests__/jsdomSetup.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
           <caret line="34" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="141" column="64" selection-start-line="141" selection-start-column="64" selection-end-line="141" selection-end-column="64" />
+          <folding>
+            <element signature="e#381#431#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/__tests__/LineChart.test.jsDisabled">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
         </state>
       </provider>
     </entry>
@@ -602,81 +584,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/LineChart.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-430">
-          <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/__tests__/jsdomSetup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="169" selection-start-line="169" selection-end-line="181" selection-end-column="2" />
-          <folding>
-            <element signature="e#381#431#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" selection-start-line="13" selection-end-line="14" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package-lock.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/__tests__/TestArea.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="477">
-          <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/__tests__/LineChart.test.jsDisabled">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="517">
-          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="46" column="3" selection-start-line="46" selection-start-column="3" selection-end-line="46" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/__tests__/DataSection.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="353" selection-start-line="353" selection-end-line="353" />
+        <state relative-caret-position="399">
+          <caret line="45" column="3" selection-start-line="45" selection-start-column="3" selection-end-line="45" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/DataSection.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="55">
-          <caret line="33" selection-start-line="33" selection-end-line="58" selection-end-column="2" />
+        <state relative-caret-position="99">
+          <caret line="182" column="26" selection-start-line="182" selection-start-column="26" selection-end-line="182" selection-end-column="26" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/__tests__/DataSection.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="99" column="48" lean-forward="true" selection-start-line="99" selection-start-column="48" selection-end-line="99" selection-end-column="48" />
         </state>
       </provider>
     </entry>
