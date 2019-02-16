@@ -5,9 +5,6 @@ import actions from "../actions";
 
 describe('testing mockAxios', () => {
   test("mockAxios returns fake post data", () => {
-    // setup
-    
-    // work
     const data = {dummyData : true};
     
     return (
@@ -49,11 +46,7 @@ test.skip('getDonationData dispatcher', () => {
 });
 
 test("update state.preparedReportData", () => {
-  // setup
   
-  // work
-  
-  // matchers
   expect(actions.updatePreparedReportData(
     [{ x : new Date("2019-02-15") }]
     ),
