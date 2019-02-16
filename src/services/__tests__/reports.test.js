@@ -4,7 +4,8 @@ const filterViewableData = require('../reports')
         .filterViewableData,
       updateViewMarker = require('../reports').updateViewMarker,
       prepareData = require('../reports').prepareData,
-      retrieveTopDonors = require('../reports').retrieveTopDonors
+      retrieveTopDonors = require('../reports').retrieveTopDonors,
+      sortXAscendingIfDates = require('../reports').sortXAscendingIfDates
 
 
 ///////// OUTER SCOPE SETUP //////////////
@@ -95,7 +96,7 @@ const literallyJustDateNow = () => Date.now();
 // });
 
 
-
+///////// TESTS /////////////
 
 describe('updates viewMarker', () => {
   // For some reason not yet understood, the below caused a test failure
@@ -182,17 +183,17 @@ function mockXYObjects(numberOfRuns, keys) {
 test('raw data is properly totaled (prepareData)', () => {
   expect(prepareData(mockXYObjects(dataMultiplier, {date: 'donationDate', value: 'amountDonated'}), 12, "month"))
     .toStrictEqual([
-      {x : moment("2018-03").toDate(), y : 3 * dataMultiplier},
-      {x : moment("2018-04").toDate(), y : 11 * dataMultiplier},
-      {x : moment("2018-05").toDate(), y : 13 * dataMultiplier},
-      {x : moment("2018-06").toDate(), y : 8 * dataMultiplier},
-      {x : moment("2018-07").toDate(), y : 2 * dataMultiplier},
-      {x : moment("2018-08").toDate(), y : 9 * dataMultiplier},
-      {x : moment("2018-09").toDate(), y : 1 * dataMultiplier},
-      {x : moment("2018-10").toDate(), y : 12 * dataMultiplier},
-      {x : moment("2018-11").toDate(), y : 10 * dataMultiplier},
-      {x : moment("2018-12").toDate(), y : 20 * dataMultiplier},
       {x : moment("2019-01").toDate(), y : 5 * dataMultiplier},
+      {x : moment("2018-12").toDate(), y : 20 * dataMultiplier},
+      {x : moment("2018-11").toDate(), y : 10 * dataMultiplier},
+      {x : moment("2018-10").toDate(), y : 12 * dataMultiplier},
+      {x : moment("2018-09").toDate(), y : 1 * dataMultiplier},
+      {x : moment("2018-08").toDate(), y : 9 * dataMultiplier},
+      {x : moment("2018-07").toDate(), y : 2 * dataMultiplier},
+      {x : moment("2018-06").toDate(), y : 8 * dataMultiplier},
+      {x : moment("2018-05").toDate(), y : 13 * dataMultiplier},
+      {x : moment("2018-04").toDate(), y : 11 * dataMultiplier},
+      {x : moment("2018-03").toDate(), y : 3 * dataMultiplier},
     ])
 });
 
@@ -353,5 +354,26 @@ describe('retrieveTopDonors from raw data', () => {
 
 
 
+test('sortXAscendingIfDates()', () => {
+  const result = sortXAscendingIfDates([
+    { x : new Date("2019-01-30T21:36:13.055Z") },
+    { x : new Date("2018-08-30T21:36:13.055Z") },
+    { x : new Date("2018-02-30T21:36:13.055Z") },
+    { x : new Date("2018-07-30T21:36:13.055Z") },
+    { x : new Date("2018-03-30T21:36:13.055Z") },
+    { x : new Date("2018-08-30T21:36:13.055Z") },
+    { x : new Date("2018-02-30T21:36:13.055Z") },
+  ]);
+  
+  expect(result).toStrictEqual([
+    { x : new Date("2018-02-30T21:36:13.055Z") },
+    { x : new Date("2018-02-30T21:36:13.055Z") },
+    { x : new Date("2018-03-30T21:36:13.055Z") },
+    { x : new Date("2018-07-30T21:36:13.055Z") },
+    { x : new Date("2018-08-30T21:36:13.055Z") },
+    { x : new Date("2018-08-30T21:36:13.055Z") },
+    { x : new Date("2019-01-30T21:36:13.055Z") },
+  ])
+});
 
 

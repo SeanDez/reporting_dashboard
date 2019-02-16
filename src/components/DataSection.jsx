@@ -1,11 +1,16 @@
 import React from "react";
-import {retrieveTopDonors, updateViewMarker, filterViewableData, prepareData} from "../services/reports";
+import _ from "lodash";
+import {retrieveTopDonors, updateViewMarker, filterViewableData, prepareData, sortXAscendingIfDates} from "../services/reports";
 
 import LineChart from './LineChart';
 import DataTable from "./DataTable";
 import DataControlForm from "./DataControlForm";
-// import loaderSwitch from "./shared/loaderSwitch";
+import PrevNextButtonContainer from
+"./PrevNextButtonContainer";
+
 import CircularProgressUnwrapped from "@material-ui/core/CircularProgress";
+import Button from "@material-ui/core/Button";
+
 
 
 
@@ -31,7 +36,7 @@ export const updateLocalState = (stateKey, stateValue, thisSetState) => {
 };
 
 
-export default class DataSection extends React.Component {
+class DataSection extends React.Component {
   constructor(props) {
     super(props);
     
@@ -39,6 +44,7 @@ export default class DataSection extends React.Component {
       initialFetch : true,
       REPORT_OPTION : 'totals',
       viewMarker : 0,
+      displayedData : []
     };
   }
   
@@ -71,29 +77,53 @@ export default class DataSection extends React.Component {
       //
       // }
     }
+    
+    if (prevProps.preparedReportData !== this.props.preparedReportData) {
+      
+      // show 10 or 12 results
+      this.state.REPORT_OPTION === 'totals'
+      ?
+      this.setState({ displayedData : filterViewableData(12, this.props, this.state) })
+      :
+      this.setState({ displayedData : filterViewableData(10, this.props, this.state) })
+    }
+    
   }
   
   render() {
+    
+    const marker = this.state.viewMarker;
+  
     return (
       <React.Fragment>
-        { this.props.preparedReportData
+        {/* if displayedData array is present */ }
+        { _.isEmpty(this.state.displayedData) === false
           ?
           <div>
+            { console.log(this.state.displayedData) }
             <LineChart
-              preparedReportData={ this.props.preparedReportData }
-              REPORT_OPTION={this.state.REPORT_OPTION}
+              // dated X axes should always sort ascending
+              preparedReportData={ sortXAscendingIfDates(this.state.displayedData) }
+              REPORT_OPTION={ this.state.REPORT_OPTION }
               // isLoading={this.props.preparedReportData}
             />
-          
-            <DataTable
+        
+            
+            <PrevNextButtonContainer
               REPORT_OPTION={this.state.REPORT_OPTION}
-              preparedReportData={ this.props.preparedReportData }
+              viewMarker={this.state.viewMarker}
+            />
+            
+        
+            <DataTable
+              REPORT_OPTION={ this.state.REPORT_OPTION }
+              preparedReportData={ this.state.displayedData }
             />
             <DataControlForm
-              dispatchUpdatePreparedReportData={this.props.dispatchUpdatePreparedReportData}
-              rawReportData={this.props.rawReportData}
-              retrieveTopDonors={this.retrieveTopDonors}
-              updateLocalState={this.updateLocalState}
+              dispatchUpdatePreparedReportData={ this.props.dispatchUpdatePreparedReportData }
+              rawReportData={ this.props.rawReportData }
+              retrieveTopDonors={ this.retrieveTopDonors }
+              updateLocalState={ this.updateLocalState }
             />
           </div>
           :
@@ -103,3 +133,5 @@ export default class DataSection extends React.Component {
     );
   }
 }
+
+export default (DataSection);

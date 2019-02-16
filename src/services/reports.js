@@ -1,6 +1,17 @@
 import moment from "moment";
 import _ from "lodash";
 
+
+export const sortXAscendingIfDates = dataArray => {
+  if (dataArray[0].x instanceof Date) {
+  
+    return dataArray.sort((a, b) => {
+      return moment(a.x) - moment(b.x);
+    });
+  }
+};
+
+
 export const filterViewableData = (incrementSize, props, state) => {
   const {preparedReportData} = props;
   
@@ -81,8 +92,13 @@ export const prepareData = (rawData) => {
       };
     });
   
+  // sort in descending order
+  const sortedData = totalledYAmounts.sort((a, b) => {
+    return moment(b.x) - moment(a.x)
+  });
+  
   // convert months back to date objects
-  const convertedDatesArray = totalledYAmounts.map(record => {
+  const convertedDatesArray = sortedData.map(record => {
     const dateObject = new moment(record.x, 'YYYY-MM').toDate();
     return {
       x : dateObject,
