@@ -9,35 +9,39 @@ const adapter = new Adaptor();
 configure({ adapter });
 
 
-const wrappedPNBContainer = shallow(<PrevNextButtonContainer
+beforeEach(() => {
+  mountedPNBC.mount();
+});
+
+afterEach(() => {
+  mountedPNBC.unmount();
+});
+
+const shallowPNBC = shallow(<PrevNextButtonContainer
+  classes={{ button : null }}
   viewMarker={null}
   preparedReportData={[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,]} // 40
 />);
-const mountedPNB = mount(<PrevNextButtonContainer
+const mountedPNBC = mount(<PrevNextButtonContainer
+  // classes={{ button : null }}
   viewMarker={null}
   preparedReportData={[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,]} // 40
+  REPORT_OPTION='totals'
 />);
 
 
 
 test('buttons at viewMarker 0 of 40', () => {
-  const props = {
-    classes : {
-      button : null
-    }
-  }
+  // const props = { classes : { button : null } };
+  mountedPNBC.setProps({ viewMarker : 0 }, () => {
+    expect(mountedPNBC.contains(<p>1 to 12 of 40</p>)).toEqual(true);
+  });
   
-  wrappedPNBContainer.setProps({ viewMarker : 0 });
-  mountedPNB.setProps({ viewMarker : 0 });
-  console.log(mountedPNB.html());
+  ////////////
   
-  // expect(mountedPNB.containsMatchingElement(<p>Test</p>)).toEqual(true);
-  // expect(mountedPNB.containsMatchingElement(
-  {/*<Button variant='outlined' className={ props.classes.button}>Previous</Button>*/}
-  {/*)).toEqual(true);*/}
-
-  expect(wrappedPNBContainer.contains(<p>1 to 20</p>)).toEqual(true)
-  
+  mountedPNBC.setProps({ REPORT_OPTION :   'topDonors' }, () => {
+    expect(mountedPNBC.contains(<p>1 to 10 of 40</p>)).toEqual(true)
+  });
 });
 
 

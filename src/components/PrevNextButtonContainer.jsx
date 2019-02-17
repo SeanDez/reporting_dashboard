@@ -77,7 +77,6 @@ const PrevNextButtonContainer = props => {
   return (
     <React.Fragment>
       <ButtonContainer>
-        <p>Test</p>
         <Button variant='outlined' className={ props.classes.button}>Previous</Button>
         
         <p>{renderCurrentRecordCount(props)}</p>
