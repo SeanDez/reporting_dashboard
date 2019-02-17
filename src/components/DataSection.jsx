@@ -98,9 +98,10 @@ class DataSection extends React.Component {
       <React.Fragment>
         {/* if displayedData array is present */ }
         { _.isEmpty(this.state.displayedData) === false
+         && _.isEmpty(this.props.preparedReportData) === false
           ?
           <div>
-            { console.log(this.state.displayedData) }
+            { console.log(this.props.preparedReportData) }
             <LineChart
               // dated X axes should always sort ascending
               preparedReportData={ sortXAscendingIfDates(this.state.displayedData) }
@@ -112,6 +113,7 @@ class DataSection extends React.Component {
             <PrevNextButtonContainer
               REPORT_OPTION={this.state.REPORT_OPTION}
               viewMarker={this.state.viewMarker}
+              preparedReportData={this.props.preparedReportData}
             />
             
         

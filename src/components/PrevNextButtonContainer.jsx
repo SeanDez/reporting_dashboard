@@ -21,7 +21,7 @@ const NUMBERS = Object.freeze({
 });
 
 
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,45 +30,59 @@ const ButtonContainer = styled.div`
 
 const renderPreviousButton = (props) => {
   const {viewMarker, preparedReportData, REPORT_OPTION} = props;
+  const increment = NUMBERS[REPORT_OPTION];
+
   if (viewMarker === 0) {
     return null
     // if marker fails === 0 and is less than report iterator size
-  } else if (viewMarker < NUMBERS[REPORT_OPTION]) {
-    return <Button variant='outlined' className={ props.classes.button} >1 to {props.viewMarker}</Button>
+  } else if (viewMarker < increment) {
+    return <Button variant='outlined' className={ props.classes.button}>1 to {props.viewMarker}</Button>
   } else {
-    return <Button variant='outlined' className={ props.classes.button}>{(props.viewMarker + 1) - NUMBERS[REPORT_OPTION]} to {props.viewMarker + 1}</Button>
+    return <Button variant='outlined' className={ props.classes.button}>{(props.viewMarker + 1) - increment} to {props.viewMarker + 1}</Button>
   }
 };
 
 
-const ButtonContainerState = {
-  hidePrev : null, // render the current text and next button. normal next button
-  crunchedBeginning : null, // all 3 buttons. prev is 1 to vm
-  normalRange : null, // all 3 show normal range
-  crunchedEnd : null, // next is set to prd.len - increment
-  hideNext : null, //
-}
+
+
+const renderNextButton = props => {
+  const {viewMarker, preparedReportData, REPORT_OPTION} = props;
+  const increment = NUMBERS[REPORT_OPTION];
+  if (viewMarker > preparedReportData.length - increment) {
+    return <Button variant='outlined' className={ props.classes.button}>
+      {viewMarker + 1 + increment} to {preparedReportData.length} // auto-adds 1
+    </Button>
+  } else {
+    return <Button variant='outlined' className={ props.classes.button}>
+      {viewMarker + 1 + increment} to {viewMarker + increment * 2}
+    </Button>
+  }
+};
+
+const renderCurrentRecordCount = (props) => {
+  const {viewMarker, preparedReportData, REPORT_OPTION} = props;
+  const increment = NUMBERS[REPORT_OPTION];
+  
+  // 297 > 303 - 10
+  if (viewMarker > preparedReportData.length -1 - increment) {
+    return `${viewMarker + 1} to ${preparedReportData.length} of ${preparedReportData.length}`
+  } else {
+    return `${viewMarker + 1} to ${viewMarker + increment} of ${preparedReportData.length}`
+  }
+};
+
 
 
 const PrevNextButtonContainer = props => {
-  console.log(props);
-  const {REPORT_OPTION} = props;
   return (
     <React.Fragment>
       <ButtonContainer>
-  
-        {renderPreviousButton(props)}
+        <p>Test</p>
+        <Button variant='outlined' className={ props.classes.button}>Previous</Button>
         
-        { props.viewMarker + 1 } - { props.viewMarker + NUMBERS[REPORT_OPTION] }
+        <p>{renderCurrentRecordCount(props)}</p>
         
-        
-        
-        <Button variant='outlined' className={ props.classes.button }>
-          {/* vm - vm + */ }
-          { props.viewMarker + NUMBERS[REPORT_OPTION] + 1 }
-          -
-          { props.viewMarker + (NUMBERS[REPORT_OPTION] * 2) }
-        </Button>
+        <Button variant='outlined' className={ props.classes.button}>Next</Button>
       </ButtonContainer>
     </React.Fragment>
   );
