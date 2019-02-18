@@ -43,14 +43,14 @@ const shallowDataSection = enzyme.shallow(<DataSection
   dispatchUpdatePreparedReportData={ mockProp }
 />);
 
-// const mountedDataSection = enzyme.mount(
-//   <DataSection
-//     dispatchGetDonationData={ mockProp }
-//     rawReportData={ mockProp }
-//     preparedReportData={ mockProp }
-//     dispatchUpdatePreparedReportData={ mockProp }
-//   />
-// );
+const mountedDataSection = enzyme.mount(
+  <DataSection
+    dispatchGetDonationData={ mockProp }
+    rawReportData={ mockProp }
+    preparedReportData={ mockProp }
+    dispatchUpdatePreparedReportData={ mockProp }
+  />
+);
 
 
 beforeAll(() => {
@@ -118,7 +118,52 @@ const literallyJustDateNow = () => Date.now();
 // });
 
 
-
+describe('updates viewMarker', () => {
+  // For some reason not yet understood, the below caused a test failure
+  // let state = { viewMarker : 0 };
+  // let props = {
+  //   preparedReportData : [1,1,1,1,1,1,1,1,1,1,1,1,1,1] // 14
+  // };
+  
+  test('updates viewMarker correctly', () => {
+    
+    // subtract 20 from 0. Result should be 0
+    mountedDataSection.setState({
+      viewMarker : 0
+    }, () => {
+      mountedDataSection.instance().updateViewMarker(20, '-');
+      expect(mountedDataSection.state().viewMarker).toStrictEqual(0);
+    });
+    
+    // add 20. result should be 0
+    mountedDataSection.setState({
+      viewMarker : 0
+    }, () => {
+      mountedDataSection.instance().updateViewMarker(20, '+');
+      expect(mountedDataSection.state().viewMarker).toStrictEqual(0);
+    });
+    
+    // add 5. result should be 8
+    mountedDataSection.instance().setState({
+      viewMarker : 3
+    }, () => {
+      mountedDataSection.instance().updateViewMarker(5, "+");
+      setTimeout(() => {
+        expect(mountedDataSection.instance().state().viewMarker).toStrictEqual(8);
+      }, 2)
+    });
+    
+    // add 10. result should be 26
+    mountedDataSection.setState({
+      viewMarker : 16
+    }, () => {
+      mountedDataSection.instance().updateViewMarker(10, '+');
+      setTimeout(() => {
+        expect(mountedDataSection.state().viewMarker).toStrictEqual(26);
+      }, 1);
+    });
+  });
+});
 
 
 

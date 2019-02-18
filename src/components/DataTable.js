@@ -32,13 +32,54 @@ const StyledTableWrapper = styled(Table)`
 `;
 
 
+// internal if statement vs Enum functions
+const renderTableBody = Object.freeze({
+  totals : (props) => {
+    return props.displayedData
+       .sort((a, b) => {
+         return b.x - a.x; // descending
+       })
+       .map(record => {
+         return (
+           <TableRow key={ record.x.toString() }>
+             <TableCell>{
+               new moment(record.x)
+                   .format("MMMM YYYY")
+             }</TableCell>
+             
+             <TableCell align='left'>
+               { `$${ record.y.toLocaleString(undefined, {maximumFractionDigits : 2}) }` }
+             </TableCell>
+           </TableRow>
+         );
+       });
+  },
+  topDonors : (props) => {
+    return props.displayedData.map((record, index) => (
+      <TableRow key={`${index} ${record.id}`}>
+        <TableCell align='left'>{record.id}</TableCell>
+        <TableCell align='left'>
+          {record.firstName}</TableCell>
+        <TableCell align='left'>
+          {record.lastName}</TableCell>
+        <TableCell align='left'>
+          {record.amountDonated}</TableCell>
+        <TableCell align='left'>
+          {record.notes}</TableCell>
+      </TableRow>
+    ))
+  }
+  
+});
+
+
 const DataTable = (props) => {
   const { classes } = props;
   
   const HEADINGS = Object.freeze({
     totals        : ['Period', 'Total Donations'],
-    topDonors     : ['Donor ID', 'First Name', 'Last Name', 'Total Donation'],
-    noneForPeriod : ['First Name', 'Last Name', 'Last Donation']
+    topDonors     : ['Donor ID', 'First Name', 'Last Name', 'Total Donation', 'Notes'],
+    noneForPeriod : ['First Name', 'Last Name', 'Last Donation', 'Notes']
   });
   
   const tableHeading = (index, heading) => {
@@ -59,28 +100,10 @@ const DataTable = (props) => {
             })}
         </TableRow>
       </TableHead>
+      
       <TableBody>
-        {
-          props.preparedReportData
-               .sort((a, b) => {
-                 return b.x - a.x // descending
-               })
-               .map(record => {
-            return (
-              <TableRow key={record.x.toString()}>
-                <TableCell>
-                  {
-                    new moment(record.x)
-                    .format('MMMM YYYY')
-                  }
-                </TableCell>
-                <TableCell align='right'>
-                  {`$${record.y.toLocaleString(undefined, {maximumFractionDigits:2})}`}
-                </TableCell>
-              </TableRow>
-            )
-          })
-        }
+        {console.log(props.displayedData, `=====props.displayedData=====`)}
+        { renderTableBody[props.REPORT_OPTION](props) }
       </TableBody>
     </StyledTableWrapper>
   );};

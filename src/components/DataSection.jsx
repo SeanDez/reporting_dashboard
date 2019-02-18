@@ -48,6 +48,37 @@ class DataSection extends React.Component {
     };
   }
   
+  updateViewMarker = (incrementSize, plusMinusOption) => {
+    
+    let {viewMarker} = this.state;
+    const {preparedReportData} = this.props;
+    
+    // use an intermediate variable to order operations and do a single setstate at the end
+    let tempViewMarker;
+    if (plusMinusOption === '-') {
+      tempViewMarker = viewMarker - incrementSize
+    } else if (plusMinusOption === '+') {
+      tempViewMarker = viewMarker + incrementSize
+    }
+    
+    if (tempViewMarker < 0) {
+      this.setState({ viewMarker : 0 })
+    } else if (tempViewMarker > preparedReportData.length && incrementSize > preparedReportData.length) {
+      this.setState({ viewMarker : 0 })
+      // no excess increment relative to list size
+    } else if (tempViewMarker > preparedReportData.length) {
+      this.setState({ viewMarker : preparedReportData.length - incrementSize })
+    } else {
+      this.setState({ viewMarker : tempViewMarker });
+    }
+  };
+  
+  updateReportOption = (option) => {
+    // options: totals, topDonors, noRecentDonations
+    this.setState({
+      REPORT_OPTION : option
+    })
+  };
   
   componentDidMount() {
     // get the raw data for compiling
@@ -58,7 +89,6 @@ class DataSection extends React.Component {
     
     // if the raw data has been returned
     if (prevProps.rawReportData !== this.props.rawReportData) {
-      console.log(`=====rawReportData=====`, this.props.rawReportData);
       
       if (this.state.initialFetch === true) {
         const preparedDataArray = prepareData(this.props.rawReportData, 12, 'month');
@@ -101,7 +131,6 @@ class DataSection extends React.Component {
          && _.isEmpty(this.props.preparedReportData) === false
           ?
           <div>
-            { console.log(this.props.preparedReportData) }
             <LineChart
               // dated X axes should always sort ascending
               preparedReportData={ sortXAscendingIfDates(this.state.displayedData) }
@@ -114,18 +143,21 @@ class DataSection extends React.Component {
               REPORT_OPTION={this.state.REPORT_OPTION}
               viewMarker={this.state.viewMarker}
               preparedReportData={this.props.preparedReportData}
+              updateViewMarker={this.updateViewMarker}
             />
             
         
             <DataTable
               REPORT_OPTION={ this.state.REPORT_OPTION }
-              preparedReportData={ this.state.displayedData }
+              displayedData={ this.state.displayedData }
             />
             <DataControlForm
               dispatchUpdatePreparedReportData={ this.props.dispatchUpdatePreparedReportData }
               rawReportData={ this.props.rawReportData }
-              retrieveTopDonors={ this.retrieveTopDonors }
-              updateLocalState={ this.updateLocalState }
+              retrieveTopDonors={ retrieveTopDonors }
+              updateLocalState={ updateLocalState }
+              setState={this.setState}
+              updateReportOption={this.updateReportOption}
             />
           </div>
           :

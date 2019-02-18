@@ -34,21 +34,48 @@ const mountedPNBC = mount(<PrevNextButtonContainer
 test('buttons at viewMarker 0 of 40', () => {
   // const props = { classes : { button : null } };
   mountedPNBC.setProps({ viewMarker : 0 }, () => {
-    expect(mountedPNBC.contains(<p>1 to 12 of 40</p>)).toEqual(true);
+    expect(mountedPNBC.contains(<p>1 to 12, of 40 total</p>)).toEqual(true);
   });
   
   ////////////
   
   mountedPNBC.setProps({ REPORT_OPTION :   'topDonors' }, () => {
-    expect(mountedPNBC.contains(<p>1 to 10 of 40</p>)).toEqual(true)
+    expect(mountedPNBC.contains(<p>1 to 10, of 40 total</p>)).toEqual(true)
   });
 });
 
 
 test('buttons at viewMarker 20 of 40', () => {
+  
+  mountedPNBC.setProps({
+    viewMarker : 20,
+    REPORT_OPTION : 'totals'
+  }, () => {
+    expect(mountedPNBC.contains(<p>21 to 32, of 40 total</p>)).toEqual(true)
+  });
+  
+  
+  mountedPNBC.setProps({
+    viewMarker : 20,
+    REPORT_OPTION : 'topDonors'
+  }, () => {
+    expect(mountedPNBC.contains(<p>21 to 30, of 40 total</p>)).toEqual(true)
+  })
 
 });
 
 test('buttons at viewMarker 35 of 40', () => {
-
+  mountedPNBC.setProps({
+    viewMarker : 35,
+    REPORT_OPTION : 'totals'
+  }, () => {
+    expect(mountedPNBC.contains(<p>36 to 40, of 40 total</p>)).toEqual(true);
+  });
+  
+  mountedPNBC.setProps({
+    viewMarker : 35,
+    REPORT_OPTION : 'topDonors'
+  }, () => {
+    expect(mountedPNBC.containsMatchingElement(<p>36 to 40, of 40 total</p>)).toEqual(true);
+  })
 });

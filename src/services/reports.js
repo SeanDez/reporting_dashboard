@@ -20,31 +20,6 @@ export const filterViewableData = (incrementSize, props, state) => {
     index < state.viewMarker + incrementSize);
 };
 
-export const updateViewMarker = (incrementSize, plusMinusOption, props, state, setState) => {
-  
-  let {viewMarker} = state;
-  const {preparedReportData} = props;
-  
-  // use an intermediate variable to order operations and do a single setstate at the end
-  let tempViewMarker;
-  if (plusMinusOption === '-') {
-    tempViewMarker = viewMarker - incrementSize
-  } else if (plusMinusOption === '+') {
-    tempViewMarker = viewMarker + incrementSize
-  }
-  
-  if (tempViewMarker < 0) {
-    setState({ viewMarker : 0 })
-  } else if (tempViewMarker > preparedReportData.length && incrementSize > preparedReportData.length) {
-    setState({ viewMarker : 0 })
-    // no excess increment relative to list size
-  } else if (tempViewMarker > preparedReportData.length) {
-    setState({ viewMarker : preparedReportData.length - incrementSize })
-  } else {
-    setState({ viewMarker : tempViewMarker });
-  }
-};
-
 
 export const prepareData = (rawData) => {
   // remap objects into x/y pairs

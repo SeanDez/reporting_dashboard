@@ -17,7 +17,8 @@ const styles = theme => ({
 
 const NUMBERS = Object.freeze({
   totals : 12,
-  topDonors : 10
+  topDonors : 10,
+  noneForPeriod : 15
 });
 
 
@@ -65,9 +66,9 @@ const renderCurrentRecordCount = (props) => {
   
   // 297 > 303 - 10
   if (viewMarker > preparedReportData.length -1 - increment) {
-    return `${viewMarker + 1} to ${preparedReportData.length} of ${preparedReportData.length}`
+    return `${viewMarker + 1} to ${preparedReportData.length}, of ${preparedReportData.length} total`
   } else {
-    return `${viewMarker + 1} to ${viewMarker + increment} of ${preparedReportData.length}`
+    return `${viewMarker + 1} to ${viewMarker + increment}, of ${preparedReportData.length} total`
   }
 };
 
@@ -77,14 +78,18 @@ const PrevNextButtonContainer = props => {
   return (
     <React.Fragment>
       <ButtonContainer>
-        <Button variant='outlined' className={ props.classes.button}
-        disabled={props.viewMarker === 0}
+        <Button
+          variant='outlined' className={ props.classes.button }
+          disabled={ props.viewMarker === 0 }
+          onClick={ () => props.updateViewMarker(NUMBERS[props.REPORT_OPTION], "-") }
         >Previous</Button>
         
-        <p>{renderCurrentRecordCount(props)}</p>
+        <p>{ renderCurrentRecordCount(props) }</p>
         
-        <Button variant='outlined' className={ props.classes.button}
-        disabled={props.viewMarker >= props.preparedReportData.length - NUMBERS[props.REPORT_OPTION]}
+        <Button
+          variant='outlined' className={ props.classes.button }
+          disabled={ props.viewMarker >= props.preparedReportData.length - NUMBERS[props.REPORT_OPTION] }
+          onClick={ () => props.updateViewMarker(NUMBERS[props.REPORT_OPTION], '+')}
         >Next</Button>
       </ButtonContainer>
     </React.Fragment>

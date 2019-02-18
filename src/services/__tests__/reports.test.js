@@ -98,37 +98,6 @@ const literallyJustDateNow = () => Date.now();
 
 ///////// TESTS /////////////
 
-describe('updates viewMarker', () => {
-  // For some reason not yet understood, the below caused a test failure
-  // let state = { viewMarker : 0 };
-  // let props = {
-  //   preparedReportData : [1,1,1,1,1,1,1,1,1,1,1,1,1,1] // 14
-  // };
-  
-  test('updates viewMarker correctly', () => {
-    
-    // subtract 20 from 0. Result should be 0
-    updateViewMarker(20, '-', props, state, setState);
-    expect(state.viewMarker).toStrictEqual(0);
-    
-    // add 20. result should be 0
-    updateViewMarker(20, '+', props, state, setState);
-    expect(state.viewMarker).toStrictEqual(0);
-    
-    // add 5. result should be 5
-    updateViewMarker(5, "+", props, state, setState);
-    
-    // setTimeout(() => {
-    expect(state.viewMarker).toEqual(5);
-    // }, 500)
-    
-    // add 10. result should be 4
-    updateViewMarker(10, '+', props, state, setState);
-    expect(state.viewMarker).toStrictEqual(4);
-    
-  });
-});
-
 
 
 
