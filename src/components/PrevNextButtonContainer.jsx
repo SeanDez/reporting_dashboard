@@ -77,11 +77,15 @@ const PrevNextButtonContainer = props => {
   return (
     <React.Fragment>
       <ButtonContainer>
-        <Button variant='outlined' className={ props.classes.button}>Previous</Button>
+        <Button variant='outlined' className={ props.classes.button}
+        disabled={props.viewMarker === 0}
+        >Previous</Button>
         
         <p>{renderCurrentRecordCount(props)}</p>
         
-        <Button variant='outlined' className={ props.classes.button}>Next</Button>
+        <Button variant='outlined' className={ props.classes.button}
+        disabled={props.viewMarker >= props.preparedReportData.length - NUMBERS[props.REPORT_OPTION]}
+        >Next</Button>
       </ButtonContainer>
     </React.Fragment>
   );

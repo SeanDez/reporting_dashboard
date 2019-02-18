@@ -173,11 +173,11 @@ App.propTypes = {
   view               : PropTypes.string,
   rawReportData      : PropTypes.arrayOf(PropTypes.shape({
     donationDate: PropTypes.string,
-    amountDonated: PropTypes.number.isRequired
+    amountDonated: PropTypes.number
   })),
   preparedReportData : PropTypes.arrayOf(PropTypes.shape({
     donationDate: PropTypes.string,
-    amountDonated: PropTypes.number.isRequired
+    amountDonated: PropTypes.number
   }))
 };
 
