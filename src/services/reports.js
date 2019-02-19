@@ -94,9 +94,12 @@ export const retrieveTopDonors = (rawData) => {
   const totalledList = _.map(groupedObjectWithIdKeys, idArray => {
     // clone one of the objects and then replace its donation amount by the sum of all of them. assign x/y values
     const clonedFirstObject = Object.assign({}, idArray[0]);
+    
+    
     const totalDonationAmount = _.sumBy(idArray, record => record.amountDonated);
+    
     clonedFirstObject.amountDonated = totalDonationAmount;
-    clonedFirstObject.x = `${clonedFirstObject.firstName} ${clonedFirstObject.lastName}`;
+    clonedFirstObject.label = `${clonedFirstObject.firstName} ${clonedFirstObject.lastName}`;
     clonedFirstObject.y = totalDonationAmount;
     return clonedFirstObject;
     // at this point totalledList is consolidated to one object per id. Every recorded donation is summed
@@ -106,6 +109,11 @@ export const retrieveTopDonors = (rawData) => {
   const sortedList = totalledList.sort((a, b) => {
     // if it's positive b first. If negative a first
     return b.amountDonated - a.amountDonated
+  });
+  
+  // assign an x value (order)
+  sortedList.forEach((record, index) => {
+    record.x = index + 1;
   });
   
   // return the sorted list

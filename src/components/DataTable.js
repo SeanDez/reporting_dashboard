@@ -11,6 +11,13 @@ import TableRow from "@material-ui/core/TableRow";
 // import Paper from "@material-ui/core/Paper";
 
 
+const HEADINGS = Object.freeze({
+  totals        : ['Period', 'Total Donations'],
+  topDonors     : ['Donor ID', 'First Name', 'Last Name', 'Total Donation', 'Notes'],
+  noneForPeriod : ['First Name', 'Last Name', 'Last Donation', 'Notes']
+});
+
+
 const materialUiStyles = theme => ({
   base : {
     width : '100%',
@@ -33,6 +40,8 @@ const StyledTableWrapper = styled(Table)`
 
 
 // internal if statement vs Enum functions
+  // Enums have 1 less nesting level
+  // if statements are more the "standard pattern"
 const renderTableBody = Object.freeze({
   totals : (props) => {
     return props.displayedData
@@ -75,12 +84,6 @@ const renderTableBody = Object.freeze({
 
 const DataTable = (props) => {
   const { classes } = props;
-  
-  const HEADINGS = Object.freeze({
-    totals        : ['Period', 'Total Donations'],
-    topDonors     : ['Donor ID', 'First Name', 'Last Name', 'Total Donation', 'Notes'],
-    noneForPeriod : ['First Name', 'Last Name', 'Last Donation', 'Notes']
-  });
   
   const tableHeading = (index, heading) => {
     if (index === 0) {

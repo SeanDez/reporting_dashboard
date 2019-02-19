@@ -86,6 +86,8 @@ class DataSection extends React.Component {
   }
   
   componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevState.REPORT_OPTION !== this.state.REPORT_OPTION) console.log('this.state.REPORT_OPTION', this.state.REPORT_OPTION)
+    console.log(this.props.preparedReportData, `=====this.props.preparedReportData=====`);
     
     // if the raw data has been returned
     if (prevProps.rawReportData !== this.props.rawReportData) {
@@ -134,7 +136,7 @@ class DataSection extends React.Component {
               // dated X axes should always sort ascending
               preparedReportData={ sortXAscendingIfDates(this.state.displayedData) }
               REPORT_OPTION={ this.state.REPORT_OPTION }
-              // isLoading={this.props.preparedReportData}
+              displayedData={ this.state.displayedData }
             />
         
             
@@ -143,6 +145,7 @@ class DataSection extends React.Component {
               viewMarker={this.state.viewMarker}
               preparedReportData={this.props.preparedReportData}
               updateViewMarker={this.updateViewMarker}
+              style={{ marginTop : '3vh' }}
             />
             
         
