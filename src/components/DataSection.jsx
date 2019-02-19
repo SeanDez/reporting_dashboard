@@ -86,41 +86,57 @@ class DataSection extends React.Component {
   }
   
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevState.REPORT_OPTION !== this.state.REPORT_OPTION) console.log('this.state.REPORT_OPTION', this.state.REPORT_OPTION)
-    console.log(this.props.preparedReportData, `=====this.props.preparedReportData=====`);
+    console.log('this.props.preparedReportData', this.props.preparedReportData);
+    console.log(this.state, `=====this.state=====`);
+
+    if (prevState.REPORT_OPTION !== this.state.REPORT_OPTION) console.log('REPORT_OPTION updated, now:', this.state.REPORT_OPTION);
     
-    // if the raw data has been returned
+    // if raw data has been returned / updated
     if (prevProps.rawReportData !== this.props.rawReportData) {
-      
+      // if it's the initial fetch
       if (this.state.initialFetch === true) {
-        const preparedDataArray = prepareData(this.props.rawReportData, 12, 'month');
+        const preparedDataArray = prepareData(this.props.rawReportData, 12, "month");
         this.props.dispatchUpdatePreparedReportData(preparedDataArray);
-        this.setState({ initialFetch : false })
+        this.setState({initialFetch : false});
+    
+      }
+    }
+    // if preparedData has populated, or if viewMarker has changed
+    if (prevProps.preparedReportData !== this.props.preparedReportData ||
+      prevState.viewMarker !== this.state.viewMarker
+    ) {
+      // pass 10 or 12 depending on report type
+      if (this.state.REPORT_OPTION === 'totals') {
+        this.setState({
+          displayedData : filterViewableData(12, this.props, this.state)
+        })
+      } else if (this.state.REPORT_OPTION === 'topDonors') {
+        this.setState({
+          displayedData : filterViewableData(10, this.props, this.state)
+        }, () => {
+          console.log(`=====filterViewableData fired=====`);
+        })
         
       }
       
-      // else if (!this.state.initialFetch && this.state.REPORT_OPTION === 'topDonors') {
-      //   const topDonorData = this.retrieveTopDonors(this.props.rawReportData);
-      //   this.props.dispatchUpdatePreparedReportData(topDonorData);
-      //   this.setState({ REPORT_OPTION : 'topDonors' })
-      //
-      // } else if (!this.state.REPORT_OPTION && this.state.REPORT_OPTION === 'noneForPeriod') {
-      //   // todo build the noneForPeriod dispatcher
-      //
+      
+      // console.log(this.props.preparedReportData, `=====this.props.preparedReportData=====`);
+      // console.log(this.state.viewMarker, `=====this.state.viewMarker=====`);
+      // // show 10 or 12 results
+      // if (this.state.REPORT_OPTION === "totals") {
+      //   this.setState({displayedData : filterViewableData(12, this.props, this.state)}, () => {
+      //     console.log(this.state.displayedData, `=====this.state.displayedData=====`);
+      //   });
+      // } else {
+      //   this.setState({displayedData : filterViewableData(10, this.props, this.state)}, () => {
+      //     console.log(this.state.displayedData, `=====this.state.displayedData=====`);
+      //   });
       // }
     }
-    
-    if (prevProps.preparedReportData !== this.props.preparedReportData) {
-      
-      // show 10 or 12 results
-      this.state.REPORT_OPTION === 'totals'
-      ?
-      this.setState({ displayedData : filterViewableData(12, this.props, this.state) })
-      :
-      this.setState({ displayedData : filterViewableData(10, this.props, this.state) })
-    }
-    
   }
+  
+  
+  
   
   render() {
     const marker = this.state.viewMarker;

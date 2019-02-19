@@ -169,7 +169,6 @@ const renderChart = (props) => {
       </React.Fragment>
     )
   } else if (props.REPORT_OPTION === 'topDonors') {
-    console.log("props.REPORT_OPTION === 'topDonors'");
     return <React.Fragment>
       <XYPlot
         width={500}
@@ -215,7 +214,6 @@ export default (props) => {
     <React.Fragment>
         <ChartContainer>
           <h2>{ CHART_TITLES[props.REPORT_OPTION] }</h2>
-          {console.log(props.REPORT_OPTION, `=====props.REPORT_OPTION=====`)}
           <div>
             { renderChart(props) }
           </div>

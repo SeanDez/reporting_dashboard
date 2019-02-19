@@ -11,13 +11,15 @@ export const sortXAscendingIfDates = dataArray => {
   }
 };
 
-
+// to be used inside setState
 export const filterViewableData = (incrementSize, props, state) => {
   const {preparedReportData} = props;
   
-  return preparedReportData.filter((record, index) =>
+  const filteredData = preparedReportData.filter((record, index) =>
     index >= state.viewMarker &&
     index < state.viewMarker + incrementSize);
+  console.log(filteredData, `=====filteredData=====`);
+  return filteredData;
 };
 
 
@@ -113,7 +115,7 @@ export const retrieveTopDonors = (rawData) => {
   
   // assign an x value (order)
   sortedList.forEach((record, index) => {
-    record.x = index + 1;
+    record.x = (index % 10) + 1;
   });
   
   // return the sorted list
