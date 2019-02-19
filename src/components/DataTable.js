@@ -42,12 +42,12 @@ const renderTableBody = Object.freeze({
        .map(record => {
          return (
            <TableRow key={ record.x.toString() }>
-             <TableCell>{
+             <TableCell align='center'>{
                new moment(record.x)
                    .format("MMMM YYYY")
              }</TableCell>
              
-             <TableCell align='left'>
+             <TableCell align='center'>
                { `$${ record.y.toLocaleString(undefined, {maximumFractionDigits : 2}) }` }
              </TableCell>
            </TableRow>
@@ -57,14 +57,14 @@ const renderTableBody = Object.freeze({
   topDonors : (props) => {
     return props.displayedData.map((record, index) => (
       <TableRow key={`${index} ${record.id}`}>
-        <TableCell align='left'>{record.id}</TableCell>
-        <TableCell align='left'>
+        <TableCell align='center'>{record.id}</TableCell>
+        <TableCell align='center'>
           {record.firstName}</TableCell>
-        <TableCell align='left'>
+        <TableCell align='center'>
           {record.lastName}</TableCell>
-        <TableCell align='left'>
+        <TableCell align='center'>
           {record.amountDonated}</TableCell>
-        <TableCell align='left'>
+        <TableCell align='center'>
           {record.notes}</TableCell>
       </TableRow>
     ))
@@ -84,9 +84,13 @@ const DataTable = (props) => {
   
   const tableHeading = (index, heading) => {
     if (index === 0) {
-      return <TableCell key={heading}>{heading}</TableCell>
+      return <TableCell
+        key={heading}
+        align='center'
+      >{heading}
+      </TableCell>
     }
-    return <TableCell align='right' key={heading}>{heading}</TableCell>
+    return <TableCell align='center' key={heading}>{heading}</TableCell>
   };
   
   return (

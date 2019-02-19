@@ -121,7 +121,6 @@ class DataSection extends React.Component {
   }
   
   render() {
-    
     const marker = this.state.viewMarker;
   
     return (
