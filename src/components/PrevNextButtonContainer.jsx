@@ -18,7 +18,7 @@ const styles = theme => ({
 const NUMBERS = Object.freeze({
   totals : 12,
   topDonors : 10,
-  noneForPeriod : 15
+  noRecentDonations : 15
 });
 
 
@@ -63,6 +63,9 @@ const renderNextButton = props => {
 const renderCurrentRecordCount = (props) => {
   const {viewMarker, preparedReportData, REPORT_OPTION} = props;
   const increment = NUMBERS[REPORT_OPTION];
+  console.log(viewMarker, `=====viewMarker=====`);
+  console.log(preparedReportData, `=====preparedReportData=====`);
+  console.log(increment, `=====increment=====`);
   
   // 297 > 303 - 10
   if (viewMarker > preparedReportData.length -1 - increment) {

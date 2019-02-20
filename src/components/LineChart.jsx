@@ -199,8 +199,38 @@ const renderChart = (props) => {
         />
       </XYPlot>
     </React.Fragment>
-  } else if (props.REPORT_OPTION === 'noneForPeriod') {
-  
+  } else if (props.REPORT_OPTION === 'noRecentDonations') {
+    return <React.Fragment>
+      <XYPlot
+        width={ 500 }
+        height={ 300 }
+        yType='time'
+      >
+        <HorizontalGridLines />
+        <VerticalGridLines />
+        <XAxis
+          // title='Donor Name'
+          position='middle'
+          tickSize={ 2 }
+          style={ {
+            text  : {fill : "black"},
+            ticks : {fill : "black"},
+            title : {fill : "#333"},
+          } }
+        />
+        <YAxis
+          title='Last Donation'
+          style={ {
+            text  : {fill : "black"},
+            ticks : {fill : "black"},
+            title : {fill : "#444"},
+          } }
+        />
+        <VerticalBarSeries
+          data={ props.displayedData }
+        />
+      </XYPlot>
+    </React.Fragment>;
   }
 };
 

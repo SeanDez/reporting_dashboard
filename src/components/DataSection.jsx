@@ -80,6 +80,26 @@ class DataSection extends React.Component {
     })
   };
   
+  
+  setDisplayedData = () => {
+    if (this.state.REPORT_OPTION === 'totals') {
+      this.setState({
+        displayedData : filterViewableData(12, this.props, this.state)
+      })
+    } else if (this.state.REPORT_OPTION === 'topDonors') {
+      this.setState({
+        displayedData : filterViewableData(10, this.props, this.state)
+      }, () => {
+      })
+    } else if (this.state.REPORT_OPTION === 'noRecentDonations') {
+      this.setState({
+        displayedData : filterViewableData(10, this.props, this.state)
+      })
+    }
+  };
+  
+  
+  
   componentDidMount() {
     // get the raw data for compiling
     this.props.dispatchGetDonationData("monthlyTotals", null)
@@ -101,28 +121,18 @@ class DataSection extends React.Component {
     
       }
     }
-    // if preparedData has populated, or if viewMarker has changed
-    if (prevProps.preparedReportData !== this.props.preparedReportData && this.props.preparedReportData ||
-      prevState.viewMarker !== this.state.viewMarker
-    ) {
+    // if preparedData has populated or updated
+    if (prevProps.preparedReportData !== this.props.preparedReportData && this.props.preparedReportData) {
       // pass 10 or 12 depending on report type
-      if (this.state.REPORT_OPTION === 'totals') {
-        console.log(this.props.preparedReportData, `=====this.props.preparedReportData inside target=====`);
-        this.setState({
-          displayedData : filterViewableData(12, this.props, this.state)
-        })
-      } else if (this.state.REPORT_OPTION === 'topDonors') {
-        this.setState({
-          displayedData : filterViewableData(10, this.props, this.state)
-        }, () => {
-          console.log(`=====filterViewableData fired=====`);
-        })
-      } else if (this.state.REPORT_OPTION === 'noRecentDonations') {
-        this.setState({
-          displayedData : filterViewableData(10, this.props, this.state)
-        })
-      }
-      
+      this.setDisplayedData();
+      this.setState({
+        viewMarker : 0
+      })
+    }
+    
+    // if viewMarker has updated
+    if (prevState.viewMarker !== this.state.viewMarker) {
+      this.setDisplayedData()
     }
   }
   
