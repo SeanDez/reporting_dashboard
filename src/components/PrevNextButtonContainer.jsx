@@ -29,43 +29,10 @@ export const ButtonContainer = styled.div`
 `;
 
 
-const renderPreviousButton = (props) => {
-  const {viewMarker, preparedReportData, REPORT_OPTION} = props;
-  const increment = NUMBERS[REPORT_OPTION];
-
-  if (viewMarker === 0) {
-    return null
-    // if marker fails === 0 and is less than report iterator size
-  } else if (viewMarker < increment) {
-    return <Button variant='outlined' className={ props.classes.button}>1 to {props.viewMarker}</Button>
-  } else {
-    return <Button variant='outlined' className={ props.classes.button}>{(props.viewMarker + 1) - increment} to {props.viewMarker + 1}</Button>
-  }
-};
-
-
-
-
-const renderNextButton = props => {
-  const {viewMarker, preparedReportData, REPORT_OPTION} = props;
-  const increment = NUMBERS[REPORT_OPTION];
-  if (viewMarker > preparedReportData.length - increment) {
-    return <Button variant='outlined' className={ props.classes.button}>
-      {viewMarker + 1 + increment} to {preparedReportData.length} // auto-adds 1
-    </Button>
-  } else {
-    return <Button variant='outlined' className={ props.classes.button}>
-      {viewMarker + 1 + increment} to {viewMarker + increment * 2}
-    </Button>
-  }
-};
 
 const renderCurrentRecordCount = (props) => {
   const {viewMarker, preparedReportData, REPORT_OPTION} = props;
   const increment = NUMBERS[REPORT_OPTION];
-  console.log(viewMarker, `=====viewMarker=====`);
-  console.log(preparedReportData, `=====preparedReportData=====`);
-  console.log(increment, `=====increment=====`);
   
   // 297 > 303 - 10
   if (viewMarker > preparedReportData.length -1 - increment) {

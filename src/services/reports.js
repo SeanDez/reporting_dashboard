@@ -125,6 +125,7 @@ export const retrieveTopDonors = (preparedData) => {
 
 
 export const retrieveNoRecentDonations = (preparedData) => {
+  
   // group by id
   const groupedByIds = _.groupBy(preparedData, 'id');
   // console.log(groupedByIds, `=====groupedByIds=====`);
@@ -143,8 +144,8 @@ export const retrieveNoRecentDonations = (preparedData) => {
   // add x and y values
   const xYadded = sortedAscending.map((record, index) => {
     const enhancedObject = Object.assign({}, record);
-    enhancedObject.x = (index % 10) + 1;
-    enhancedObject.y = record.donationDate;
+    enhancedObject.x = (index % 15) + 1;
+    enhancedObject.y = new Date(record.donationDate);
     return enhancedObject;
   });
   

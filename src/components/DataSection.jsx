@@ -93,7 +93,7 @@ class DataSection extends React.Component {
       })
     } else if (this.state.REPORT_OPTION === 'noRecentDonations') {
       this.setState({
-        displayedData : filterViewableData(10, this.props, this.state)
+        displayedData : filterViewableData(15, this.props, this.state)
       })
     }
   };
@@ -106,7 +106,7 @@ class DataSection extends React.Component {
   }
   
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log('this.props.preparedReportData', this.props.preparedReportData);
+    console.log('this.props', this.props);
     console.log(this.state, `=====this.state=====`);
 
     if (prevState.REPORT_OPTION !== this.state.REPORT_OPTION) console.log('REPORT_OPTION updated, now:', this.state.REPORT_OPTION);

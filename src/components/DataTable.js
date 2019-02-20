@@ -118,7 +118,6 @@ const DataTable = (props) => {
       </TableHead>
       
       <TableBody>
-        {console.log(props.displayedData, `=====props.displayedData=====`)}
         { renderTableBody[props.REPORT_OPTION](props) }
       </TableBody>
     </StyledTableWrapper>
