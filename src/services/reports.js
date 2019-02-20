@@ -87,10 +87,10 @@ export const prepareData = (rawData) => {
 };
 
 
-export const retrieveTopDonors = (rawData) => {
+export const retrieveTopDonors = (preparedData) => {
   // total by id
   // first group by id
-  const groupedObjectWithIdKeys = _.groupBy(rawData, 'id');
+  const groupedObjectWithIdKeys = _.groupBy(preparedData, 'id');
   // undefined. The array itself doesn't have an id property
   
   // map over each id key and sum it
@@ -127,19 +127,19 @@ export const retrieveTopDonors = (rawData) => {
 export const retrieveNoRecentDonations = (preparedData) => {
   // group by id
   const groupedByIds = _.groupBy(preparedData, 'id');
-  console.log(groupedByIds, `=====groupedByIds=====`);
+  // console.log(groupedByIds, `=====groupedByIds=====`);
   
   // find last/earliest donation
   const maxDates = _.map(groupedByIds, innerArray => {
     return _.maxBy(innerArray, 'x');
   });
-  console.log(maxDates, `=====maxDates=====`);
+  // console.log(maxDates, `=====maxDates=====`);
   
   // sort by "smallest" date object and return
   const sortedAscending = maxDates.sort((a, b) => {
-    return moment(a.x) - moment(b.x);
+    return new Date(a.x) - new Date(b.x);
   });
-  console.log(sortedAscending, `=====sortedAscending=====`);
+  // console.log(sortedAscending, `=====sortedAscending=====`);
   
   return sortedAscending;
 };

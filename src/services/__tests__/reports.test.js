@@ -358,7 +358,7 @@ test('retrieveNoRecentDonations()', () => {
     { x : new Date("2018-02-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
     { x : new Date("2018-03-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
     { x : new Date("2018-07-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
-    { x : new Date("2018-08-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
+    { x : new Date("2018-09-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
     { x : new Date("2018-08-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
     { x : new Date("2017-11-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
     { x : new Date("2018-07-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
@@ -367,9 +367,9 @@ test('retrieveNoRecentDonations()', () => {
   ]);
 
   expect(resultArray).toEqual([
-    { x : new Date("2019-02-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
-    { x : new Date("2018-09-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
     { x : new Date("2018-08-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
+    { x : new Date("2018-09-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
+    { x : new Date("2019-02-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
   ])
 });
 
