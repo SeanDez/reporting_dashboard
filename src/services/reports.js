@@ -15,10 +15,11 @@ export const sortXAscendingIfDates = dataArray => {
 export const filterViewableData = (incrementSize, props, state) => {
   const {preparedReportData} = props;
   
-  const filteredData = preparedReportData.filter((record, index) =>
-    index >= state.viewMarker &&
-    index < state.viewMarker + incrementSize);
-  console.log(filteredData, `=====filteredData=====`);
+  
+  const filteredData = preparedReportData.filter((record, index) => {
+    return index >= state.viewMarker &&
+     index < state.viewMarker + incrementSize;
+  });
   return filteredData;
 };
 
@@ -120,4 +121,25 @@ export const retrieveTopDonors = (rawData) => {
   
   // return the sorted list
   return sortedList;
+};
+
+
+export const retrieveNoRecentDonations = (preparedData) => {
+  // group by id
+  const groupedByIds = _.groupBy(preparedData, 'id');
+  console.log(groupedByIds, `=====groupedByIds=====`);
+  
+  // find last/earliest donation
+  const maxDates = _.map(groupedByIds, innerArray => {
+    return _.maxBy(innerArray, 'x');
+  });
+  console.log(maxDates, `=====maxDates=====`);
+  
+  // sort by "smallest" date object and return
+  const sortedAscending = maxDates.sort((a, b) => {
+    return moment(a.x) - moment(b.x);
+  });
+  console.log(sortedAscending, `=====sortedAscending=====`);
+  
+  return sortedAscending;
 };

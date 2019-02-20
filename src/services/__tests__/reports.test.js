@@ -5,8 +5,9 @@ const filterViewableData = require('../reports')
       updateViewMarker = require('../reports').updateViewMarker,
       prepareData = require('../reports').prepareData,
       retrieveTopDonors = require('../reports').retrieveTopDonors,
-      sortXAscendingIfDates = require('../reports').sortXAscendingIfDates
-
+      sortXAscendingIfDates = require('../reports').sortXAscendingIfDates,
+      retrieveNoRecentDonations = require('../reports').retrieveNoRecentDonations
+  
 
 ///////// OUTER SCOPE SETUP //////////////
 
@@ -298,7 +299,8 @@ describe('retrieveTopDonors from raw data', () => {
             notes         : "Lorem ipsum dolor sit",
             // paymentType   : "echeck",
             // updatedAt     : "2019-01-30T21:36:13.055Z",
-            x             : "Ivory Wooten",
+            label             : "Ivory Wooten",
+            x             : 1,
             y             : 360,
           },
           {
@@ -312,7 +314,8 @@ describe('retrieveTopDonors from raw data', () => {
             notes         : "Lorem ipsum dolor sit",
             // paymentType   : "echeck",
             // updatedAt     : "2019-01-30T21:36:13.055Z",
-            x             : "Carlos Slim",
+            label             : "Carlos Slim",
+            x             : 2,
             y             : 240,
           },
         ],
@@ -344,5 +347,44 @@ test('sortXAscendingIfDates()', () => {
     { x : new Date("2019-01-30T21:36:13.055Z") },
   ])
 });
+
+
+test('retrieveNoRecentDonations()', () => {
+
+
+
+  const resultArray = retrieveNoRecentDonations([
+    { x : new Date("2018-02-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
+    { x : new Date("2018-02-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
+    { x : new Date("2018-03-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
+    { x : new Date("2018-07-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
+    { x : new Date("2018-08-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
+    { x : new Date("2018-08-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
+    { x : new Date("2017-11-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
+    { x : new Date("2018-07-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
+    { x : new Date("2019-02-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
+    { x : new Date("2019-01-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
+  ]);
+
+  expect(resultArray).toEqual([
+    { x : new Date("2019-02-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
+    { x : new Date("2018-09-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
+    { x : new Date("2018-08-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
+  ])
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

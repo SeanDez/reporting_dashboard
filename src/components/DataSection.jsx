@@ -102,11 +102,12 @@ class DataSection extends React.Component {
       }
     }
     // if preparedData has populated, or if viewMarker has changed
-    if (prevProps.preparedReportData !== this.props.preparedReportData ||
+    if (prevProps.preparedReportData !== this.props.preparedReportData && this.props.preparedReportData ||
       prevState.viewMarker !== this.state.viewMarker
     ) {
       // pass 10 or 12 depending on report type
       if (this.state.REPORT_OPTION === 'totals') {
+        console.log(this.props.preparedReportData, `=====this.props.preparedReportData inside target=====`);
         this.setState({
           displayedData : filterViewableData(12, this.props, this.state)
         })
@@ -119,19 +120,6 @@ class DataSection extends React.Component {
         
       }
       
-      
-      // console.log(this.props.preparedReportData, `=====this.props.preparedReportData=====`);
-      // console.log(this.state.viewMarker, `=====this.state.viewMarker=====`);
-      // // show 10 or 12 results
-      // if (this.state.REPORT_OPTION === "totals") {
-      //   this.setState({displayedData : filterViewableData(12, this.props, this.state)}, () => {
-      //     console.log(this.state.displayedData, `=====this.state.displayedData=====`);
-      //   });
-      // } else {
-      //   this.setState({displayedData : filterViewableData(10, this.props, this.state)}, () => {
-      //     console.log(this.state.displayedData, `=====this.state.displayedData=====`);
-      //   });
-      // }
     }
   }
   
