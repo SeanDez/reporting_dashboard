@@ -131,15 +131,22 @@ export const retrieveNoRecentDonations = (preparedData) => {
   
   // find last/earliest donation
   const maxDates = _.map(groupedByIds, innerArray => {
-    return _.maxBy(innerArray, 'x');
+    return _.maxBy(innerArray, 'donationDate');
   });
   // console.log(maxDates, `=====maxDates=====`);
   
   // sort by "smallest" date object and return
   const sortedAscending = maxDates.sort((a, b) => {
-    return new Date(a.x) - new Date(b.x);
+    return new Date(a.donationDate) - new Date(b.donationDate);
   });
-  // console.log(sortedAscending, `=====sortedAscending=====`);
   
-  return sortedAscending;
+  // add x and y values
+  const xYadded = sortedAscending.map((record, index) => {
+    const enhancedObject = Object.assign({}, record);
+    enhancedObject.x = (index % 10) + 1;
+    enhancedObject.y = record.donationDate;
+    return enhancedObject;
+  });
+  
+  return xYadded;
 };

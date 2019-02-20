@@ -117,7 +117,10 @@ class DataSection extends React.Component {
         }, () => {
           console.log(`=====filterViewableData fired=====`);
         })
-        
+      } else if (this.state.REPORT_OPTION === 'noRecentDonations') {
+        this.setState({
+          displayedData : filterViewableData(10, this.props, this.state)
+        })
       }
       
     }

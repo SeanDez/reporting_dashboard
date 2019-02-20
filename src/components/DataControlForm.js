@@ -1,7 +1,7 @@
 import React        from "react";
 import styled from "styled-components";
 // import {withStyles} from "@material-ui/core";
-import {retrieveTopDonors} from '../services/reports';
+import {retrieveTopDonors, retrieveNoRecentDonations} from '../services/reports';
 import {updateLocalState} from './DataSection'
 
 
@@ -25,17 +25,21 @@ export default (props) => {
   const linkArray = [
     {
       label : 'Top Donors',
-      relativeUrl : "#", // '/dashboard/top-donors'
+      relativeUrl : "#", // '/dashboard/top-donors',
       clickHandler : () => {
-        const recompiledData = retrieveTopDonors(props.rawReportData);
-        props.dispatchUpdatePreparedReportData(recompiledData);
+        const topDonorData = retrieveTopDonors(props.rawReportData);
+        props.dispatchUpdatePreparedReportData(topDonorData);
         props.updateReportOption("topDonors");
         }
     },
     {
       label : 'No Recent Donations',
-      relativeUrl : '/dashboard/no-recent-donations',
-      clickHandler : () => props.updateReportOption('noRecentDonations')
+      relativeUrl : '#', // '/dashboard/no-recent-donations',
+      clickHandler : () => {
+        const noRecentDonationData = retrieveNoRecentDonations(props.rawReportData);
+        props.dispatchUpdatePreparedReportData(noRecentDonationData);
+        props.updateReportOption('noRecentDonations')
+      }
     }
   ];
   

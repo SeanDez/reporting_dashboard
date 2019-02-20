@@ -14,7 +14,7 @@ import TableRow from "@material-ui/core/TableRow";
 const HEADINGS = Object.freeze({
   totals        : ['Period', 'Total Donations'],
   topDonors     : ['Donor ID', 'First Name', 'Last Name', 'Total Donation', 'Notes'],
-  noneForPeriod : ['First Name', 'Last Name', 'Last Donation', 'Notes']
+  noRecentDonations : ['First Name', 'Last Name', 'Last Donation', 'Notes']
 });
 
 
@@ -77,8 +77,17 @@ const renderTableBody = Object.freeze({
           {record.notes}</TableCell>
       </TableRow>
     ))
+  },
+  noRecentDonations : (props) => {
+    return props.displayedData.map((record, index) => (
+      <TableRow key={`${index} ${record.id}`}>
+        <TableCell align='center'>{record.firstName}</TableCell>
+        <TableCell align='center'>{record.lastName}</TableCell>
+        <TableCell align='center'>{record.donationDate}</TableCell>
+        <TableCell align='center'>{record.notes}</TableCell>
+      </TableRow>
+    ))
   }
-  
 });
 
 

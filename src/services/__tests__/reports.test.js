@@ -354,22 +354,22 @@ test('retrieveNoRecentDonations()', () => {
 
 
   const resultArray = retrieveNoRecentDonations([
-    { x : new Date("2018-02-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
-    { x : new Date("2018-02-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
-    { x : new Date("2018-03-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
-    { x : new Date("2018-07-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
-    { x : new Date("2018-09-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
-    { x : new Date("2018-08-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
-    { x : new Date("2017-11-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
-    { x : new Date("2018-07-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
-    { x : new Date("2019-02-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
-    { x : new Date("2019-01-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
+    { donationDate : new Date("2018-02-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
+    { donationDate : new Date("2018-02-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
+    { donationDate : new Date("2018-03-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
+    { donationDate : new Date("2018-07-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
+    { donationDate : new Date("2018-09-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
+    { donationDate : new Date("2018-08-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
+    { donationDate : new Date("2017-11-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
+    { donationDate : new Date("2018-07-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
+    { donationDate : new Date("2019-02-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
+    { donationDate : new Date("2019-01-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
   ]);
 
   expect(resultArray).toEqual([
-    { x : new Date("2018-08-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
-    { x : new Date("2018-09-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
-    { x : new Date("2019-02-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
+    { donationDate : new Date("2018-08-30T21:36:13.055Z"), id : 1, donationAmount : 1, x : 1, y : new Date("2018-08-30T21:36:13.055Z") },
+    { donationDate : new Date("2018-09-30T21:36:13.055Z"), id : 38, donationAmount : 1, x : 2, y : new Date("2018-09-30T21:36:13.055Z") },
+    { donationDate : new Date("2019-02-30T21:36:13.055Z"), id : 2, donationAmount : 1, x : 3, y : new Date("2019-02-30T21:36:13.055Z") },
   ])
 });
 
