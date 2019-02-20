@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import {retrieveTopDonors, updateViewMarker, filterViewableData, prepareData, sortXAscendingIfDates} from "../services/reports";
+import {retrieveTopDonors, updateViewMarker, filterViewableData, retrieveMonthlyTotals, sortXAscendingIfDates} from "../services/reports";
 
 import LineChart from './LineChart';
 import DataTable from "./DataTable";
@@ -105,6 +105,7 @@ class DataSection extends React.Component {
     this.props.dispatchGetDonationData("monthlyTotals", null)
   }
   
+  
   componentDidUpdate(prevProps, prevState, snapshot) {
     console.log('this.props', this.props);
     console.log(this.state, `=====this.state=====`);
@@ -113,10 +114,10 @@ class DataSection extends React.Component {
     
     // if raw data has been returned / updated
     if (prevProps.rawReportData !== this.props.rawReportData) {
-      // if it's the initial fetch
+      // if it's the initial fetch then instantly load the preparedData array
       if (this.state.initialFetch === true) {
-        const preparedDataArray = prepareData(this.props.rawReportData, 12, "month");
-        this.props.dispatchUpdatePreparedReportData(preparedDataArray);
+        const monthlyTotals = retrieveMonthlyTotals(this.props.rawReportData, 12, "month");
+        this.props.dispatchUpdatePreparedReportData(monthlyTotals);
         this.setState({initialFetch : false});
     
       }

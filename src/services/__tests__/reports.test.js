@@ -3,7 +3,7 @@ const moment = require("moment");
 const filterViewableData = require('../reports')
         .filterViewableData,
       updateViewMarker = require('../reports').updateViewMarker,
-      prepareData = require('../reports').prepareData,
+      prepareData = require('../reports').retrieveMonthlyTotals,
       retrieveTopDonors = require('../reports').retrieveTopDonors,
       sortXAscendingIfDates = require('../reports').sortXAscendingIfDates,
       retrieveNoRecentDonations = require('../reports').retrieveNoRecentDonations
@@ -150,7 +150,7 @@ function mockXYObjects(numberOfRuns, keys) {
   return xYObjectArray;
 }
 
-test('raw data is properly totaled (prepareData)', () => {
+test('raw data is properly totaled (retrieveMonthlyTotals)', () => {
   expect(prepareData(mockXYObjects(dataMultiplier, {date: 'donationDate', value: 'amountDonated'}), 12, "month"))
     .toStrictEqual([
       {x : moment("2019-01").toDate(), y : 5 * dataMultiplier},

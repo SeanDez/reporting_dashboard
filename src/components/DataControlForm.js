@@ -1,13 +1,14 @@
 import React        from "react";
 import styled from "styled-components";
 // import {withStyles} from "@material-ui/core";
-import {retrieveTopDonors, retrieveNoRecentDonations} from '../services/reports';
+import {retrieveTopDonors, retrieveNoRecentDonations, retrieveMonthlyTotals} from '../services/reports';
 import {updateLocalState} from './DataSection'
 
 
 const StyledLink = styled.a`
   margin-left: 2vw;
   margin-right: 2vw;
+  text-align: center;
 `;
 
 const Container = styled.div`
@@ -24,23 +25,30 @@ export default (props) => {
   
   const linkArray = [
     {
-      label : 'Top Donors',
-      relativeUrl : "#", // '/dashboard/top-donors',
+      label        : "Top Donors",
+      relativeUrl  : "#", // '/dashboard/top-donors',
       clickHandler : () => {
         const topDonorData = retrieveTopDonors(props.rawReportData);
         props.dispatchUpdatePreparedReportData(topDonorData);
         props.updateReportOption("topDonors");
-        }
-    },
-    {
-      label : 'No Recent Donations',
-      relativeUrl : '#', // '/dashboard/no-recent-donations',
+      },
+    }, {
+      label        : "No Recent Donations",
+      relativeUrl  : "#", // '/dashboard/no-recent-donations',
       clickHandler : () => {
         const noRecentDonationData = retrieveNoRecentDonations(props.rawReportData);
         props.dispatchUpdatePreparedReportData(noRecentDonationData);
-        props.updateReportOption('noRecentDonations')
-      }
-    }
+        props.updateReportOption("noRecentDonations");
+      },
+    }, {
+      label        : "Total Monthly Donations",
+      relativeUrl  : "#",
+      clickHandler : () => {
+        const monthlyTotals = retrieveMonthlyTotals(props.rawReportData);
+        props.dispatchUpdatePreparedReportData(monthlyTotals);
+        props.updateReportOption("totals");
+      },
+    },
   ];
   
   return (

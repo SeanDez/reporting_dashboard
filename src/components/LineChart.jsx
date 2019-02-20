@@ -12,7 +12,7 @@ import styled from "styled-components";
 const CHART_TITLES = Object.freeze({
   totals        : "Total Donations",
   topDonors     : "Highest Paying Donors",
-  noneForPeriod : "No Recent Donations",
+  noRecentDonations : "No Recent Donations",
 });
 
 

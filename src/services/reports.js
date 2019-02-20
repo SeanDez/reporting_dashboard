@@ -24,7 +24,7 @@ export const filterViewableData = (incrementSize, props, state) => {
 };
 
 
-export const prepareData = (rawData) => {
+export const retrieveMonthlyTotals = (rawData) => {
   // remap objects into x/y pairs
   const xYFormattedObjects = rawData.map(record => {
     return {
@@ -146,6 +146,7 @@ export const retrieveNoRecentDonations = (preparedData) => {
     const enhancedObject = Object.assign({}, record);
     enhancedObject.x = (index % 15) + 1;
     enhancedObject.y = new Date(record.donationDate);
+    enhancedObject.label = `${record.firstName} ${record.lastName}`;
     return enhancedObject;
   });
   
