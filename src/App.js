@@ -5,13 +5,13 @@ import actions from "./actions";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
-// BrowserRouter, Router, Link,
 import { Route, Switch, Redirect, withRouter}      from "react-router-dom";
 // import {createBrowserHistory} from "history";
 
 import TopNav          from "./components/TopNav";
 import AccessForm      from "./components/AccessForm";
 import DataSection from "./components/DataSection";
+import Footer from "./components/Footer";
 
 // import {Formik}           from "formik";
 // import TextField          from "@material-ui/core/TextField";
@@ -145,6 +145,9 @@ class App extends Component {
                     </React.Fragment>
                   ) }} />
               </Switch>
+              
+              <Footer styleProp={{marginTop : '10vh'}} />
+              
           
             </BodyContainer>
           </div>

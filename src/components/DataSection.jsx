@@ -182,7 +182,9 @@ class DataSection extends React.Component {
             />
           </div>
           :
-          <CircularProgress />
+          <div style={{ height: '90vh' }} >
+            <CircularProgress />
+          </div>
         }
       </React.Fragment>
     );
