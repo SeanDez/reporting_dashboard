@@ -152,7 +152,7 @@ class DataSection extends React.Component {
           <div>
             <LineChart
               // dated X axes should always sort ascending
-              preparedReportData={ sortXAscendingIfDates(this.state.displayedData) }
+              preparedReportData={ this.props.preparedReportData }
               REPORT_OPTION={ this.state.REPORT_OPTION }
               displayedData={ this.state.displayedData }
             />

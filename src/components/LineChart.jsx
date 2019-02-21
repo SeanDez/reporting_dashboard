@@ -2,11 +2,10 @@ import React from "react";
 import "../App.css";
 import "../../node_modules/react-vis/dist/style.css";
 import {FlexibleXYPlot, LineSeries, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, VerticalBarSeries,
-  VerticalBarSeriesCanvas, XYPlot
-} from "react-vis";
+   XYPlot, LabelSeries} from "react-vis";
 import styled from "styled-components";
 // import moment from "moment";
-
+import {setYDomainTop, setYDomainBottom} from "../services/reports";
 
 
 const CHART_TITLES = Object.freeze({
@@ -30,8 +29,8 @@ const ChartContainer = styled.div`
 
 
 const formatDollarTicks = (dataValue, index, scale, tickTotal) => {
-  return `$${ dataValue.toLocaleString() }`;
-  
+   const ticks = `$${ dataValue.toLocaleString() }`;
+  return ticks;
 };
 
 const abbreviateMonths = dateObject => {
@@ -53,10 +52,11 @@ const renderChart = (props) => {
           {/*xType="time"*/}
         {/*>*/}
           <XYPlot
-            // margin={{}}
+            margin={{ left : 50 }}
             width={500}
             height={300}
             xType='time'
+            yDomain={[setYDomainBottom(props.preparedReportData), setYDomainTop(props.preparedReportData)]}
           >
           <HorizontalGridLines strokeWidth={ 1 } />
           <VerticalGridLines />
@@ -95,6 +95,7 @@ const renderChart = (props) => {
       <XYPlot
         width={500}
         height={300}
+        yDomain={[setYDomainBottom(props.preparedReportData), setYDomainTop(props.preparedReportData)]}
       >
         <HorizontalGridLines />
         <VerticalGridLines />
@@ -119,14 +120,24 @@ const renderChart = (props) => {
         <VerticalBarSeries
           data={props.displayedData}
         />
+        
+        <LabelSeries data={[
+          {x : 1, y : 100, label : "1 493 89v s9t8st9vltvl ", style : {fontSize : 13}},
+          {x : 2, y : 100, label : "2 493 89v s9t8st9vltvl ", style : {fontSize : 13}, rotation: -90},
+          {x : 3, y : 100, label : "3 493 89v /n s9t8st9vltvl ", style: {fontSize: 12}},
+          {x : 6, y : 150, label : `6 493 89v \n s9t8st9vltvl`, style : {fontSize : 10}, rotation: -90},
+        ]}/>
+        
       </XYPlot>
     </React.Fragment>
   } else if (props.REPORT_OPTION === 'noRecentDonations') {
     return <React.Fragment>
       <XYPlot
+        margin={{ left : 100 }}
         width={ 500 }
         height={ 300 }
         yType='time'
+        yDomain={[setYDomainBottom(props.preparedReportData), new Date()]}
       >
         <HorizontalGridLines />
         <VerticalGridLines />

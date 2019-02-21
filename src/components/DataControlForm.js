@@ -1,14 +1,24 @@
 import React        from "react";
 import styled from "styled-components";
-// import {withStyles} from "@material-ui/core";
+import {withStyles} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import {retrieveTopDonors, retrieveNoRecentDonations, retrieveMonthlyTotals} from '../services/reports';
-import {updateLocalState} from './DataSection'
 
+
+const muiStyles = muitheme => ({
+  button : {
+    margin : muitheme.spacing.unit * 2,
+    paddingLeft : '5vw',
+    paddingRight : '5vw'
+  },
+});
 
 const StyledLink = styled.a`
   margin-left: 2vw;
   margin-right: 2vw;
   text-align: center;
+  text-decoration: none;
+  color: black;
 `;
 
 const Container = styled.div`
@@ -21,7 +31,9 @@ const Container = styled.div`
   //border: 3px dashed green;
 `;
 
-export default (props) => {
+
+
+const DataControlForm = (props) => {
   
   const linkArray = [
     {
@@ -56,15 +68,23 @@ export default (props) => {
       <Container>
       {linkArray.map((linkItem) => {
         return (
-          <StyledLink
-            key={linkItem.label}
-            href={linkItem.relativeUrl}
-            onClick={linkItem.clickHandler}
-          >
-            {linkItem.label}
-          </StyledLink>
-        )})}
+          <React.Fragment>
+            <Button
+              variant='outlined'
+            >
+              <StyledLink
+                key={ linkItem.label }
+                href={ linkItem.relativeUrl }
+                onClick={ linkItem.clickHandler }
+              >
+                { linkItem.label }
+              </StyledLink>
+            </Button>
+          </React.Fragment>
+        );})}
       </Container>
     </React.Fragment>
   )
 };
+
+export default withStyles(muiStyles)(DataControlForm);

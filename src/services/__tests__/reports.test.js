@@ -6,7 +6,9 @@ const filterViewableData = require('../reports')
       prepareData = require('../reports').retrieveMonthlyTotals,
       retrieveTopDonors = require('../reports').retrieveTopDonors,
       sortXAscendingIfDates = require('../reports').sortXAscendingIfDates,
-      retrieveNoRecentDonations = require('../reports').retrieveNoRecentDonations
+      retrieveNoRecentDonations = require('../reports').retrieveNoRecentDonations,
+      setYDomainTop = require('../reports').setYDomainTop,
+      setYDomainBottom = require('../reports').setYDomainBottom
   
 
 ///////// OUTER SCOPE SETUP //////////////
@@ -354,29 +356,39 @@ test('retrieveNoRecentDonations()', () => {
 
 
   const resultArray = retrieveNoRecentDonations([
-    { donationDate : new Date("2018-02-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
-    { donationDate : new Date("2018-02-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
-    { donationDate : new Date("2018-03-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
-    { donationDate : new Date("2018-07-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
-    { donationDate : new Date("2018-09-30T21:36:13.055Z"), id : 38, donationAmount : 1 },
-    { donationDate : new Date("2018-08-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
-    { donationDate : new Date("2017-11-30T21:36:13.055Z"), id : 1, donationAmount : 1 },
-    { donationDate : new Date("2018-07-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
-    { donationDate : new Date("2019-02-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
-    { donationDate : new Date("2019-01-30T21:36:13.055Z"), id : 2, donationAmount : 1 },
+    { donationDate : new Date("2018-02-30T21:36:13.055Z"), id : 1, donationAmount : 1, firstName : 'John', lastName : 'Doe' },
+    { donationDate : new Date("2018-02-30T21:36:13.055Z"), id : 38, donationAmount : 1, firstName : 'John', lastName : 'Doe' },
+    { donationDate : new Date("2018-03-30T21:36:13.055Z"), id : 1, donationAmount : 1, firstName : 'John', lastName : 'Doe' },
+    { donationDate : new Date("2018-07-30T21:36:13.055Z"), id : 1, donationAmount : 1, firstName : 'John', lastName : 'Doe' },
+    { donationDate : new Date("2018-09-30T21:36:13.055Z"), id : 38, donationAmount : 1, firstName : 'John', lastName : 'Doe' },
+    { donationDate : new Date("2018-08-30T21:36:13.055Z"), id : 1, donationAmount : 1, firstName : 'John', lastName : 'Doe' },
+    { donationDate : new Date("2017-11-30T21:36:13.055Z"), id : 1, donationAmount : 1, firstName : 'John', lastName : 'Doe' },
+    { donationDate : new Date("2018-07-30T21:36:13.055Z"), id : 2, donationAmount : 1, firstName : 'John', lastName : 'Doe' },
+    { donationDate : new Date("2019-02-30T21:36:13.055Z"), id : 2, donationAmount : 1, firstName : 'John', lastName : 'Doe' },
+    { donationDate : new Date("2019-01-30T21:36:13.055Z"), id : 2, donationAmount : 1, firstName : 'John', lastName : 'Doe' },
   ]);
 
   expect(resultArray).toEqual([
-    { donationDate : new Date("2018-08-30T21:36:13.055Z"), id : 1, donationAmount : 1, x : 1, y : new Date("2018-08-30T21:36:13.055Z") },
-    { donationDate : new Date("2018-09-30T21:36:13.055Z"), id : 38, donationAmount : 1, x : 2, y : new Date("2018-09-30T21:36:13.055Z") },
-    { donationDate : new Date("2019-02-30T21:36:13.055Z"), id : 2, donationAmount : 1, x : 3, y : new Date("2019-02-30T21:36:13.055Z") },
+    { donationDate : new Date("2018-08-30T21:36:13.055Z"), id : 1, donationAmount : 1, x : 1, y : new Date("2018-08-30T21:36:13.055Z"), label : 'John Doe', firstName : 'John', lastName : 'Doe'  },
+    { donationDate : new Date("2018-09-30T21:36:13.055Z"), id : 38, donationAmount : 1, x : 2, y : new Date("2018-09-30T21:36:13.055Z"), label : 'John Doe', firstName : 'John', lastName : 'Doe'  },
+    { donationDate : new Date("2019-02-30T21:36:13.055Z"), id : 2, donationAmount : 1, x : 3, y : new Date("2019-02-30T21:36:13.055Z"), label : 'John Doe', firstName : 'John', lastName : 'Doe'  },
   ])
 });
 
 
+test('yDomain Top function', () => {
+  const preparedReportDataDummy = [{y : 100}, {y : 120}, {y : 160}, {y : 160}, {y : 140}, {y : 130}, {y : 170}, {y : 150}, ];
+  
+  expect(setYDomainTop(preparedReportDataDummy)).toEqual(170 * 1.2)
+});
 
-
-
+test('setYDomainBottom', () => {
+  const preparedReportDataNumbers = [{y : 100}, {y : 120}, {y : 160}, {y : 160}, {y : 140}, {y : 130}, {y : 170}, {y : 150}, ];
+  const preparedReportDataDates = [{y : new Date()}, {y : new Date('2018/03/24')}, {y : new Date('2018/02/12')}, {y : new Date('2018/09/08')}, ];
+  
+  expect(setYDomainBottom(preparedReportDataNumbers)).toEqual(100 * 0.8);
+  expect(setYDomainBottom(preparedReportDataDates)).toEqual(new Date('2017/08/12'));
+});
 
 
 

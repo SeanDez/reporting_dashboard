@@ -152,3 +152,50 @@ export const retrieveNoRecentDonations = (preparedData) => {
   
   return xYadded;
 };
+
+
+export const setYDomainTop = (preparedReportData) => {
+  const highestY = _.maxBy(preparedReportData, 'y');
+  const yDomainTop = highestY.y * 1.2;
+  return yDomainTop
+};
+
+
+export const setYDomainBottom = (preparedReportData) => {
+  if (typeof preparedReportData[0].y === 'number') {
+    const lowestY = _.minBy(preparedReportData, 'y');
+    const yDomainBottom = lowestY.y * 0.8;
+    return yDomainBottom
+  } else if (preparedReportData[0].y instanceof Date) {
+    // get the lowest date in usable format
+    const lowestYDate = _.minBy(preparedReportData, 'y'); // still inside .y
+  
+    // subtract 6 months from it
+    const lowestDateMinus6Months = moment(lowestYDate.y)
+      .subtract("6", "months")
+      .toDate();
+    return lowestDateMinus6Months
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
