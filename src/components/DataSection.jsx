@@ -173,6 +173,7 @@ class DataSection extends React.Component {
             />
             <DataControlForm
               dispatchUpdatePreparedReportData={ this.props.dispatchUpdatePreparedReportData }
+              REPORT_OPTION={this.props.REPORT_OPTION}
               rawReportData={ this.props.rawReportData }
               retrieveTopDonors={ retrieveTopDonors }
               updateLocalState={ updateLocalState }

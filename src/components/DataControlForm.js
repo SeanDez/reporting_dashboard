@@ -9,7 +9,10 @@ const muiStyles = muitheme => ({
   button : {
     margin : muitheme.spacing.unit * 2,
     paddingLeft : '5vw',
-    paddingRight : '5vw'
+    paddingRight : '5vw',
+    marginLeft : '2vw',
+    marginRight : '2vw',
+    lineHeight : '1rem'
   },
 });
 
@@ -24,21 +27,26 @@ const StyledLink = styled.a`
 const Container = styled.div`
   display: flex;
   justify-content: space-around;
-  margin-top: 2vw;
+  margin-top: 0;
   margin-left: auto;
   margin-right: auto;
   max-width: 400px;
   //border: 3px dashed green;
 `;
 
+const StyledHeader = styled.h4`
+  margin-top: 10vh;
+  text-align: center;
+`;
 
 
 const DataControlForm = (props) => {
   
-  const linkArray = [
+  const buttonArray = [
     {
       label        : "Top Donors",
-      relativeUrl  : "#", // '/dashboard/top-donors',
+      tag          : "topDonors",
+      relativeUrl  : "#",
       clickHandler : () => {
         const topDonorData = retrieveTopDonors(props.rawReportData);
         props.dispatchUpdatePreparedReportData(topDonorData);
@@ -46,7 +54,8 @@ const DataControlForm = (props) => {
       },
     }, {
       label        : "No Recent Donations",
-      relativeUrl  : "#", // '/dashboard/no-recent-donations',
+      tag : 'noRecentDonations',
+      relativeUrl  : "#",
       clickHandler : () => {
         const noRecentDonationData = retrieveNoRecentDonations(props.rawReportData);
         props.dispatchUpdatePreparedReportData(noRecentDonationData);
@@ -54,6 +63,7 @@ const DataControlForm = (props) => {
       },
     }, {
       label        : "Total Monthly Donations",
+      tag : 'totals',
       relativeUrl  : "#",
       clickHandler : () => {
         const monthlyTotals = retrieveMonthlyTotals(props.rawReportData);
@@ -65,20 +75,18 @@ const DataControlForm = (props) => {
   
   return (
     <React.Fragment>
+      <StyledHeader>View Another Report</StyledHeader>
       <Container>
-      {linkArray.map((linkItem) => {
+      {buttonArray.map(buttonItem => {
         return (
           <React.Fragment>
             <Button
               variant='outlined'
+              className={props.classes.button}
+              disabled={buttonItem.tag == props.REPORT_OPTION}
+              onClick={ buttonItem.clickHandler }
             >
-              <StyledLink
-                key={ linkItem.label }
-                href={ linkItem.relativeUrl }
-                onClick={ linkItem.clickHandler }
-              >
-                { linkItem.label }
-              </StyledLink>
+              { buttonItem.label }
             </Button>
           </React.Fragment>
         );})}
