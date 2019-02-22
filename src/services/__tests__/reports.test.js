@@ -1,15 +1,16 @@
 const moment = require("moment");
 
 const filterViewableData = require('../reports')
-        .filterViewableData,
-      updateViewMarker = require('../reports').updateViewMarker,
-      prepareData = require('../reports').retrieveMonthlyTotals,
-      retrieveTopDonors = require('../reports').retrieveTopDonors,
-      sortXAscendingIfDates = require('../reports').sortXAscendingIfDates,
-      retrieveNoRecentDonations = require('../reports').retrieveNoRecentDonations,
-      setYDomainTop = require('../reports').setYDomainTop,
-      setYDomainBottom = require('../reports').setYDomainBottom
-  
+  .filterViewableData,
+  updateViewMarker = require('../reports').updateViewMarker,
+  prepareData = require('../reports').retrieveMonthlyTotals,
+  retrieveTopDonors = require('../reports').retrieveTopDonors,
+  sortXAscendingIfDates = require('../reports').sortXAscendingIfDates,
+  retrieveNoRecentDonations = require('../reports').retrieveNoRecentDonations,
+  setYDomainTop = require('../reports').setYDomainTop,
+  setYDomainBottom = require('../reports').setYDomainBottom,
+  inferLabeldata = require('../reports').inferLabelData
+
 
 ///////// OUTER SCOPE SETUP //////////////
 
@@ -392,7 +393,22 @@ test('setYDomainBottom', () => {
 
 
 
-
+test('inferLabelData()', () => {
+  const displayedData = [{
+    x : 1,
+    label : 'Marlon Jones',
+  }]
+  
+  expect(inferLabeldata(displayedData)).toEqual([
+    {
+      x : 1,
+      y : 100,
+      label : "Marlon Jones",
+      rotation : -90,
+      style : { textSize : 12 }
+    }
+  ])
+})
 
 
 

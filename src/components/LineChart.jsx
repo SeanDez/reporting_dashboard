@@ -5,7 +5,7 @@ import {FlexibleXYPlot, LineSeries, XAxis, YAxis, HorizontalGridLines, VerticalG
    XYPlot, LabelSeries} from "react-vis";
 import styled from "styled-components";
 // import moment from "moment";
-import {setYDomainTop, setYDomainBottom} from "../services/reports";
+import {setYDomainTop, setYDomainBottom, inferLabelData} from "../services/reports";
 
 
 const CHART_TITLES = Object.freeze({
@@ -111,6 +111,7 @@ const renderChart = (props) => {
         />
         <YAxis
           title='Total Donated'
+          tickFormat={ formatDollarTicks }
           style={{
             text : { fill : 'black' },
             ticks : { fill : 'black' },
@@ -121,12 +122,8 @@ const renderChart = (props) => {
           data={props.displayedData}
         />
         
-        <LabelSeries data={[
-          {x : 1, y : 100, label : "1 493 89v s9t8st9vltvl ", style : {fontSize : 13}},
-          {x : 2, y : 100, label : "2 493 89v s9t8st9vltvl ", style : {fontSize : 13}, rotation: -90},
-          {x : 3, y : 100, label : "3 493 89v /n s9t8st9vltvl ", style: {fontSize: 12}},
-          {x : 6, y : 150, label : `6 493 89v \n s9t8st9vltvl`, style : {fontSize : 10}, rotation: -90},
-        ]}/>
+        <LabelSeries data={inferLabelData(props.displayedData)}/>
+        { console.log(inferLabelData(props.displayedData), `=====inferLabelData(props.displayedData)=====`) }
         
       </XYPlot>
     </React.Fragment>
@@ -162,6 +159,10 @@ const renderChart = (props) => {
         <VerticalBarSeries
           data={ props.displayedData }
         />
+  
+        <LabelSeries data={inferLabelData(props.displayedData)}/>
+        { console.log(inferLabelData(props.displayedData), `=====inferLabelData(props.displayedData)=====`) }
+        
       </XYPlot>
     </React.Fragment>;
   }

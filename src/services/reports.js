@@ -154,14 +154,14 @@ export const retrieveNoRecentDonations = (preparedData) => {
 };
 
 
-export const setYDomainTop = (preparedReportData) => {
+export const setYDomainTop = preparedReportData => {
   const highestY = _.maxBy(preparedReportData, 'y');
   const yDomainTop = highestY.y * 1.2;
   return yDomainTop
 };
 
 
-export const setYDomainBottom = (preparedReportData) => {
+export const setYDomainBottom = preparedReportData => {
   if (typeof preparedReportData[0].y === 'number') {
     const lowestY = _.minBy(preparedReportData, 'y');
     const yDomainBottom = lowestY.y * 0.8;
@@ -178,7 +178,18 @@ export const setYDomainBottom = (preparedReportData) => {
   }
 };
 
-
+export const inferLabelData = displayedData => {
+  const labeledData = displayedData.map(record => {
+    return {
+      x : record.x,
+      y : record.x < 6 ? 10 : 200,
+      label : record.label,
+      rotation : -90,
+      style : { textSize : 12 }
+    }
+  })
+  return labeledData;
+}
 
 
 
