@@ -1,5 +1,6 @@
 import React from "react";
 import _ from "lodash";
+import styled from "styled-components";
 import {retrieveTopDonors, updateViewMarker, filterViewableData, retrieveMonthlyTotals, sortXAscendingIfDates} from "../services/reports";
 
 import LineChart from './LineChart';
@@ -10,8 +11,6 @@ import PrevNextButtonContainer from
 
 import CircularProgressUnwrapped from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
-
-
 
 
 
@@ -26,6 +25,12 @@ const CircularProgress = (props) => (
   </div>
 );
 
+const TableControlsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 auto;
+`
 
 
 
@@ -137,17 +142,13 @@ class DataSection extends React.Component {
     }
   }
   
-  
-  
-  
+
   render() {
-    const marker = this.state.viewMarker;
-  
     return (
       <React.Fragment>
         {/* if displayedData array is present */ }
         { _.isEmpty(this.state.displayedData) === false
-         && _.isEmpty(this.props.preparedReportData) === false
+          && _.isEmpty(this.props.preparedReportData) === false
           ?
           <div>
             <LineChart
@@ -157,32 +158,33 @@ class DataSection extends React.Component {
               displayedData={ this.state.displayedData }
             />
         
-            
-            <PrevNextButtonContainer
-              REPORT_OPTION={this.state.REPORT_OPTION}
-              viewMarker={this.state.viewMarker}
-              preparedReportData={this.props.preparedReportData}
-              updateViewMarker={this.updateViewMarker}
-              style={{ marginTop : '3vh' }}
-            />
-            
         
-            <DataTable
+            <PrevNextButtonContainer
               REPORT_OPTION={ this.state.REPORT_OPTION }
-              displayedData={ this.state.displayedData }
+              viewMarker={ this.state.viewMarker }
+              preparedReportData={ this.props.preparedReportData }
+              updateViewMarker={ this.updateViewMarker }
+              style={ {marginTop : "3vh"} }
             />
-            <DataControlForm
-              dispatchUpdatePreparedReportData={ this.props.dispatchUpdatePreparedReportData }
-              REPORT_OPTION={this.props.REPORT_OPTION}
-              rawReportData={ this.props.rawReportData }
-              retrieveTopDonors={ retrieveTopDonors }
-              updateLocalState={ updateLocalState }
-              setState={this.setState}
-              updateReportOption={this.updateReportOption}
-            />
+        
+            <TableControlsContainer>
+              <DataTable
+                REPORT_OPTION={ this.state.REPORT_OPTION }
+                displayedData={ this.state.displayedData }
+              />
+              <DataControlForm
+                dispatchUpdatePreparedReportData={ this.props.dispatchUpdatePreparedReportData }
+                REPORT_OPTION={ this.props.REPORT_OPTION }
+                rawReportData={ this.props.rawReportData }
+                retrieveTopDonors={ retrieveTopDonors }
+                updateLocalState={ updateLocalState }
+                setState={ this.setState }
+                updateReportOption={ this.updateReportOption }
+              />
+            </TableControlsContainer>
           </div>
           :
-          <div style={{ height: '90vh' }} >
+          <div style={ {height : "90vh"} }>
             <CircularProgress />
           </div>
         }

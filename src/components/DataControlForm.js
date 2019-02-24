@@ -28,8 +28,8 @@ const Container = styled.div`
   display: flex;
   justify-content: space-around;
   margin-top: 0;
-  margin-left: auto;
-  margin-right: auto;
+  //margin-left: auto;
+  //margin-right: auto;
   max-width: 400px;
   //border: 3px dashed green;
 `;
@@ -74,7 +74,7 @@ const DataControlForm = (props) => {
   ];
   
   return (
-    <React.Fragment>
+    <div>
       <StyledHeader>View Another Report</StyledHeader>
       <Container>
       {buttonArray.map(buttonItem => {
@@ -91,7 +91,7 @@ const DataControlForm = (props) => {
           </React.Fragment>
         );})}
       </Container>
-    </React.Fragment>
+    </div>
   )
 };
 

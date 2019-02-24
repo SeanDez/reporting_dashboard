@@ -30,7 +30,6 @@ const materialUiStyles = theme => ({
 });
 
 const StyledTableWrapper = styled(Table)`
-  border: 2px dotted blue;
   margin: 0 auto;
   max-width: 300px;
   display: flex;
@@ -38,10 +37,6 @@ const StyledTableWrapper = styled(Table)`
   //align-items: center !important;
 `;
 
-
-// internal if statement vs Enum functions
-  // Enums have 1 less nesting level
-  // if statements are more the "standard pattern"
 const renderTableBody = Object.freeze({
   totals : (props) => {
     return props.displayedData

@@ -9,13 +9,6 @@ const startingState = {
 
 export const reducer = (previousState = startingState, action) => {
   switch (action.type) {
-    case 'loadUserData':
-      const {userId, userName, donationData} = action.payload;
-        return {
-          ...previousState,
-          // each of the below goes into the store as k/v pairs
-          userId, userName, donationData
-        };
     case 'updateView':
       const { view } = action.payload;
       return {
