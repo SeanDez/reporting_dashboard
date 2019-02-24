@@ -33,7 +33,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --reporters=default --reporters=./space-reporter.js",
+    "test": "react-scripts test --reporters=default --reporters=./space-reporter.js --passWithNoTests",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

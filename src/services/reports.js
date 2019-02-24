@@ -187,7 +187,7 @@ export const inferLabelData = displayedData => {
       rotation : -90,
       style : { textSize : 12 }
     }
-  })
+  });
   return labeledData;
 }
 

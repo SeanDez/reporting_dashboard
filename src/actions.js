@@ -37,11 +37,16 @@ export default {
     }
     )
       .then(apiResponse => {
-        const returnedArray = apiResponse.data;
-        dispatch({
-          type : 'rawReportData',
-          payload : returnedArray
-        })
+        if (apiResponse.data.error) {
+          console.log(apiResponse.data, `=====error=====`);
+          window.alert(apiResponse.data.error)
+        } else {
+          const returnedArray = apiResponse.data;
+          dispatch({
+            type : 'rawReportData',
+            payload : returnedArray
+          })
+        }
       })
   }),
   updatePreparedReportData : updatedData => {

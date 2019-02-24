@@ -397,16 +397,25 @@ test('inferLabelData()', () => {
   const displayedData = [{
     x : 1,
     label : 'Marlon Jones',
+  }, {
+    x     : 6,
+    label : 'Rod Barnes',
   }]
   
   expect(inferLabeldata(displayedData)).toEqual([
     {
       x : 1,
-      y : 100,
+      y : 10,
       label : "Marlon Jones",
       rotation : -90,
       style : { textSize : 12 }
-    }
+    }, {
+      x : 6,
+      y : 200,
+      label : "Rod Barnes",
+      rotation : -90,
+      style : { textSize : 12 }
+    },
   ])
 })
 
