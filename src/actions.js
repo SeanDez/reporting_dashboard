@@ -13,7 +13,7 @@ export default {
     }
   },
   getDonationData : (reportType, recordCount) => (dispatch => {
-    return Axios.post(`http://localhost:4000/reports/`,
+    return Axios.post(`${process.env.REACT_APP_BACKEND_DOMAIN}/reports/`,
       {
       reportType, recordCount
     }
